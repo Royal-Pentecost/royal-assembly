@@ -1,0 +1,1005 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Members · Royal Assembly</title>
+<meta name="description" content="Royal Assembly members: church leaders, the photo collection, benedictions, and the church app.">
+<meta name="theme-color" content="#0B1230">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101A3D'/%3E%3Crect x='14' y='12' width='36' height='40' rx='3' fill='none' stroke='%23C8DA2B' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  /* The members' room: night navy, the lime of the youth frame, the same two faces
+     as the intro. Light text on dark gets a touch more leading and weight. */
+  :root {
+    --sc-canvas: #0B1230; --sc-surface: #131D45; --sc-ink: #F4F6FB; --sc-ink-soft: #B6C0DE;
+    --sc-accent: #C8DA2B; --sc-accent-ink: #0B1230;
+    --sc-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+    --sc-font-text: "Atkinson Hyperlegible", system-ui, sans-serif;
+    --sc-shadow-color: 230 70% 4%;
+    --raise: #18244F; --raise-2: #1F2D60; --line: rgba(244,246,251,.12);
+    --lime: #C8DA2B; --lime-2: #D8E856;
+    --spring: cubic-bezier(.2, .9, .25, 1.12);
+    --glide: cubic-bezier(.22, 1, .36, 1);
+    --bar-h: 4.25rem;
+  }
+  html, body { background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); }
+  body { min-height: 100vh; line-height: 1.68; letter-spacing: .005em; }
+  [hidden] { display: none !important; }
+  img { max-width: 100%; }
+  ::selection { background: var(--lime); color: #0B1230; }
+  .skip { position: fixed; left: 1rem; top: -4rem; z-index: 200; background: var(--lime); color: #0B1230; padding: .7rem 1rem; border-radius: 12px; font-weight: 700; text-decoration: none; }
+  .skip:focus { top: 1rem; }
+  :focus-visible { outline: 3px solid var(--lime); outline-offset: 3px; border-radius: 8px; }
+
+  /* One environment behind every view: two slow glows, like light in the hall. */
+  .env { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
+  .env::before, .env::after { content: ""; position: absolute; width: 80vmax; height: 80vmax; border-radius: 50%; filter: blur(80px); animation: drift 80s var(--sc-ease-in-out) infinite alternate; }
+  .env::before { left: -30vmax; top: -30vmax; background: radial-gradient(circle, rgba(61,90,200,.28), transparent 62%); animation-delay: -20s; }
+  .env::after { right: -35vmax; bottom: -40vmax; background: radial-gradient(circle, rgba(200,218,43,.12), transparent 62%); animation-delay: -50s; }
+  @keyframes drift { to { transform: translate(14vmax, 10vmax) scale(1.1); } }
+
+  /* ── Buttons ── */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; min-height: 3rem; padding: .8rem 1.25rem; border-radius: 14px; border: 0; cursor: pointer; text-decoration: none; font: 700 .98rem/1 var(--sc-font-text); white-space: nowrap; transition: transform 180ms var(--glide), background-color 180ms var(--glide), box-shadow 180ms var(--glide), color 180ms var(--glide); }
+  .btn svg { width: 1.1rem; height: 1.1rem; flex: none; }
+  .btn:active { transform: translateY(1px) scale(.97); }
+  .btn--lime { background: var(--lime); color: #0B1230; box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 10px 24px -12px rgba(200,218,43,.8); }
+  .btn--glass { background: rgba(244,246,251,.08); color: var(--sc-ink); box-shadow: inset 0 0 0 1px var(--line); }
+  .btn--ghost { background: transparent; color: var(--sc-ink-soft); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn--lime:hover { background: var(--lime-2); transform: translateY(-2px); box-shadow: 0 1px 0 rgba(255,255,255,.35) inset, 0 16px 30px -12px rgba(200,218,43,.9); }
+    .btn--glass:hover { background: rgba(244,246,251,.14); transform: translateY(-2px); }
+    .btn--ghost:hover { color: var(--sc-ink); }
+  }
+
+  /* ── Top bar with a sliding lime indicator ── */
+  .bar { position: sticky; top: 0; z-index: 60; height: var(--bar-h); display: flex; align-items: center; gap: 1rem; padding: 0 var(--sc-gutter); background: rgba(11,18,48,.72); backdrop-filter: blur(16px) saturate(1.3); box-shadow: 0 1px 0 var(--line); }
+  .brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; color: inherit; flex: none; }
+  .brand img { width: 2.3rem; height: 2.3rem; border-radius: 50%; background: #fff; padding: 2px; }
+  .brand b { display: block; font: 800 1.05rem/1.05 var(--sc-font-display); letter-spacing: -.01em; }
+  .brand small { display: block; font-size: .78rem; color: var(--sc-ink-soft); letter-spacing: .02em; }
+  .tabs { position: relative; display: flex; gap: .2rem; margin: 0 auto; padding: .3rem; border-radius: 16px; background: rgba(244,246,251,.06); box-shadow: inset 0 0 0 1px var(--line); }
+  .tabs__ink { position: absolute; top: .3rem; bottom: .3rem; left: 0; width: 0; border-radius: 12px; background: var(--lime); transition: transform 520ms var(--spring), width 520ms var(--spring); will-change: transform; }
+  .tabs button { position: relative; z-index: 1; border: 0; background: transparent; cursor: pointer; padding: 0 1rem; min-height: 2.6rem; border-radius: 12px; font: 700 .93rem/1 var(--sc-font-text); color: var(--sc-ink-soft); white-space: nowrap; transition: color 240ms var(--glide); }
+  .tabs button[aria-selected="true"] { color: #0B1230; }
+  @media (hover: hover) and (pointer: fine) { .tabs button:not([aria-selected="true"]):hover { color: var(--sc-ink); } }
+  .me { display: flex; align-items: center; gap: .55rem; flex: none; }
+  .me__avatar { width: 2.4rem; height: 2.4rem; border-radius: 50%; display: grid; place-items: center; overflow: hidden; font: 800 .9rem/1 var(--sc-font-display); color: #0B1230; background: var(--lime); box-shadow: 0 0 0 2px var(--lime); }
+  .me__avatar img { width: 100%; height: 100%; object-fit: cover; }
+  .greet__me { width: clamp(4.5rem, 8vw, 6.5rem); aspect-ratio: 1; border-radius: 50%; overflow: hidden; display: grid; place-items: center; margin-bottom: 1.4rem; background: var(--raise-2); box-shadow: 0 0 0 4px var(--lime), 0 20px 40px -18px rgba(0,0,0,.8); font: 800 1.8rem/1 var(--sc-font-display); }
+  .greet__me img { width: 100%; height: 100%; object-fit: cover; }
+  @media (max-width: 980px) {
+    .bar { height: auto; flex-wrap: wrap; padding-top: .6rem; padding-bottom: .6rem; row-gap: .55rem; }
+    .tabs { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; margin: 0; }
+    .me { margin-left: auto; }
+  }
+
+  main { position: relative; }
+  .wrap { width: min(80rem, 100% - 2 * var(--sc-gutter)); margin: 0 auto; }
+  .view { padding-bottom: 6rem; }
+  /* Changing view is a short dissolve and rise, never a snap. */
+  .view.is-in { animation: viewIn 700ms var(--glide) both; }
+  @keyframes viewIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  /* Entrances inside a view: staggered, once. */
+  .rv { opacity: 0; transform: translateY(26px) scale(.985); transition: opacity 900ms var(--glide), transform 900ms var(--glide); transition-delay: calc(var(--i, 0) * 70ms); }
+  .rv.in { opacity: 1; transform: none; }
+  .rv.done { transition-delay: 0s; }
+
+  .display { font: 800 clamp(2.8rem, 1.6rem + 5vw, 6.2rem)/.94 var(--sc-font-display); letter-spacing: -.035em; text-wrap: balance; }
+  .display em { font-style: normal; color: var(--lime); }
+  .h2 { font: 800 clamp(2rem, 1.4rem + 2.6vw, 3.6rem)/1 var(--sc-font-display); letter-spacing: -.03em; text-wrap: balance; }
+  .lede { font-size: clamp(1.08rem, 1rem + .4vw, 1.3rem); color: var(--sc-ink-soft); max-width: 44ch; margin-top: 1.1rem; }
+  .kick { font: 700 .8rem/1 var(--sc-font-text); letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
+  .vhead { padding: clamp(3rem, 7vw, 6rem) 0 clamp(2rem, 4vw, 3rem); }
+
+  /* ── SIGN IN: a drifting wall of the congregation beside the code ── */
+  .signin { min-height: calc(100vh - var(--bar-h)); display: grid; grid-template-columns: 1.05fr .95fr; }
+  .wall { position: relative; overflow: hidden; background: #070C22; }
+  .wall__cols { position: absolute; inset: -10% -6%; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; transform: rotate(-6deg); }
+  .wall__col { display: flex; flex-direction: column; gap: 14px; animation: rise 70s linear infinite; }
+  .wall__col:nth-child(2) { animation-duration: 90s; animation-direction: reverse; }
+  .wall__col:nth-child(3) { animation-duration: 80s; }
+  .wall__col img { width: 100%; aspect-ratio: 3 / 4; object-fit: cover; border-radius: 12px; }
+  @keyframes rise { to { transform: translateY(-50%); } }
+  .wall::after { content: ""; position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,18,48,.15), rgba(11,18,48,.65) 70%, #0B1230), linear-gradient(0deg, rgba(11,18,48,.85), rgba(11,18,48,0) 45%); }
+  .wall__copy { position: absolute; left: var(--sc-gutter); right: 2rem; bottom: clamp(2rem, 6vh, 4rem); z-index: 2; }
+  .wall__copy .display { font-size: clamp(2.6rem, 1.4rem + 4vw, 5rem); }
+  .signpanel { display: flex; align-items: center; justify-content: center; padding: 3rem var(--sc-gutter); }
+  .signpanel__in { width: min(27rem, 100%); }
+  .qrcard { position: relative; margin-top: 1.8rem; padding: 2.4rem 2.2rem 3.4rem; border-radius: 8px; background: #fff; color: #0B1230; text-align: center; box-shadow: 0 30px 70px -25px rgba(0,0,0,.7); transform: rotate(-1.2deg); transition: transform 600ms var(--spring); }
+  @media (hover: hover) and (pointer: fine) { .qrcard:hover { transform: rotate(0deg) translateY(-4px); } }
+  .qrcard::before { content: ""; position: absolute; inset: 0; border: solid var(--lime); border-width: 1.5rem 1.2rem 3rem; border-radius: 8px; pointer-events: none; }
+  .qrcard__top, .qrcard__foot { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: .4rem; font: 800 .8rem/1 var(--sc-font-display); letter-spacing: .06em; text-transform: uppercase; color: #0B1230; }
+  .qrcard__top { top: 0; height: 1.5rem; }
+  .qrcard__foot { bottom: 0; height: 3rem; font-size: 1.15rem; letter-spacing: -.01em; text-transform: none; }
+  .qr { width: 100%; aspect-ratio: 1; display: grid; place-items: center; transition: opacity 400ms var(--glide), filter 400ms var(--glide); }
+  .qr svg { width: 100%; height: 100%; }
+  .qr.is-dim { opacity: .12; filter: blur(2px); }
+  .qrstate { margin-top: .9rem; min-height: 2.8em; font-size: .95rem; color: #47527A; line-height: 1.45; }
+  .qrstate b { color: #0B1230; }
+  .scanline { position: absolute; left: 2.2rem; right: 2.2rem; top: 2.4rem; height: 2px; background: linear-gradient(90deg, transparent, #8FA11A, transparent); animation: scan 2.8s var(--sc-ease-in-out) infinite; pointer-events: none; }
+  @keyframes scan { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(18rem); } }
+  /* On a phone there is nothing to scan: the app is opened instead. */
+  .phonecard { margin-top: 1.6rem; padding: 1.6rem 1.4rem; border-radius: 22px; background: linear-gradient(160deg, var(--raise-2), var(--raise)); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 50px -24px rgba(0,0,0,.7); }
+  .phonecard .btn { width: 100%; min-height: 3.4rem; font-size: 1.05rem; }
+  .phonecard__state { margin-top: .9rem; min-height: 1.5em; color: var(--sc-ink-soft); font-size: .95rem; line-height: 1.45; }
+  .phonecard__state b { color: var(--lime); }
+  .getapp { margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid var(--line); }
+  .getapp p { color: var(--sc-ink-soft); font-size: .95rem; }
+  .getapp__row { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .8rem; }
+  .storebtn { display: inline-flex; align-items: center; gap: .6rem; min-height: 3rem; padding: .55rem 1rem; border-radius: 14px; background: #fff; color: #0B1230; text-decoration: none; transition: transform 180ms var(--glide); }
+  .storebtn:active { transform: scale(.97); }
+  .storebtn svg { width: 1.5rem; height: 1.5rem; }
+  .storebtn small { display: block; font-size: .66rem; letter-spacing: .08em; text-transform: uppercase; color: #566500; font-weight: 700; }
+  .storebtn b { display: block; font: 800 1rem/1.15 var(--sc-font-display); }
+  .storebtn[aria-disabled="true"] { opacity: .7; }
+  .ask { position: fixed; inset: 0; z-index: 160; display: grid; place-items: end center; padding: 1rem; background: rgba(5,8,22,.66); backdrop-filter: blur(6px); animation: lbIn 300ms var(--glide) both; }
+  .ask__card { width: min(26rem, 100%); padding: 1.5rem 1.4rem 1.3rem; border-radius: 24px; background: #101A3D; box-shadow: 0 30px 80px -20px rgba(0,0,0,.9); animation: askIn 480ms var(--spring) both; }
+  @keyframes askIn { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+  .ask__card h2 { font: 800 1.4rem/1.15 var(--sc-font-display); letter-spacing: -.02em; }
+  .ask__card p { color: var(--sc-ink-soft); margin-top: .5rem; }
+  .ask__row { display: flex; gap: .6rem; margin-top: 1.2rem; }
+  .ask__row .btn { flex: 1; }
+
+  .signsteps { list-style: none; padding: 0; margin: 1.6rem 0 0; display: grid; gap: .65rem; counter-reset: s; }
+  .signsteps li { counter-increment: s; display: flex; gap: .8rem; align-items: baseline; color: var(--sc-ink-soft); }
+  .signsteps li::before { content: counter(s); flex: none; width: 1.7rem; height: 1.7rem; border-radius: 50%; display: grid; place-items: center; font: 800 .82rem/1 var(--sc-font-display); color: #0B1230; background: var(--lime); translate: 0 .2rem; }
+  .signsteps b { color: var(--sc-ink); }
+  @media (max-width: 900px) {
+    .signin { grid-template-columns: 1fr; }
+    .wall { min-height: 42vh; }
+    .wall__copy { bottom: 1.5rem; }
+  }
+
+  /* ── HOME ── */
+  .greet { position: relative; padding: clamp(3rem, 8vw, 7rem) 0 clamp(2.5rem, 5vw, 4rem); }
+  .greet__grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: clamp(2rem, 5vw, 4rem); align-items: end; }
+  .sunday { position: relative; padding: 1.6rem 1.6rem 1.4rem; border-radius: 20px; background: linear-gradient(160deg, var(--raise-2), var(--raise)); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 24px 50px -24px rgba(0,0,0,.7); overflow: hidden; }
+  .sunday::after { content: ""; position: absolute; right: -3rem; top: -3rem; width: 10rem; height: 10rem; border-radius: 50%; background: radial-gradient(circle, rgba(200,218,43,.35), transparent 65%); pointer-events: none; }
+  .sunday__when { font: 800 clamp(2rem, 1.6rem + 1.6vw, 3rem)/1 var(--sc-font-display); letter-spacing: -.03em; margin-top: .6rem; }
+  .sunday__in { color: var(--sc-ink-soft); margin-top: .5rem; }
+  .sunday__in b { color: var(--lime); font-variant-numeric: tabular-nums; }
+  .sunday .btn { margin-top: 1.2rem; }
+  .doors { display: grid; grid-template-columns: repeat(12, 1fr); gap: 1.1rem; }
+  .door { position: relative; display: block; border: 0; padding: 0; cursor: pointer; text-align: left; border-radius: 22px; overflow: hidden; min-height: 20rem; color: #fff; background: #070C22; isolation: isolate; box-shadow: 0 24px 50px -28px rgba(0,0,0,.8); font: inherit; }
+  .door:nth-child(1) { grid-column: span 7; min-height: 26rem; }
+  .door:nth-child(2) { grid-column: span 5; min-height: 26rem; }
+  .door:nth-child(3) { grid-column: span 5; }
+  .door:nth-child(4) { grid-column: span 7; }
+  .door img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transform: scale(1.04); transition: transform 1200ms var(--glide); }
+  .door::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(7,12,34,.94) 0%, rgba(7,12,34,.35) 55%, rgba(7,12,34,.05) 100%), rgba(27,45,107,.18); mix-blend-mode: multiply; }
+  .door::after { content: ""; position: absolute; inset: 14px; border-radius: 12px; box-shadow: inset 0 0 0 4px var(--lime); opacity: 0; transform: scale(1.03); transition: opacity 400ms var(--glide), transform 600ms var(--spring); pointer-events: none; }
+  .door__body { position: absolute; left: 1.6rem; right: 1.6rem; bottom: 1.4rem; display: block; }
+  .door__kick { display: block; font: 700 .76rem/1 var(--sc-font-text); letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
+  .door__title { display: block; font: 800 clamp(1.8rem, 1.3rem + 1.6vw, 2.8rem)/1 var(--sc-font-display); letter-spacing: -.03em; margin-top: .55rem; }
+  .door__text { display: block; color: #D7DDF0; margin-top: .45rem; max-width: 36ch; }
+  .door__go { position: absolute; right: 1.4rem; top: 1.4rem; width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.14); backdrop-filter: blur(6px); transition: transform 500ms var(--spring), background-color 300ms var(--glide), color 300ms var(--glide); }
+  .door__go svg { width: 1.2rem; height: 1.2rem; }
+  .door:active { transform: scale(.99); }
+  @media (hover: hover) and (pointer: fine) {
+    .door:hover img { transform: scale(1.1); }
+    .door:hover::after { opacity: 1; transform: none; }
+    .door:hover .door__go { transform: rotate(-45deg); background: var(--lime); color: #0B1230; }
+  }
+  .door:focus-visible::after { opacity: 1; transform: none; }
+  .latest { margin-top: clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 2rem; align-items: center; padding: clamp(1.6rem, 4vw, 2.6rem); border-radius: 22px; background: linear-gradient(160deg, var(--raise-2), var(--raise)); }
+  .latest blockquote { margin: 0; font: 700 clamp(1.5rem, 1.1rem + 1.4vw, 2.4rem)/1.18 var(--sc-font-display); letter-spacing: -.02em; white-space: pre-line; }
+  .latest cite { display: block; margin-top: .8rem; font: 400 1rem var(--sc-font-text); color: var(--sc-ink-soft); font-style: normal; }
+  @media (max-width: 900px) {
+    .greet__grid, .latest { grid-template-columns: 1fr; }
+    .door:nth-child(n) { grid-column: span 12; min-height: 18rem; }
+  }
+
+  /* ── LEADERS ── */
+  .leaders { display: grid; grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr)); gap: 1.3rem; }
+  .lcard { position: relative; border-radius: 22px; overflow: hidden; background: var(--raise); box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 24px 44px -26px rgba(0,0,0,.8); transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: box-shadow 400ms var(--glide), opacity 900ms var(--glide); }
+  .lcard.rv { transform: perspective(900px) translateY(26px); }
+  .lcard.rv.in { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)); transition: box-shadow 400ms var(--glide), opacity 900ms var(--glide), transform 900ms var(--glide); }
+  .lcard.rv.done { transition: box-shadow 400ms var(--glide); }
+  .lcard__media { position: relative; aspect-ratio: 4 / 4.6; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 30% 20%, #2A3B7E, #101A3D 70%); }
+  .lcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1000ms var(--glide); }
+  .lcard__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(11,18,48,.96) 0%, rgba(11,18,48,.3) 48%, rgba(11,18,48,0) 70%), rgba(27,45,107,.12); mix-blend-mode: multiply; }
+  .lcard__initials { position: absolute; inset: 14% 22% 38%; display: grid; place-items: center; border: 6px solid var(--lime); border-radius: 6px; font: 800 clamp(2.2rem, 4vw, 3.2rem)/1 var(--sc-font-display); letter-spacing: -.03em; color: var(--sc-ink); }
+  .lcard__body { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.2rem 1.3rem 1.25rem; z-index: 1; }
+  .lcard__title { display: inline-block; font: 700 .72rem/1 var(--sc-font-text); letter-spacing: .12em; text-transform: uppercase; color: #0B1230; background: var(--lime); padding: .38rem .55rem; border-radius: 6px; }
+  .lcard h2 { font: 800 1.45rem/1.1 var(--sc-font-display); letter-spacing: -.02em; margin-top: .6rem; }
+  .lcard__acts { display: flex; gap: .45rem; margin-top: .85rem; }
+  .lcard__acts a { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: .35rem; min-height: 2.75rem; border-radius: 11px; text-decoration: none; font-weight: 700; font-size: .85rem; color: var(--sc-ink); background: rgba(244,246,251,.1); box-shadow: inset 0 0 0 1px var(--line); transition: background-color 180ms var(--glide), color 180ms var(--glide), transform 180ms var(--glide); }
+  .lcard__acts a:active { transform: scale(.96); }
+  .lcard__acts svg { width: 1rem; height: 1rem; }
+  @media (hover: hover) and (pointer: fine) {
+    .lcard:hover { box-shadow: inset 0 1px 0 rgba(255,255,255,.07), 0 34px 60px -26px rgba(0,0,0,.9); }
+    .lcard:hover .lcard__media img { transform: scale(1.06); }
+    .lcard__acts a:hover { background: var(--lime); color: #0B1230; }
+  }
+  .lcard--feature { grid-column: 1 / -1; display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); }
+  .lcard--feature .lcard__media { aspect-ratio: auto; min-height: 24rem; }
+  .lcard--feature .lcard__media::after { background: linear-gradient(90deg, rgba(11,18,48,0) 50%, rgba(24,36,79,1) 100%), rgba(27,45,107,.12); }
+  .lcard--feature .lcard__initials { inset: 18% 24%; }
+  .lcard--feature .lcard__body { position: relative; align-self: center; padding: clamp(1.6rem, 4vw, 3.4rem); }
+  .lcard--feature h2 { font-size: clamp(2rem, 1.4rem + 2.4vw, 3.4rem); }
+  .lcard--feature p { color: var(--sc-ink-soft); margin-top: .7rem; max-width: 40ch; }
+  .lcard--feature .lcard__acts { max-width: 26rem; margin-top: 1.4rem; }
+  @media (max-width: 760px) { .lcard--feature { grid-template-columns: 1fr; } .lcard--feature .lcard__media { min-height: 18rem; } .lcard--feature .lcard__media::after { background: linear-gradient(0deg, rgba(24,36,79,1), rgba(24,36,79,0) 50%); } }
+
+  /* ── COLLECTION ── */
+  .gallery { columns: 3 17rem; column-gap: 1.1rem; }
+  .ph { position: relative; display: block; width: 100%; margin: 0 0 1.1rem; padding: 0; border: 0; border-radius: 16px; overflow: hidden; cursor: zoom-in; background: var(--raise); break-inside: avoid; isolation: isolate; box-shadow: 0 20px 40px -26px rgba(0,0,0,.8); font: inherit; }
+  .ph img { width: 100%; height: auto; display: block; transform: scale(1.02); transition: transform 1200ms var(--glide); }
+  .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7,12,34,.7), rgba(7,12,34,0) 40%), rgba(27,45,107,.1); mix-blend-mode: multiply; opacity: .7; transition: opacity 400ms var(--glide); pointer-events: none; }
+  .ph span { position: absolute; left: 1rem; right: 1rem; bottom: .8rem; z-index: 1; color: #fff; font-weight: 700; font-size: .92rem; transform: translateY(6px); opacity: .85; transition: transform 400ms var(--glide), opacity 400ms var(--glide); text-align: left; }
+  .ph:active { transform: scale(.99); }
+  @media (hover: hover) and (pointer: fine) {
+    .ph:hover img { transform: scale(1.08); }
+    .ph:hover::after { opacity: 1; }
+    .ph:hover span { transform: none; opacity: 1; }
+  }
+  .lightbox { position: fixed; inset: 0; z-index: 150; display: grid; grid-template-rows: auto 1fr auto; background: rgba(5,8,22,.88); backdrop-filter: blur(18px); animation: lbIn 400ms var(--glide) both; }
+  @keyframes lbIn { from { opacity: 0; } to { opacity: 1; } }
+  .lb__top { display: flex; align-items: center; justify-content: space-between; padding: 1rem var(--sc-gutter); }
+  .lb__count { font-variant-numeric: tabular-nums; color: var(--sc-ink-soft); }
+  .lb__stage { position: relative; display: grid; place-items: center; padding: 0 4.5rem; min-height: 0; }
+  .lb__stage img { max-width: 100%; max-height: calc(100vh - 11rem); border-radius: 10px; box-shadow: 0 40px 90px -30px rgba(0,0,0,.9); animation: photoIn 600ms var(--glide) both; }
+  @keyframes photoIn { from { opacity: 0; transform: scale(.97); } to { opacity: 1; transform: none; } }
+  .lb__nav { position: absolute; top: 50%; translate: 0 -50%; width: 3.2rem; height: 3.2rem; padding: 0; border-radius: 50%; font-size: 1.4rem; }
+  .lb__prev { left: 1rem; } .lb__next { right: 1rem; }
+  .lb__cap { text-align: center; padding: 1rem var(--sc-gutter) 1.6rem; font: 700 1.05rem/1.3 var(--sc-font-display); min-height: 1.3em; }
+  @media (max-width: 700px) { .lb__stage { padding: 0 .75rem; } .lb__nav { display: none; } }
+
+  /* ── BENEDICTIONS ── */
+  .bfeature { position: relative; border-radius: 26px; overflow: hidden; min-height: 30rem; display: flex; align-items: flex-end; isolation: isolate; box-shadow: 0 30px 70px -30px rgba(0,0,0,.85); }
+  .bfeature img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 35%; z-index: -2; }
+  .bfeature::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(7,12,34,.96) 0%, rgba(7,12,34,.85) 48%, rgba(7,12,34,.35) 100%); }
+  .bfeature__in { position: relative; padding: clamp(1.8rem, 5vw, 4rem); max-width: 52rem; }
+  .bfeature__in::before { content: ""; position: absolute; left: clamp(.6rem, 2vw, 1.6rem); top: clamp(1.8rem, 5vw, 4rem); bottom: clamp(1.8rem, 5vw, 4rem); width: 6px; border-radius: 3px; background: var(--lime); }
+  .bfeature blockquote { margin: 0; padding-left: 1.2rem; }
+  .bfeature blockquote p { font: 800 clamp(1.7rem, 1.1rem + 2.2vw, 3.3rem)/1.06 var(--sc-font-display); letter-spacing: -.03em; white-space: pre-line; text-wrap: balance; }
+  .bfeature cite { display: block; margin-top: 1rem; font: 400 1.05rem var(--sc-font-text); color: var(--sc-ink-soft); font-style: normal; }
+  .blist { margin-top: 2.4rem; display: grid; gap: 1rem; }
+  .bitem { display: grid; grid-template-columns: 4px 1fr; gap: 1.2rem; padding: 1.4rem 1.5rem; border-radius: 18px; background: var(--raise); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+  .bitem::before { content: ""; border-radius: 2px; background: var(--lime); }
+  .bitem p { font: 700 1.3rem/1.3 var(--sc-font-display); letter-spacing: -.01em; white-space: pre-line; }
+  .bitem cite { display: block; margin-top: .5rem; color: var(--sc-ink-soft); font-style: normal; font-size: .95rem; }
+
+  /* ── THE APP ── */
+  .apphero { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; padding: clamp(3rem, 7vw, 6rem) 0 clamp(2rem, 4vw, 3rem); }
+  .stores { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: 2rem; }
+  .store { display: inline-flex; align-items: center; gap: .75rem; padding: .8rem 1.2rem .8rem 1rem; border-radius: 16px; background: #fff; color: #0B1230; box-shadow: 0 16px 34px -18px rgba(0,0,0,.8); }
+  .store svg { width: 1.8rem; height: 1.8rem; }
+  .store small { display: block; font-size: .7rem; letter-spacing: .1em; text-transform: uppercase; color: #566500; font-weight: 700; }
+  .store b { font: 800 1.15rem/1.15 var(--sc-font-display); }
+  .stack { position: relative; aspect-ratio: 1; }
+  .stack figure { position: absolute; margin: 0; border-radius: 20px; overflow: hidden; box-shadow: 0 30px 60px -25px rgba(0,0,0,.9); }
+  .stack figure img { width: 100%; height: 100%; object-fit: cover; }
+  .stack figure:nth-child(1) { left: 0; top: 8%; width: 52%; aspect-ratio: 3 / 4; transform: rotate(-6deg); }
+  .stack figure:nth-child(2) { right: 0; top: 0; width: 50%; aspect-ratio: 3 / 4; transform: rotate(5deg); }
+  .stack figure:nth-child(3) { left: 22%; bottom: 0; width: 54%; aspect-ratio: 4 / 3; transform: rotate(-1deg); border: 6px solid var(--lime); }
+  .feats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.1rem; margin-top: 1rem; }
+  .feat { padding: 1.5rem 1.4rem; border-radius: 20px; background: var(--raise); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+  .feat.done { transition: transform 400ms var(--spring), background-color 300ms var(--glide); }
+  @media (hover: hover) and (pointer: fine) { .feat.done:hover { transform: translateY(-4px); background: var(--raise-2); } }
+  .feat__ico { width: 3rem; height: 3rem; border-radius: 14px; display: grid; place-items: center; background: rgba(200,218,43,.14); color: var(--lime); }
+  .feat__ico svg { width: 1.45rem; height: 1.45rem; }
+  .feat h3 { font: 800 1.2rem/1.2 var(--sc-font-display); margin-top: 1rem; letter-spacing: -.01em; }
+  .feat p { color: var(--sc-ink-soft); margin-top: .4rem; font-size: .98rem; }
+  .feat:first-child { grid-column: span 2; }
+  .feat:last-child { grid-column: span 3; }
+  .howto { margin-top: clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 1.1rem; }
+  .howto > div { padding: 1.8rem; border-radius: 22px; background: linear-gradient(160deg, var(--raise-2), var(--raise)); }
+  .howto ol { margin: 1rem 0 0; padding-left: 1.2rem; color: var(--sc-ink-soft); }
+  .howto li { margin: .45rem 0; }
+  .howto li::marker { color: var(--lime); font-weight: 700; }
+  @media (max-width: 900px) { .apphero, .howto { grid-template-columns: 1fr; } .feats { grid-template-columns: 1fr; } .feat:first-child, .feat:last-child { grid-column: auto; } .stack { max-width: 26rem; } }
+
+  /* ── MEMBERS (admins) ── */
+  .tools { display: flex; flex-wrap: wrap; gap: .8rem; align-items: center; margin-bottom: 1.4rem; }
+  .search { flex: 1; min-width: 14rem; display: flex; align-items: center; gap: .6rem; padding: 0 1rem; min-height: 3.1rem; border-radius: 14px; background: var(--raise); box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow 200ms var(--glide); }
+  .search:focus-within { box-shadow: inset 0 0 0 2px var(--lime); }
+  .search svg { width: 1.1rem; height: 1.1rem; color: var(--sc-ink-soft); flex: none; }
+  .search input { flex: 1; min-width: 0; border: 0; background: transparent; color: var(--sc-ink); font: 400 1rem var(--sc-font-text); outline: none; }
+  .count { color: var(--sc-ink-soft); font-size: .92rem; }
+  .roll { border-radius: 20px; overflow: hidden; background: var(--raise); box-shadow: inset 0 1px 0 rgba(255,255,255,.06); }
+  .row { display: grid; grid-template-columns: 2.6rem minmax(0, 1.4fr) minmax(0, 1fr) minmax(0, .8fr) 1.4rem; gap: 1rem; align-items: center; width: 100%; padding: .85rem 1.2rem; border: 0; border-bottom: 1px solid var(--line); background: transparent; color: inherit; text-align: left; font: inherit; cursor: pointer; transition: background-color 160ms var(--glide); }
+  .row:last-child { border-bottom: 0; }
+  .row:active { background: rgba(244,246,251,.08); }
+  @media (hover: hover) and (pointer: fine) { .row:hover { background: rgba(244,246,251,.05); } .row:hover .row__go { color: var(--lime); transform: translateX(3px); } }
+  .row__av { width: 2.6rem; height: 2.6rem; border-radius: 50%; display: grid; place-items: center; font: 800 .85rem/1 var(--sc-font-display); background: var(--raise-2); color: var(--sc-ink); overflow: hidden; }
+  .row__av img { width: 100%; height: 100%; object-fit: cover; }
+  .row b { display: block; font-weight: 700; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row small { display: block; color: var(--sc-ink-soft); font-size: .84rem; }
+  .row__meta { color: var(--sc-ink-soft); font-size: .9rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row__go { color: var(--sc-ink-soft); transition: transform 200ms var(--glide), color 200ms var(--glide); }
+  .row__go svg { width: 1.1rem; height: 1.1rem; }
+  .pill { display: inline-block; padding: .22rem .5rem; border-radius: 6px; font-size: .74rem; font-weight: 700; letter-spacing: .04em; background: rgba(200,218,43,.16); color: var(--lime); }
+  .pill--warn { background: rgba(245,158,11,.16); color: #FBBF24; }
+  @media (max-width: 760px) { .row { grid-template-columns: 2.6rem minmax(0, 1fr) 1.2rem; } .row__meta { display: none; } }
+  .more { display: flex; justify-content: center; padding: 1rem; }
+
+  /* The record drawer slides in from the right. */
+  .scrim2 { position: fixed; inset: 0; z-index: 120; background: rgba(5,8,22,.6); backdrop-filter: blur(4px); animation: lbIn 300ms var(--glide) both; }
+  .drawer { position: fixed; z-index: 121; top: 0; right: 0; bottom: 0; width: min(34rem, 100%); display: flex; flex-direction: column; background: #101A3D; box-shadow: -30px 0 80px -20px rgba(0,0,0,.8); animation: drawerIn 520ms var(--spring) both; }
+  @keyframes drawerIn { from { transform: translateX(100%); } to { transform: none; } }
+  .drawer__head { display: flex; align-items: center; gap: .8rem; padding: 1.2rem 1.4rem; border-bottom: 1px solid var(--line); }
+  .drawer__head h2 { flex: 1; font: 800 1.4rem/1.15 var(--sc-font-display); letter-spacing: -.02em; }
+  .drawer__body { flex: 1; overflow-y: auto; padding: 1.3rem 1.4rem 2rem; display: grid; gap: 1rem; align-content: start; overscroll-behavior: contain; }
+  .drawer__foot { display: flex; gap: .7rem; justify-content: flex-end; padding: 1rem 1.4rem; border-top: 1px solid var(--line); }
+  .field { display: grid; gap: .4rem; }
+  .field span { font-weight: 700; font-size: .9rem; }
+  .field small { color: var(--sc-ink-soft); font-size: .82rem; }
+  .field input, .field select { min-height: 3rem; padding: .7rem .9rem; border-radius: 12px; border: 0; background: var(--raise); color: var(--sc-ink); font: 400 1rem var(--sc-font-text); box-shadow: inset 0 0 0 1px var(--line); color-scheme: dark; transition: box-shadow 160ms var(--glide); }
+  .field input:focus, .field select:focus { outline: none; box-shadow: inset 0 0 0 2px var(--lime); }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  @media (max-width: 480px) { .pair { grid-template-columns: 1fr; } }
+  .formmsg { min-height: 1.4em; font-size: .95rem; }
+  .formmsg.ok { color: var(--lime); }
+  .formmsg.bad { color: #FCA5A5; }
+
+  .msg { padding: 1.4rem 1.5rem; border-radius: 18px; background: var(--raise); color: var(--sc-ink-soft); max-width: 42rem; }
+  .skel { border-radius: 22px; background: linear-gradient(100deg, var(--raise) 30%, var(--raise-2) 50%, var(--raise) 70%); background-size: 200% 100%; animation: shimmer 1.4s linear infinite; }
+  @keyframes shimmer { to { background-position: -200% 0; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .rv, .lcard.rv { opacity: 1; transform: none; }
+    .lcard { transform: none; }
+  }
+  body.paused *, body.paused *::before, body.paused *::after { animation-play-state: paused !important; }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the page</a>
+<div class="env" aria-hidden="true"></div>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<header class="bar">
+  <a class="brand" href="index.html"><img src="assets/cop-logo.png" alt="" width="37" height="37"><span><b>Royal Assembly</b><small>Members</small></span></a>
+  <nav class="tabs" role="tablist" aria-label="Members area" hidden>
+    <span class="tabs__ink" aria-hidden="true"></span>
+    <button role="tab" type="button" data-tab="home" aria-selected="true">Home</button>
+    <button role="tab" type="button" data-tab="leaders" aria-selected="false">Church Leaders</button>
+    <button role="tab" type="button" data-tab="collection" aria-selected="false">Collection</button>
+    <button role="tab" type="button" data-tab="benedictions" aria-selected="false">Benedictions</button>
+    <button role="tab" type="button" data-tab="app" aria-selected="false">The App</button>
+    <button role="tab" type="button" data-tab="members" aria-selected="false" data-admin hidden>Members</button>
+  </nav>
+  <div class="me" hidden>
+    <span class="me__avatar" data-initials aria-hidden="true"></span>
+    <button class="btn btn--ghost" type="button" data-signout>Sign out</button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+
+  <!-- ── SIGN IN ── -->
+  <section class="signin view" data-view="signin" aria-labelledby="si-h">
+    <div class="wall" aria-hidden="true">
+      <div class="wall__cols" data-wall></div>
+      <div class="wall__copy">
+        <p class="kick">Royal Assembly · Members</p>
+        <p class="display" style="margin-top:.8rem">Welcome home, <em>family.</em></p>
+      </div>
+    </div>
+    <div class="signpanel">
+      <div class="signpanel__in">
+        <h1 id="si-h" class="h2">Sign in with your phone</h1>
+        <p class="lede" style="margin-top:.7rem">No SMS code, no password. Scan the code with the Royal Assembly app.</p>
+        <div class="qrcard">
+          <p class="qrcard__top" aria-hidden="true"><img src="assets/cop-logo.png" alt="" width="14" height="14">Royal Assembly · Ayigya</p>
+          <div class="qr is-dim" data-qr role="img" aria-label="Sign-in code to scan with the Royal Assembly app"></div>
+          <span class="scanline" data-scanline hidden aria-hidden="true"></span>
+          <p class="qrstate" data-qrstate aria-live="polite">Getting a code…</p>
+          <button class="btn btn--lime" type="button" data-newcode hidden>Get a new code</button>
+          <p class="qrcard__foot" aria-hidden="true">Akwaaba</p>
+        </div>
+        <div class="phonecard" data-phonecard hidden>
+          <button class="btn btn--lime" type="button" data-open-app><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="2" width="12" height="20" rx="2.5"/><path d="M11 18h2"/></svg>Sign in with the app</button>
+          <p class="phonecard__state" data-phone-state aria-live="polite">Getting ready…</p>
+          <div class="getapp">
+            <p>Don't have the app yet?</p>
+            <div class="getapp__row">
+              <a class="storebtn" href="https://play.google.com/store/apps/details?id=gh.cop.churchattendance" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.8v18.4c0 .4.4.6.7.4l10.5-9.6L4.7 2.4c-.3-.2-.7 0-.7.4zM16.4 13l2.6 2.4-11.7 6.6L16.4 13zM16.4 11 7.3 2l11.7 6.6L16.4 11zm1.2 1 2.9-2.6 1.6.9c.6.4.6 1.2 0 1.6l-1.6.9-2.9-2.8z"/></svg><span><small>Get it on</small><b>Google Play</b></span></a>
+              <span class="storebtn" aria-disabled="true"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg><span><small>Coming soon</small><b>App Store</b></span></span>
+            </div>
+          </div>
+        </div>
+        <ol class="signsteps">
+          <li><span>Open the app and go to <b>Settings</b>.</span></li>
+          <li><span>Tap <b>Sign in to the website</b>.</span></li>
+          <li><span>Point your phone at the code and tap <b>Sign in</b>.</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOME ── -->
+  <section class="view" data-view="home" hidden aria-labelledby="home-h">
+    <div class="wrap greet">
+      <div class="greet__grid">
+        <div>
+          <div class="greet__me rv" data-me-photo aria-hidden="true"></div>
+          <p class="kick rv" data-today></p>
+          <h1 id="home-h" class="display rv" style="--i:1;margin-top:1rem">Akwaaba, <em data-firstname>friend</em>.</h1>
+          <p class="lede rv" style="--i:2">Your church, in one place: the people who lead us, the moments we share, and the blessings spoken over us.</p>
+        </div>
+        <aside class="sunday rv" style="--i:3" aria-labelledby="sun-h">
+          <p class="kick" id="sun-h">Next Sunday Divine Service</p>
+          <p class="sunday__when" data-sunday-date></p>
+          <p class="sunday__in">9:00 AM · Royal Assembly, Ayigya · <b data-countdown></b></p>
+          <a class="btn btn--lime" href="https://www.google.com/maps/search/?api=1&amp;query=6.689213,-1.570109" target="_blank" rel="noopener">Get directions</a>
+        </aside>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="doors">
+        <button class="door rv" type="button" data-go="leaders" style="--i:1"><img src="assets/collection/p008.webp" alt="" loading="lazy"><span class="door__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="door__body"><span class="door__kick">Those who lead us</span><span class="door__title">Church Leaders</span><span class="door__text">Elders, deacons and deaconesses, one tap away.</span></span></button>
+        <button class="door rv" type="button" data-go="collection" style="--i:2"><img src="assets/collection/p002.webp" alt="" loading="lazy"><span class="door__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="door__body"><span class="door__kick">Royal Assembly in pictures</span><span class="door__title">The Collection</span><span class="door__text">Worship, families, the youth, our Sundays.</span></span></button>
+        <button class="door rv" type="button" data-go="benedictions" style="--i:3"><img src="assets/bless-congregation.webp" alt="" loading="lazy"><span class="door__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="door__body"><span class="door__kick">Spoken over us</span><span class="door__title">Benedictions</span><span class="door__text">The blessings of our services.</span></span></button>
+        <button class="door rv" type="button" data-go="app" style="--i:4"><img src="assets/collection/p022.webp" alt="" loading="lazy"><span class="door__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="door__body"><span class="door__kick">iPhone and Android</span><span class="door__title">The App</span><span class="door__text">Everything the Royal Assembly app does for you.</span></span></button>
+      </div>
+      <div class="latest rv" data-latest hidden>
+        <div><p class="kick">The latest benediction</p><p class="h2" style="margin-top:.8rem;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.4rem)">Carry it into your week.</p></div>
+        <div><blockquote data-latest-text></blockquote><cite data-latest-ref></cite></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── LEADERS ── -->
+  <section class="view" data-view="leaders" hidden aria-labelledby="ld-h">
+    <div class="wrap vhead"><p class="kick rv">Those who lead us</p><h1 id="ld-h" class="display rv" style="--i:1;margin-top:.9rem">Church <em>Leaders</em></h1><p class="lede rv" style="--i:2">The elders, deacons and deaconesses of Royal Assembly. Call, message or write to them any time.</p></div>
+    <div class="wrap"><div class="leaders" data-list="leaders"></div></div>
+  </section>
+
+  <!-- ── COLLECTION ── -->
+  <section class="view" data-view="collection" hidden aria-labelledby="col-h">
+    <div class="wrap vhead"><p class="kick rv">Royal Assembly in pictures</p><h1 id="col-h" class="display rv" style="--i:1;margin-top:.9rem">The <em>Collection</em></h1><p class="lede rv" style="--i:2">Every photo is of our own congregation. Tap one to see it large.</p><p class="count rv" style="--i:3;margin-top:.8rem" data-photo-count></p></div>
+    <div class="wrap"><div class="gallery" data-list="collection"></div></div>
+  </section>
+
+  <!-- ── BENEDICTIONS ── -->
+  <section class="view" data-view="benedictions" hidden aria-labelledby="bn-h">
+    <div class="wrap vhead"><p class="kick rv">Spoken over us</p><h1 id="bn-h" class="display rv" style="--i:1;margin-top:.9rem"><em>Benedictions</em></h1><p class="lede rv" style="--i:2">The blessings of our services, newest first.</p></div>
+    <div class="wrap" data-list="benedictions"></div>
+  </section>
+
+  <!-- ── THE APP ── -->
+  <section class="view" data-view="app" hidden aria-labelledby="app-h">
+    <div class="wrap apphero">
+      <div>
+        <p class="kick rv">iPhone and Android</p>
+        <h1 id="app-h" class="display rv" style="--i:1;margin-top:.9rem">Church life in <em>your pocket.</em></h1>
+        <p class="lede rv" style="--i:2">The Royal Assembly app is made for our members, by our church. Sign attendance, study the Word in English and Twi, and never miss what is happening.</p>
+        <div class="stores rv" style="--i:3">
+          <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.4 12.6c0-2.4 2-3.6 2.1-3.7-1.1-1.7-2.9-1.9-3.5-1.9-1.5-.2-2.9.9-3.7.9-.8 0-1.9-.9-3.2-.8-1.6 0-3.1 1-4 2.4-1.7 3-.4 7.4 1.2 9.8.8 1.2 1.8 2.5 3 2.4 1.2 0 1.7-.8 3.1-.8 1.5 0 1.9.8 3.2.8 1.3 0 2.2-1.2 3-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.5-1-2.5-3.9zM14 5.5c.7-.8 1.1-1.9 1-3-1 0-2.2.7-2.9 1.5-.6.7-1.2 1.8-1 2.9 1.1.1 2.2-.6 2.9-1.4z"/></svg><span><small>Coming soon</small><b>App Store</b></span></span>
+          <span class="store"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 2.8v18.4c0 .4.4.6.7.4l10.5-9.6L4.7 2.4c-.3-.2-.7 0-.7.4zM16.4 13l2.6 2.4-11.7 6.6L16.4 13zM16.4 11 7.3 2l11.7 6.6L16.4 11zm1.2 1 2.9-2.6 1.6.9c.6.4.6 1.2 0 1.6l-1.6.9-2.9-2.8z"/></svg><span><small>Coming soon</small><b>Google Play</b></span></span>
+        </div>
+      </div>
+      <div class="stack rv" style="--i:2" aria-hidden="true">
+        <figure><img src="assets/collection/q003.webp" alt=""></figure>
+        <figure><img src="assets/collection/q021.webp" alt=""></figure>
+        <figure><img src="assets/collection/q011.webp" alt=""></figure>
+      </div>
+    </div>
+    <div class="wrap">
+      <div class="feats">
+        <div class="feat rv"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 21s-7-6.2-7-11.5a7 7 0 1 1 14 0C19 14.8 12 21 12 21z"/><path d="m9.5 10 2 2 3.5-3.5"/></svg></span><h3>Sign attendance when you arrive</h3><p>Your phone confirms you are inside the church, and you mark your presence in one tap. Your Sunday streak and yearly score follow you.</p></div>
+        <div class="feat rv" style="--i:1"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 19V5M9 7h6"/></svg></span><h3>Bible study, English and Twi</h3><p>This week's study before Sunday, with aims, questions and the memory verse.</p></div>
+        <div class="feat rv" style="--i:2"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></span><h3>A daily verse</h3><p>One verse each morning, in English and Twi.</p></div>
+        <div class="feat rv" style="--i:3"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg></span><h3>Services and events</h3><p>The weekly schedule and programmes, with a reminder before each starts.</p></div>
+        <div class="feat rv" style="--i:4"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></span><h3>Notifications</h3><p>Attendance opening, new events and videos, the moment they are published.</p></div>
+        <div class="feat rv" style="--i:5"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="13" rx="2"/><path d="M12 8v13M3 13h18M12 8S9 3 6.5 4.5 8 8 12 8zm0 0s3-5 5.5-3.5S16 8 12 8z"/></svg></span><h3>Birthdays</h3><p>The whole assembly celebrates with you on your day.</p></div>
+        <div class="feat rv" style="--i:6"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 4v16l13-8z"/></svg></span><h3>Videos</h3><p>Sermons and moments from the assembly.</p></div>
+        <div class="feat rv" style="--i:7"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.5a3.5 3.5 0 0 1 0 7M21.5 20a6.5 6.5 0 0 0-4-6"/></svg></span><h3>Leaders and your group</h3><p>Every leader with call and WhatsApp buttons, and your day-born class.</p></div>
+        <div class="feat rv" style="--i:8"><span class="feat__ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/></svg></span><h3>Sign in to this website</h3><p>Scan the code on this site with the app. No SMS code, no password.</p></div>
+      </div>
+      <div class="howto">
+        <div class="rv"><p class="kick">Getting started</p><ol><li>Install the app from the App Store or Google Play when it opens.</li><li>Enter the phone number the church has for you.</li><li>Type the code we send by SMS. You stay signed in for four weeks.</li></ol></div>
+        <div class="rv" style="--i:1"><p class="kick">Number not working?</p><p style="margin-top:1rem;color:var(--sc-ink-soft)">Your number must be in the church register. Speak to an usher or an admin on Sunday and they will add or correct it for you.</p></div>
+      </div>
+    </div>
+  </section>
+  <!-- ── MEMBERS (admins and super admins) ── -->
+  <section class="view" data-view="members" hidden aria-labelledby="mb-h">
+    <div class="wrap vhead"><p class="kick rv">Admins only</p><h1 id="mb-h" class="display rv" style="--i:1;margin-top:.9rem">The <em>Roll</em></h1><p class="lede rv" style="--i:2">Add a member, or open anyone to correct their record. Changes save to the church database straight away, and the app sees them too.</p></div>
+    <div class="wrap">
+      <div class="tools">
+        <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search by name, phone or member ID" aria-label="Search members" data-roll-search></label>
+        <button class="btn btn--lime" type="button" data-add-member><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add member</button>
+      </div>
+      <p class="count" data-roll-count aria-live="polite"></p>
+      <div class="roll" data-roll></div>
+      <div class="more"><button class="btn btn--glass" type="button" data-roll-more hidden>Show more</button></div>
+    </div>
+  </section>
+</main>
+
+<div class="scrim2" data-drawer-scrim hidden></div>
+<aside class="drawer" data-drawer role="dialog" aria-modal="true" aria-labelledby="dr-h" hidden>
+  <form data-form novalidate style="display:contents">
+    <div class="drawer__head"><h2 id="dr-h" data-drawer-title>Add member</h2><button class="btn btn--glass" type="button" data-drawer-close>Close</button></div>
+    <div class="drawer__body">
+      <label class="field"><span>Full name</span><input name="full_name" required autocomplete="off"></label>
+      <label class="field"><span>Phone number</span><input name="phone_number" inputmode="tel" placeholder="024 000 0000" autocomplete="off"><small data-phone-help>Their login for the app. Leave blank if they have no phone.</small></label>
+      <div class="pair">
+        <label class="field"><span>Sex</span><select name="sex"><option value="">Not recorded</option><option value="M">Male</option><option value="F">Female</option></select></label>
+        <label class="field"><span>Date of birth</span><input name="date_of_birth" type="date" min="1900-01-01"></label>
+      </div>
+      <div class="pair">
+        <label class="field"><span>Marital status</span><select name="marital_status"><option value="">Not recorded</option><option value="single">Single</option><option value="married">Married</option><option value="widowed">Widowed</option><option value="divorced">Divorced</option></select></label>
+        <label class="field"><span>Residence</span><input name="residence" placeholder="e.g. Ayigya Zongo" autocomplete="off"></label>
+      </div>
+      <label class="field"><span>Ministries and departments</span><input name="church_roles" placeholder="e.g. Youth Ministry, Royal Choir" autocomplete="off"><small>Separate with commas. Everyone is in the Evangelism Ministry already.</small></label>
+      <p class="formmsg" data-formmsg aria-live="polite"></p>
+    </div>
+    <div class="drawer__foot"><button class="btn btn--glass" type="button" data-drawer-close>Cancel</button><button class="btn btn--lime" type="submit" data-save>Save member</button></div>
+  </form>
+</aside>
+
+<div class="ask" data-ask role="dialog" aria-modal="true" aria-labelledby="ask-h" hidden>
+  <div class="ask__card">
+    <h2 id="ask-h">Open the Royal Assembly app?</h2>
+    <p>The app will ask you to confirm, then you come back here signed in. If the app is not on this phone, we will take you to the store to get it.</p>
+    <div class="ask__row"><button class="btn btn--glass" type="button" data-ask-no>Cancel</button><button class="btn btn--lime" type="button" data-ask-yes>Open the app</button></div>
+  </div>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script>
+(() => {
+  'use strict';
+  const API = 'https://attendance-backend-g56m.onrender.com';
+  const KEY = 'ra-web-session';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const fine = matchMedia('(hover: hover) and (pointer: fine)');
+
+  /* ── Smooth scrolling on desktop ── */
+  let lenis = null;
+  if (!reduce.matches && fine.matches && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.085, smoothWheel: true });
+    const raf = t => { lenis.raf(t); requestAnimationFrame(raf); };
+    requestAnimationFrame(raf);
+  }
+  const toTop = () => lenis ? lenis.scrollTo(0, { immediate: true }) : scrollTo(0, 0);
+
+  /* ── Session ── */
+  let session = null, member = null;
+  try { const saved = JSON.parse(localStorage.getItem(KEY) || 'null'); if (saved) { session = saved.session; member = saved.member; } } catch {}
+
+  async function api(path, opts = {}) {
+    const headers = { Accept: 'application/json', ...(opts.body ? { 'Content-Type': 'application/json' } : {}), ...(session && !opts.anon ? { Authorization: `Web ${session}` } : {}) };
+    const res = await fetch(API + path, { method: opts.method || 'GET', headers, body: opts.body ? JSON.stringify(opts.body) : undefined });
+    if (res.status === 401 && !opts.anon) { signOutLocal(); throw new Error('signed-out'); }
+    if (!res.ok) {
+      // Show the server's own reason ("A member already uses this phone number.").
+      let detail = `The server said no (${res.status}).`;
+      try { const j = await res.json(); const first = j.detail || Object.entries(j).map(([k, v]) => `${k.replace(/_/g, ' ')}: ${[].concat(v).join(' ')}`)[0]; if (first) detail = first; } catch {}
+      if (res.status === 403) detail = 'Only admins can do this.';
+      const err = new Error(detail); err.status = res.status; throw err;
+    }
+    return res.status === 204 ? null : res.json();
+  }
+  async function listAll(path) {
+    const out = []; let next = path + (path.includes('?') ? '&' : '?') + 'page_size=200';
+    while (next) {
+      const page = await api(next.startsWith('http') ? next.replace(API, '') : next);
+      if (Array.isArray(page)) return page;
+      out.push(...(page.results || [])); next = page.next;
+    }
+    return out;
+  }
+
+  /* ── Entrances: staggered, once per element ── */
+  const io = new IntersectionObserver(es => es.forEach(e => {
+    if (!e.isIntersecting) return;
+    e.target.classList.add('in'); io.unobserve(e.target);
+    setTimeout(() => e.target.classList.add('done'), 1700);
+  }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  const watch = root => $$('.rv:not(.in)', root).forEach(el => io.observe(el));
+
+  /* ── Views and the sliding tab indicator ── */
+  const ink = $('.tabs__ink');
+  function moveInk() {
+    const on = $('.tabs [aria-selected="true"]'); if (!on || $('.tabs').hidden) return;
+    ink.style.width = on.offsetWidth + 'px';
+    ink.style.transform = `translateX(${on.offsetLeft}px)`;
+  }
+  addEventListener('resize', moveInk);
+  document.fonts && document.fonts.ready.then(moveInk);
+  const VIEWS = ['home', 'leaders', 'collection', 'benedictions', 'app', 'members'];
+  const isAdmin = () => member && (member.role === 'assembly_admin' || member.role === 'super_admin');
+  let current = null;
+  function show(view) {
+    $$('[data-view]').forEach(v => { const on = v.dataset.view === view; v.hidden = !on; v.classList.toggle('is-in', on); });
+    $$('.tabs [data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === view)));
+    moveInk();
+    if (view !== 'signin') { try { history.replaceState(null, '', '#' + view); } catch {} }
+    toTop();
+    current = view;
+    watch($(`[data-view="${view}"]`));
+    loaders[view]?.();
+  }
+  // Fresh every time: on opening a tab, on coming back to the window, and once
+  // a minute while it is open, so what is published in the app shows up here.
+  const refresh = () => { if (session && current && current !== 'signin' && !document.hidden) { freshMe(); loaders[current]?.(true); } };
+  addEventListener('focus', refresh);
+  setInterval(refresh, 60000);
+  function signedIn() {
+    $('.tabs').hidden = false; $('.me').hidden = false;
+    const name = (member && member.full_name) || '';
+    $('[data-firstname]').textContent = name.split(/\s+/)[0] || 'friend';
+    showMe();
+    stopPolling();
+    applyRole();
+    // The role can change after sign-in (a super admin promotes someone): read it fresh.
+    const want = (location.hash || '').slice(1);
+    freshMe().then(() => {
+      // Someone just made an admin may have opened the Members link directly.
+      if (want === 'members' && isAdmin() && current !== 'members') show('members');
+    });
+    requestAnimationFrame(() => show(VIEWS.includes(want) && (want !== 'members' || isAdmin()) ? want : 'home'));
+  }
+  // The member's own face: their profile photo from the app, or their initials.
+  function showMe() {
+    const name = (member && member.full_name) || '';
+    const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '·';
+    const photo = member && member.profile_photo;
+    [$('[data-initials]'), $('[data-me-photo]')].forEach(el => {
+      if (!el) return;
+      if (photo) { if (el.dataset.src !== photo) { el.dataset.src = photo; el.innerHTML = `<img src="${esc(photo)}" alt="">`; } }
+      else { el.dataset.src = ''; el.textContent = initials; }
+    });
+    $('[data-firstname]').textContent = name.split(/\s+/)[0] || 'friend';
+  }
+  // Read the member's record again: a new photo, a new name or a new role
+  // changed in the app shows here without signing in again.
+  async function freshMe() {
+    if (!member || !member.id) return;
+    try {
+      const fresh = await api(`/api/v1/accounts/members/${encodeURIComponent(member.id)}/`);
+      member = { ...member, ...fresh };
+      try { localStorage.setItem(KEY, JSON.stringify({ session, member })); } catch {}
+      showMe(); applyRole();
+    } catch {}
+  }
+  function applyRole() {
+    $$('[data-admin]').forEach(el => el.hidden = !isAdmin());
+    if (!isAdmin() && current === 'members') show('home');
+    moveInk();
+  }
+  function signOutLocal() {
+    session = null; member = null;
+    try { localStorage.removeItem(KEY); } catch {}
+    $('.tabs').hidden = true; $('.me').hidden = true;
+    roll = [];
+    show('signin'); startCode();
+  }
+  $$('.tabs [data-tab]').forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
+  document.addEventListener('click', e => { const d = e.target.closest('[data-go]'); if (d) show(d.dataset.go); });
+  $('[data-signout]').addEventListener('click', async () => { try { await api('/api/v1/auth/web-logout/', { method: 'POST' }); } catch {} signOutLocal(); });
+
+  /* ── Sign in by QR, beside a slowly rising wall of the congregation ── */
+  const wall = $('[data-wall]');
+  const wallPics = [1, 3, 11, 5, 21, 13, 2, 19, 8, 17, 12, 20, 6, 22, 14, 9, 24, 16];
+  for (let c = 0; c < 3; c++) {
+    const col = document.createElement('div'); col.className = 'wall__col';
+    const pics = wallPics.filter((_, i) => i % 3 === c);
+    [...pics, ...pics].forEach(n => { const im = document.createElement('img'); im.src = `assets/collection/q${String(n).padStart(3, '0')}.webp`; im.alt = ''; im.loading = 'lazy'; col.appendChild(im); });
+    wall.appendChild(col);
+  }
+  let poll = null, expiry = null, code = null;
+  const qrBox = $('[data-qr]'), qrState = $('[data-qrstate]'), newCode = $('[data-newcode]'), scan = $('[data-scanline]');
+  function stopPolling() { clearInterval(poll); clearTimeout(expiry); poll = null; }
+  function expired() { stopPolling(); qrBox.classList.add('is-dim'); scan.hidden = true; qrState.textContent = 'This code has expired.'; newCode.hidden = false; }
+  async function startCode() {
+    stopPolling(); newCode.hidden = true; scan.hidden = true; qrBox.classList.add('is-dim');
+    qrState.textContent = 'Getting a code…';
+    const slow = setTimeout(() => { qrState.textContent = 'Waking the church server. The first visit can take up to a minute.'; }, 4000);
+    try { code = await api('/api/v1/auth/web-login/start/', { method: 'POST', anon: true }); }
+    catch { clearTimeout(slow); qrState.textContent = 'Could not reach the church server. Check your connection and try again.'; newCode.hidden = false; return; }
+    clearTimeout(slow);
+    const qr = qrcode(0, 'M'); qr.addData(code.qr); qr.make();
+    qrBox.innerHTML = qr.createSvgTag({ cellSize: 6, margin: 1, scalable: true });
+    qrBox.classList.remove('is-dim'); scan.hidden = false;
+    qrState.innerHTML = '<b>Ready.</b> Scan it with the app. It changes every two minutes.';
+    poll = setInterval(checkCode, 2000);
+    expiry = setTimeout(expired, (code.expires_in || 120) * 1000);
+  }
+  async function checkCode() {
+    if (!code) return;
+    let r; try { r = await api('/api/v1/auth/web-login/status/', { method: 'POST', anon: true, body: { id: code.id, poll_secret: code.poll_secret } }); } catch { return; }
+    if (r.status === 'approved') {
+      session = r.session; member = r.member;
+      try { localStorage.setItem(KEY, JSON.stringify({ session, member })); } catch {}
+      qrState.innerHTML = '<b>Signed in.</b> Akwaaba.'; scan.hidden = true;
+      setTimeout(signedIn, 450);
+    } else if (r.status === 'expired') expired();
+  }
+  newCode.addEventListener('click', startCode);
+
+  /* ── On a phone: open the app with the code instead of showing it ── */
+  const ua = navigator.userAgent || '';
+  const isAndroid = /Android/i.test(ua);
+  const isIOS = /iPhone|iPad|iPod/i.test(ua) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const onPhone = isAndroid || isIOS || (matchMedia('(pointer: coarse)').matches && Math.min(screen.width, screen.height) < 820);
+  const PLAY = 'https://play.google.com/store/apps/details?id=gh.cop.churchattendance';
+  const phoneCard = $('[data-phonecard]'), phoneState = $('[data-phone-state]'), ask = $('[data-ask]');
+  if (onPhone) {
+    $('.qrcard').hidden = true; $('.signsteps').hidden = true; phoneCard.hidden = false;
+    $('#si-h').textContent = 'Sign in with the app';
+    $('.signpanel .lede').textContent = 'No SMS code, no password. The Royal Assembly app on this phone confirms it is you.';
+  }
+  // The QR flow already fetches a code and polls; on a phone the same code is
+  // handed to the app instead of drawn, so the state line mirrors it.
+  const mirror = new MutationObserver(() => {
+    if (!onPhone) return;
+    const t = qrState.textContent;
+    phoneState.innerHTML = /Ready/.test(t) ? 'Tap the button to sign in. You will confirm in the app.'
+      : /expired/.test(t) ? 'That took a while. Tap the button again.'
+      : /Signed in/.test(t) ? '<b>Signed in.</b> Akwaaba.' : esc(t);
+  });
+  mirror.observe(qrState, { childList: true, characterData: true, subtree: true });
+  let askReturn = null;
+  $('[data-open-app]').addEventListener('click', () => { askReturn = document.activeElement; ask.hidden = false; $('[data-ask-yes]').focus(); });
+  const closeAsk = () => { ask.hidden = true; askReturn && askReturn.focus(); };
+  $('[data-ask-no]').addEventListener('click', closeAsk);
+  ask.addEventListener('click', e => { if (e.target === ask) closeAsk(); });
+  ask.addEventListener('keydown', e => { if (e.key === 'Escape') closeAsk(); });
+  $('[data-ask-yes]').addEventListener('click', async () => {
+    ask.hidden = true;
+    // A code lasts two minutes; take a fresh one if this one is gone.
+    if (!code || !poll) await startCode();
+    if (!code) return;
+    const q = encodeURIComponent(code.qr);
+    if (isAndroid) {
+      // Chrome opens the app if it is installed, or Google Play if it is not.
+      location.href = `intent://web-login?qr=${q}#Intent;scheme=churchattendance;package=gh.cop.churchattendance;S.browser_fallback_url=${encodeURIComponent(PLAY)};end`;
+    } else {
+      location.href = `churchattendance://web-login?qr=${q}`;
+      // Still here after a moment: the app is not installed.
+      setTimeout(() => { if (!document.hidden) phoneState.innerHTML = 'The app did not open. <b>Get it below</b>, then tap Sign in with the app again.'; }, 1800);
+    }
+    phoneState.textContent = 'Confirm in the app, then come back here.';
+  });
+  document.addEventListener('visibilitychange', () => {
+    document.body.classList.toggle('paused', document.hidden);
+    if (!document.hidden && !session && !poll && !$('[data-view="signin"]').hidden) startCode();
+    if (!document.hidden && !session && poll) checkCode();
+  });
+
+  /* ── Home: today, the next Sunday, the latest blessing ── */
+  function nextSunday() {
+    const now = new Date();
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), 9));   // Ghana keeps UTC
+    while (d.getUTCDay() !== 0 || d <= now) d.setUTCDate(d.getUTCDate() + 1);
+    return d;
+  }
+  function tick() {
+    const s = nextSunday(), ms = s - new Date();
+    const days = Math.floor(ms / 864e5), hours = Math.floor(ms / 36e5) % 24, mins = Math.floor(ms / 6e4) % 60;
+    $('[data-countdown]').textContent = days > 0 ? `in ${days} day${days === 1 ? '' : 's'}, ${hours} hr` : hours > 0 ? `in ${hours} hr ${mins} min` : `in ${mins} min`;
+    $('[data-sunday-date]').textContent = s.toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'UTC' });
+  }
+  $('[data-today]').textContent = new Date().toLocaleDateString('en-GB', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  tick(); setInterval(tick, 30000);
+
+  /* ── Data views ── */
+  const OFFICE = { presiding: 'Presiding Elder', counseling: 'Counseling Elder' };
+  const ICON = {
+    call: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1.9.4 1.8.7 2.7a2 2 0 0 1-.5 2.1L8 9.8a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.6 2.7.7a2 2 0 0 1 1.7 2z"/></svg>',
+    wa: '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.3 14.1c-.2.6-1.3 1.2-1.8 1.2-.5.1-1 .2-3.3-.7-2.8-1.1-4.6-4-4.7-4.1-.1-.2-1.1-1.5-1.1-2.9s.7-2.1 1-2.4c.3-.3.6-.3.8-.3h.6c.2 0 .4 0 .6.5l.9 2c.1.2.1.4 0 .6l-.4.6-.4.4c-.1.2-.3.3-.1.6.2.3.8 1.3 1.7 2.1 1.2 1 2.1 1.4 2.4 1.5.3.1.5.1.6-.1l.9-1c.2-.3.4-.2.6-.1l1.9.9c.3.1.5.2.5.3.1.2.1.7-.2 1.4z"/></svg>',
+    mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>'
+  };
+  const skeletons = (n, h) => Array.from({ length: n }, () => `<div class="skel" style="height:${h}"></div>`).join('');
+  const loaders = {
+    async home() {
+      try {
+        const rows = await listAll('/api/v1/content/benedictions/');
+        $('[data-latest]').hidden = !rows.length;
+        if (rows.length) { $('[data-latest-text]').textContent = rows[0].text; $('[data-latest-ref]').textContent = rows[0].reference || ''; watch($('[data-view="home"]')); }
+      } catch {}
+    },
+    async leaders(quiet) {
+      const box = $('[data-list="leaders"]');
+      if (!box.children.length || box.querySelector('.msg')) box.innerHTML = skeletons(4, '22rem');
+      try {
+        const rows = await listAll('/api/v1/accounts/elders/');
+        if (!rows.length) { box.innerHTML = '<p class="msg">No leaders have been added yet.</p>'; return; }
+        // Church order: the Pastor, the Presiding Elder, then elders, deacons, deaconesses.
+        const rank = l => { const t = (l.title || OFFICE[l.office] || '').toLowerCase(); return t.includes('pastor') ? 0 : (t.includes('presiding') || l.office === 'presiding') ? 1 : t.includes('elder') ? 2 : t.includes('deaconess') ? 4 : t.includes('deacon') ? 3 : 5; };
+        rows.sort((a, b) => rank(a) - rank(b) || (a.member?.full_name || '').localeCompare(b.member?.full_name || ''));
+        const sig = JSON.stringify(rows.map(r => [r.id, r.title, r.photo, r.member?.full_name, r.contact_phone, r.whatsapp_number, r.contact_email]));
+        if (quiet && sig === box.dataset.sig) return;
+        box.dataset.sig = sig;
+        box.innerHTML = rows.map((l, i) => {
+          const name = l.member?.full_name || 'Church leader';
+          const initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase();
+          const title = l.title || OFFICE[l.office] || 'Leader';
+          const phone = (l.contact_phone || '').replace(/\s+/g, '');
+          const wa = (l.whatsapp_number || l.contact_phone || '').replace(/\D/g, '').replace(/^0/, '233');
+          const feature = i === 0 && rank(l) <= 1;
+          const acts = `${phone ? `<a href="tel:${esc(phone)}">${ICON.call}Call</a>` : ''}${wa ? `<a href="https://wa.me/${esc(wa)}" target="_blank" rel="noopener">${ICON.wa}WhatsApp</a>` : ''}${l.contact_email ? `<a href="mailto:${esc(l.contact_email)}">${ICON.mail}Email</a>` : ''}`;
+          return `<article class="lcard rv${feature ? ' lcard--feature' : ''}" style="--i:${Math.min(i, 8)}">
+            <div class="lcard__media">${l.photo ? `<img src="${esc(l.photo)}" alt="${esc(name)}" loading="lazy">` : `<span class="lcard__initials" aria-hidden="true">${esc(initials)}</span>`}</div>
+            <div class="lcard__body"><span class="lcard__title">${esc(title)}</span><h2>${esc(name)}</h2>${feature ? '<p>Leading Royal Assembly. Reach out for counsel, prayer or anything you need.</p>' : ''}${acts ? `<div class="lcard__acts">${acts}</div>` : ''}</div>
+          </article>`;
+        }).join('');
+        watch(box); tilt(box);
+      } catch (e) {
+        if (e.message !== 'signed-out' && !box.querySelector('.lcard')) box.innerHTML = '<p class="msg">Could not load the leaders. Check your connection and open this page again.</p>';
+      }
+    },
+    async collection(quiet) {
+      let ours = [];
+      try { ours = await (await fetch('assets/collection/manifest.json', { cache: 'no-cache' })).json(); } catch {}
+      let published = [];
+      try { published = (await listAll('/api/v1/content/gallery-photos/')).map(p => ({ full: p.image, thumb: p.image, caption: p.caption })); } catch {}
+      const next = [...published, ...ours];
+      const box = $('[data-list="collection"]');
+      if (quiet && next.length === photos.length && next[0]?.full === photos[0]?.full) return;
+      photos = next;
+      $('[data-photo-count]').textContent = `${photos.length} photos`;
+      box.innerHTML = photos.map((p, i) => `<button type="button" class="ph rv" style="--i:${i % 6}" data-photo="${i}" aria-label="Open photo: ${esc(p.caption || 'Royal Assembly')}"><img src="${esc(p.thumb)}" alt="" loading="lazy"${p.w ? ` width="${p.w}" height="${p.h}"` : ''}>${p.caption ? `<span aria-hidden="true">${esc(p.caption)}</span>` : ''}</button>`).join('');
+      watch(box);
+    },
+    async benedictions(quiet) {
+      const box = $('[data-list="benedictions"]');
+      if (!box.children.length) box.innerHTML = skeletons(1, '28rem');
+      let rows = [];
+      try { rows = await listAll('/api/v1/content/benedictions/'); }
+      catch (e) { if (e.message !== 'signed-out' && !box.querySelector('.bfeature')) box.innerHTML = '<p class="msg">Could not load the benedictions. Check your connection and open this page again.</p>'; return; }
+      const sig = JSON.stringify(rows.map(r => r.id));
+      if (quiet && sig === box.dataset.sig) return;
+      box.dataset.sig = sig;
+      const date = d => new Date(d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+      // Until the first one is published, the blessing of Numbers 6:24-26.
+      const first = rows[0] || { text: 'The LORD bless thee, and keep thee:\nThe LORD make his face shine upon thee, and be gracious unto thee:\nThe LORD lift up his countenance upon thee, and give thee peace.', reference: 'Numbers 6:24-26' };
+      box.innerHTML = `<div class="bfeature rv"><img src="assets/bless-congregation.webp" alt="" loading="lazy"><div class="bfeature__in"><blockquote><p>${esc(first.text)}</p><cite>${esc(first.reference || '')}${first.created_at ? `${first.reference ? ' · ' : ''}${date(first.created_at)}` : ''}</cite></blockquote></div></div>`
+        + (rows.length ? `<div class="blist">${rows.slice(1).map((b, i) => `<div class="bitem rv" style="--i:${Math.min(i, 6)}"><div><p>${esc(b.text)}</p><cite>${esc(b.reference || '')}${b.reference ? ' · ' : ''}${date(b.created_at)}</cite></div></div>`).join('')}</div>`
+          : '<p class="msg rv" style="margin-top:1.4rem">No benedictions have been published yet. Admins publish them from the app, under Publish, then Benedictions.</p>');
+      watch(box);
+    }
+  };
+
+  /* ── The roll: admins add members and correct records ── */
+  let roll = [], shown = 60, editing = null;
+  const rollBox = $('[data-roll]'), rollSearch = $('[data-roll-search]'), rollCount = $('[data-roll-count]'), rollMore = $('[data-roll-more]');
+  const initialsOf = n => (n || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '·';
+  const SEX = { M: 'Male', F: 'Female' };
+  function drawRoll() {
+    const q = rollSearch.value.trim().toLowerCase();
+    const digits = q.replace(/\D/g, '');
+    const hits = !q ? roll : roll.filter(m => (m.full_name || '').toLowerCase().includes(q) || (m.member_id || '').toLowerCase().includes(q) || (digits.length >= 3 && (m.phone_number || '').replace(/\D/g, '').includes(digits.replace(/^0/, ''))));
+    rollCount.textContent = q ? `${hits.length} of ${roll.length} members` : `${roll.length} members`;
+    rollBox.innerHTML = hits.slice(0, shown).map(m => `<button type="button" class="row" data-member="${esc(m.id)}">
+        <span class="row__av" aria-hidden="true">${m.profile_photo ? `<img src="${esc(m.profile_photo)}" alt="" loading="lazy">` : esc(initialsOf(m.full_name))}</span>
+        <span><b>${esc(m.full_name)}</b><small>${esc(m.member_id || '')}${m.role === 'super_admin' ? ' · Super admin' : m.role === 'assembly_admin' ? ' · Admin' : ''}</small></span>
+        <span class="row__meta">${m.phone_number ? esc(m.phone_number) : '<span class="pill pill--warn">No phone</span>'}</span>
+        <span class="row__meta">${esc([SEX[m.sex], m.residence].filter(Boolean).join(' · ') || '')}</span>
+        <span class="row__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
+      </button>`).join('') || '<p class="msg" style="margin:1rem">No member matches that search.</p>';
+    rollMore.hidden = hits.length <= shown;
+  }
+  rollSearch.addEventListener('input', () => { shown = 60; drawRoll(); });
+  rollMore.addEventListener('click', () => { shown += 120; drawRoll(); });
+  loaders.members = async function () {
+    if (!isAdmin()) return;
+    if (!roll.length) rollBox.innerHTML = skeletons(1, '20rem');
+    try { roll = await listAll('/api/v1/accounts/members/'); roll.sort((a, b) => (a.full_name || '').localeCompare(b.full_name || '')); drawRoll(); }
+    catch (e) { if (e.message !== 'signed-out' && !roll.length) rollBox.innerHTML = `<p class="msg" style="margin:1rem">${esc(e.message)}</p>`; }
+  };
+
+  const drawer = $('[data-drawer]'), drawerScrim = $('[data-drawer-scrim]'), form = $('[data-form]'), formMsg = $('[data-formmsg]');
+  let drawerReturn = null;
+  function openDrawer(m) {
+    editing = m || null;
+    drawerReturn = document.activeElement;
+    $('[data-drawer-title]').textContent = m ? `Correct ${m.full_name}` : 'Add a member';
+    $('[data-save]').textContent = m ? 'Save changes' : 'Add member';
+    $('[data-phone-help]').textContent = m && m.phone_number ? 'Changing it changes their login. Clearing it removes their login.' : 'Their login for the app. Leave blank if they have no phone.';
+    form.reset(); formMsg.textContent = ''; formMsg.className = 'formmsg';
+    if (m) {
+      form.full_name.value = m.full_name || ''; form.phone_number.value = m.phone_number || '';
+      form.sex.value = m.sex || ''; form.date_of_birth.value = m.date_of_birth || '';
+      form.marital_status.value = m.marital_status || ''; form.residence.value = m.residence || '';
+      form.church_roles.value = (m.church_roles || []).filter(r => !/evangelism/i.test(r)).join(', ');
+    }
+    drawer.hidden = false; drawerScrim.hidden = false; lenis && lenis.stop(); document.body.style.overflow = 'hidden';
+    setTimeout(() => form.full_name.focus(), 50);
+  }
+  function closeDrawer() { drawer.hidden = true; drawerScrim.hidden = true; lenis && lenis.start(); document.body.style.overflow = ''; drawerReturn && drawerReturn.focus(); }
+  $('[data-add-member]').addEventListener('click', () => openDrawer(null));
+  rollBox.addEventListener('click', e => { const r = e.target.closest('[data-member]'); if (r) openDrawer(roll.find(m => String(m.id) === r.dataset.member)); });
+  $$('[data-drawer-close]').forEach(b => b.addEventListener('click', closeDrawer));
+  drawerScrim.addEventListener('click', closeDrawer);
+  drawer.addEventListener('keydown', e => {
+    if (e.key === 'Escape') closeDrawer();
+    if (e.key === 'Tab') { const f = $$('input, select, button', drawer).filter(x => !x.disabled); const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
+  });
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const name = form.full_name.value.trim();
+    if (!name) { formMsg.className = 'formmsg bad'; formMsg.textContent = 'Write their full name.'; form.full_name.focus(); return; }
+    const body = {
+      full_name: name,
+      phone_number: form.phone_number.value.trim(),
+      sex: form.sex.value,
+      date_of_birth: form.date_of_birth.value || null,
+      marital_status: form.marital_status.value,
+      residence: form.residence.value.trim(),
+      church_roles: form.church_roles.value.split(',').map(r => r.trim()).filter(Boolean),
+    };
+    const save = $('[data-save]'); save.disabled = true; formMsg.className = 'formmsg'; formMsg.textContent = 'Saving…';
+    try {
+      const saved = editing
+        ? await api(`/api/v1/accounts/members/${encodeURIComponent(editing.id)}/`, { method: 'PATCH', body })
+        : await api('/api/v1/accounts/members/', { method: 'POST', body });
+      formMsg.className = 'formmsg ok';
+      formMsg.textContent = editing ? 'Saved. The app shows the change too.' : `${saved.full_name || name} is on the roll${saved.member_id ? ` as ${saved.member_id}` : ''}.`;
+      await loaders.members();
+      if (editing) editing = roll.find(m => m.id === editing.id) || editing;
+      setTimeout(() => { if (formMsg.classList.contains('ok')) closeDrawer(); }, 1100);
+    } catch (err) {
+      if (err.message === 'signed-out') return;
+      formMsg.className = 'formmsg bad'; formMsg.textContent = err.message;
+    } finally { save.disabled = false; }
+  });
+
+  /* ── Leader cards lean toward the pointer, a few degrees, with a spring ── */
+  function tilt(root) {
+    if (!fine.matches || reduce.matches) return;
+    $$('.lcard:not(.lcard--feature)', root).forEach(card => {
+      let rx = 0, ry = 0, tx = 0, ty = 0, raf = 0;
+      const step = () => { rx += (tx - rx) * .14; ry += (ty - ry) * .14; card.style.setProperty('--rx', rx.toFixed(2) + 'deg'); card.style.setProperty('--ry', ry.toFixed(2) + 'deg'); raf = Math.abs(tx - rx) + Math.abs(ty - ry) > .02 ? requestAnimationFrame(step) : 0; };
+      card.addEventListener('pointermove', e => { const r = card.getBoundingClientRect(); tx = ((e.clientY - r.top) / r.height - .5) * -6; ty = ((e.clientX - r.left) / r.width - .5) * 6; if (!raf) raf = requestAnimationFrame(step); });
+      card.addEventListener('pointerleave', () => { tx = 0; ty = 0; if (!raf) raf = requestAnimationFrame(step); });
+    });
+  }
+
+  /* ── Lightbox ── */
+  let photos = [], at = 0, box = null, lastFocus = null, touchX = null;
+  function render() {
+    const img = box.querySelector('.lb__stage img');
+    const fresh = img.cloneNode(); fresh.src = photos[at].full; fresh.alt = photos[at].caption || 'Royal Assembly'; img.replaceWith(fresh);
+    box.querySelector('.lb__cap').textContent = photos[at].caption || '';
+    box.querySelector('.lb__count').textContent = `${at + 1} / ${photos.length}`;
+  }
+  function openPhoto(i) {
+    at = (i + photos.length) % photos.length;
+    if (!box) {
+      box = document.createElement('div'); box.className = 'lightbox'; box.hidden = true; box.setAttribute('role', 'dialog'); box.setAttribute('aria-modal', 'true'); box.setAttribute('aria-label', 'Photo viewer');
+      box.innerHTML = `<div class="lb__top"><span class="lb__count"></span><button class="btn btn--glass lb__close" type="button">Close</button></div>
+        <div class="lb__stage"><button class="btn btn--glass lb__nav lb__prev" type="button" aria-label="Previous photo">‹</button><img alt=""><button class="btn btn--glass lb__nav lb__next" type="button" aria-label="Next photo">›</button></div>
+        <p class="lb__cap"></p>`;
+      box.addEventListener('click', e => { if (e.target === box || e.target.classList.contains('lb__stage')) closePhoto(); });
+      box.querySelector('.lb__close').addEventListener('click', closePhoto);
+      box.querySelector('.lb__prev').addEventListener('click', () => openPhoto(at - 1));
+      box.querySelector('.lb__next').addEventListener('click', () => openPhoto(at + 1));
+      box.addEventListener('touchstart', e => { touchX = e.touches[0].clientX; }, { passive: true });
+      box.addEventListener('touchend', e => { if (touchX === null) return; const dx = e.changedTouches[0].clientX - touchX; touchX = null; if (Math.abs(dx) > 50) openPhoto(at + (dx < 0 ? 1 : -1)); });
+      document.body.appendChild(box);
+    }
+    if (box.hidden) { box.hidden = false; lenis && lenis.stop(); document.body.style.overflow = 'hidden'; }
+    render(); box.querySelector('.lb__close').focus();
+  }
+  function closePhoto() { if (!box) return; box.hidden = true; lenis && lenis.start(); document.body.style.overflow = ''; (lastFocus || document.body).focus(); lastFocus = null; }
+  document.addEventListener('click', e => { const b = e.target.closest('[data-photo]'); if (b) { lastFocus = b; openPhoto(+b.dataset.photo); } });
+  document.addEventListener('keydown', e => {
+    if (!box || box.hidden) return;
+    if (e.key === 'Escape') closePhoto(); else if (e.key === 'ArrowRight') openPhoto(at + 1); else if (e.key === 'ArrowLeft') openPhoto(at - 1);
+    else if (e.key === 'Tab') { const f = $$('button', box); const i = f.indexOf(document.activeElement); if (e.shiftKey && i <= 0) { e.preventDefault(); f[f.length - 1].focus(); } else if (!e.shiftKey && i === f.length - 1) { e.preventDefault(); f[0].focus(); } }
+  });
+
+  document.addEventListener('visibilitychange', refresh);
+
+  if (session) signedIn(); else { show('signin'); startCode(); }
+})();
+</script>
+</body>
+</html>

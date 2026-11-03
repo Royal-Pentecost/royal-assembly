@@ -1,0 +1,759 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Royal Assembly · The Church of Pentecost, Ayigya, Kumasi</title>
+<meta name="description" content="Royal Assembly of The Church of Pentecost, Ayigya, Kumasi. Sunday Divine Service at 9:00 AM. Akwaaba, you are welcome here.">
+<meta name="theme-color" content="#101A3D">
+<meta property="og:title" content="Royal Assembly · The Church of Pentecost">
+<meta property="og:description" content="Sunday Divine Service, 9:00 AM, Ayigya, Kumasi. Akwaaba, you are welcome here.">
+<meta property="og:image" content="https://royal-pentecost.github.io/royal-assembly/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://royal-pentecost.github.io/royal-assembly/">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101A3D'/%3E%3Crect x='14' y='12' width='36' height='40' rx='3' fill='none' stroke='%23C8DA2B' stroke-width='6'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  /* Six roles and two faces. Dark grounds are church navy; the accent is the
+     lime of the assembly's own youth photo frame. */
+  :root {
+    --sc-canvas:     #101A3D;
+    --sc-surface:    #18244F;
+    --sc-ink:        #F4F6FB;
+    --sc-ink-soft:   #BAC3E0;
+    --sc-accent:     #C8DA2B;
+    --sc-accent-ink: #101A3D;
+    --sc-font-display: "Bricolage Grotesque", system-ui, sans-serif;
+    --sc-font-text:    "Atkinson Hyperlegible", system-ui, sans-serif;
+    --sc-shadow-color: 228 58% 8%;
+  }
+  html { background: var(--sc-canvas); }
+  body { background: var(--sc-canvas); color: var(--sc-ink); font-family: var(--sc-font-text); }
+  img { max-width: 100%; }
+
+  /* Every moment owns its ground. Restate colour wherever the ink token changes. */
+  .g-navy  { background: #101A3D; }
+  .g-deep  { background: #0B1230; }
+  .g-paper { --sc-canvas:#EEF1F6; --sc-surface:#FFFFFF; --sc-ink:#14214A; --sc-ink-soft:#47527A; --sc-accent:#566500; --sc-accent-ink:#FFFFFF; --sc-hairline: rgba(20,33,74,.14); --sc-shadow-color: 226 40% 40%; background: var(--sc-canvas); color: var(--sc-ink); }
+  .g-lime  { --sc-canvas:#C8DA2B; --sc-ink:#14214A; --sc-ink-soft:#2E3A5C; --sc-accent:#14214A; --sc-accent-ink:#C8DA2B; --sc-hairline: rgba(20,33,74,.2); background: var(--sc-canvas); color: var(--sc-ink); }
+
+  .skip { position: fixed; left: 1rem; top: -4rem; z-index: 100; background: var(--sc-accent); color: var(--sc-accent-ink); padding: .7rem 1rem; border-radius: var(--sc-r-md); font-weight: 700; text-decoration: none; transition: top var(--sc-d-base) var(--sc-ease-out); }
+  .skip:focus { top: 1rem; }
+
+  /* ── Buttons: one radius scale (12px), press feedback, real states ── */
+  .btn { display: inline-flex; align-items: center; justify-content: center; gap: .6rem; min-height: 3rem; padding: .85rem 1.3rem; border-radius: var(--sc-r-md); border: 0; cursor: pointer; text-decoration: none; font: 700 1rem/1 var(--sc-font-text); white-space: nowrap; transition: transform var(--sc-d-fast) var(--sc-ease-out), background-color var(--sc-d-fast) var(--sc-ease-out), box-shadow var(--sc-d-fast) var(--sc-ease-out); }
+  .btn svg { width: 1.1rem; height: 1.1rem; flex: none; }
+  .btn:active { transform: translateY(1px) scale(.98); }
+  .btn--lime { background: #C8DA2B; color: #101A3D; box-shadow: var(--sc-e1); }
+  .btn--ink  { background: #14214A; color: #fff; box-shadow: var(--sc-e1); }
+  .btn--line { background: transparent; color: inherit; box-shadow: inset 0 0 0 1.5px currentColor; }
+  @media (hover: hover) and (pointer: fine) {
+    .btn--lime:hover { background: #D7E64F; box-shadow: var(--sc-e2); }
+    .btn--ink:hover  { background: #1E2E63; box-shadow: var(--sc-e2); }
+    .btn--line:hover { background: color-mix(in oklab, currentColor 10%, transparent); }
+  }
+  .btn:disabled { opacity: .5; cursor: not-allowed; }
+  :focus-visible { outline: 3px solid #C8DA2B; outline-offset: 3px; border-radius: 6px; }
+  .g-paper :focus-visible, .g-lime :focus-visible { outline-color: #14214A; }
+
+  /* ── The order of service: the page's only navigation ── */
+  /* The order of service, as a slim bar along the top. It used to be a card at the
+     left edge, and the page's photos and cards slid underneath it. */
+  .prog { position: fixed; z-index: var(--sc-z-chrome); top: .9rem; left: 50%; translate: -50% 0; width: min(84rem, calc(100% - 1.8rem)); display: flex; align-items: center; gap: 1rem; padding: .45rem .5rem .45rem .7rem; border-radius: 18px; background: rgba(247,248,252,.94); backdrop-filter: blur(14px) saturate(1.2); color: #14214A; box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 12px 30px -14px rgba(10,16,40,.45); }
+  .prog__brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: inherit; flex: none; }
+  .prog__brand img { width: 2.2rem; height: 2.2rem; }
+  .prog__brand b { display: block; font: 800 1rem/1.05 var(--sc-font-display); letter-spacing: -.01em; }
+  .prog__for { display: block; font-size: .76rem; color: #47527A; white-space: nowrap; }
+  .prog__for b { color: #14214A; }
+  .prog ol { list-style: none; padding: 0; margin: 0 auto; display: flex; gap: .15rem; }
+  .prog li a { display: flex; align-items: center; gap: .45rem; min-height: 2.6rem; padding: 0 .7rem; border-radius: 12px; text-decoration: none; color: #47527A; font-size: .9rem; white-space: nowrap; transition: color var(--sc-d-fast) var(--sc-ease-out), background-color var(--sc-d-base) var(--sc-ease-out); }
+  .prog li a::before { content: ""; flex: none; width: .5rem; height: .5rem; border-radius: 2px; box-shadow: inset 0 0 0 1.5px rgba(20,33,74,.35); transition: background-color var(--sc-d-base) var(--sc-ease-out), box-shadow var(--sc-d-base) var(--sc-ease-out); }
+  .prog li a.is-past::before { background: #14214A; box-shadow: none; }
+  .prog li a.is-now { color: #14214A; font-weight: 700; background: #C8DA2B; }
+  .prog li a.is-now::before { background: #14214A; box-shadow: none; }
+  @media (hover: hover) and (pointer: fine) { .prog li a:not(.is-now):hover { color: #14214A; background: rgba(20,33,74,.06); } }
+  .prog li a:active { transform: translateY(1px); }
+  .prog__acts { display: flex; align-items: center; gap: .35rem; flex: none; }
+  .prog .btn { min-height: 2.6rem; padding: .55rem 1rem; font-size: .92rem; }
+  .prog .btn--lime { box-shadow: inset 0 0 0 1.5px #14214A; }
+  .prog__signin { display: inline-flex; align-items: center; min-height: 2.6rem; padding: 0 .7rem; border-radius: 12px; font-weight: 700; font-size: .9rem; color: #14214A; text-decoration: underline; text-underline-offset: 3px; white-space: nowrap; transition: background-color var(--sc-d-fast) var(--sc-ease-out); }
+  @media (hover: hover) and (pointer: fine) { .prog__signin:hover { background: rgba(20,33,74,.07); } }
+  .prog__signin:active { transform: translateY(1px); }
+  @media (max-width: 1320px) { .prog__for { display: none; } .prog li a { padding: 0 .55rem; font-size: .86rem; } }
+  .strip__in { font-weight: 700; font-size: .85rem; color: #14214A; padding: .55rem .4rem; min-height: 2.75rem; display: inline-flex; align-items: center; }
+
+  .strip { display: none; }
+  @media (max-width: 1179px) {
+    .prog { display: none; }
+    .strip { display: flex; position: fixed; z-index: var(--sc-z-chrome); left: .6rem; right: .6rem; top: .6rem; align-items: center; gap: .6rem; padding: .45rem .45rem .45rem .6rem; border-radius: var(--sc-r-md); background: #F7F8FC; color: #14214A; box-shadow: var(--sc-e2); }
+    .strip img { width: 2rem; height: 2rem; }
+    .strip__now { flex: 1; min-width: 0; line-height: 1.15; }
+    .strip__now b { display: block; font: 800 .98rem/1.1 var(--sc-font-display); }
+    .strip__now span { display: block; font-size: .8rem; color: #47527A; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .strip .btn { min-height: 2.75rem; padding: .6rem .9rem; font-size: .92rem; }
+  }
+
+  .lane { padding-inline: var(--sc-gutter); }
+
+  /* ── 1 · WELCOME: stepping through the youth frame into the church ── */
+  /* Each layer reads a smoothed, eased progress written by the motion loop:
+     --m (smoothed), --m-io (ease in-out), --m-out (ease out), --m-in3 (ease in),
+     so the planes accelerate and settle like a camera, not a slider. */
+  .hero { --hp: var(--m, 0); --hio: var(--m-io, 0); --hin: var(--m-in3, 0); --hout: var(--m-out, 0); }
+  .hero .sc-stage { background: #0B1230; overflow: hidden; }
+  .hero__far { position: absolute; inset: -4%; width: 108%; height: 108%; max-width: none; object-fit: cover; transform: scale(calc(1.04 + var(--hio) * .16)) translate3d(0, calc(var(--hio) * -3vh), 0); translate: calc(var(--px, 0) * -14px) calc(var(--py, 0) * -9px); will-change: transform; }
+  .hero__veil { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(11,18,48,.86) 0%, rgba(11,18,48,.55) 42%, rgba(11,18,48,.25) 100%); opacity: calc(1 - var(--hio) * .7); }
+  /* The portrait (mid) and the frame (near) share one anchor so they start in
+     register; the frame then outruns the portrait, which is the step through. */
+  .hero__anchor { position: absolute; left: 73%; top: 52%; width: min(28vw, 28rem); aspect-ratio: 4 / 5; translate: -50% -50%; transform: translateX(calc(var(--hio) * -21vw)); will-change: transform; }
+  .hero__mid { position: absolute; inset: 0; overflow: hidden; border-radius: 2px; box-shadow: var(--sc-e3); transform: scale(calc(1 + var(--hio) * 2.7)); translate: calc(var(--px, 0) * 7px) calc(var(--py, 0) * 5px); will-change: transform; }
+  .hero__mid img { width: 100%; height: 100%; object-fit: cover; max-width: none; }
+  .hero__frame { position: absolute; inset: -11% -12%; transform: scale(calc(1 + var(--hin) * 7)) rotate(calc(var(--hio) * -2.5deg)); translate: calc(var(--px, 0) * 18px) calc(var(--py, 0) * 12px); will-change: transform; pointer-events: none; }
+  .yframe { position: absolute; inset: 0; border: solid #C8DA2B; border-width: 13% 11% 15%; border-width: clamp(2.2rem, 5.2vw, 4.4rem) clamp(1.7rem, 3.6vw, 3rem) clamp(2.6rem, 6vw, 5rem); border-radius: 6px; box-shadow: 0 10px 30px -8px rgba(4,8,24,.6), inset 0 0 0 1px rgba(16,26,61,.25); }
+  .yframe__top, .yframe__foot { position: absolute; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: .5rem; color: #14214A; font: 800 clamp(.7rem, 1.25vw, 1.05rem)/1 var(--sc-font-display); letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+  .yframe__top { top: 0; height: clamp(2.2rem, 5.2vw, 4.4rem); }
+  .yframe__top img { width: 1.6em; height: 1.6em; }
+  .yframe__foot { bottom: 0; height: clamp(2.6rem, 6vw, 5rem); font-size: clamp(.95rem, 1.9vw, 1.6rem); letter-spacing: -.01em; text-transform: none; }
+  .motes { position: absolute; inset: 0; pointer-events: none; transform: translate3d(calc(var(--px, 0) * 26px), calc(var(--hio) * -16vh), 0) scale(calc(1 + var(--hio) * .3)); }
+  .motes i { position: absolute; width: var(--s); height: var(--s); border-radius: 50%; background: radial-gradient(circle, rgba(255,240,200,.55), rgba(255,240,200,0) 70%); left: var(--x); top: var(--y); animation: mote 14s var(--sc-ease-in-out) infinite alternate; animation-delay: var(--d); }
+  @keyframes mote { to { transform: translate(1.4rem, -2.2rem); opacity: .4; } }
+  .hero .sc-scrim--lead { opacity: calc(1 - var(--hout)); }
+  .hero__copy h1 { font-size: clamp(3rem, 1.4rem + 4.4vw, 5.4rem); max-width: 10ch; }
+  .hero__copy .sc-lede { margin-top: var(--sc-5); max-width: 30ch; color: var(--sc-ink); }
+  .hero__copy .row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: var(--sc-6); }
+  .hero__in { max-width: min(30rem, 80vw); }
+  .hero__in p { font: 800 clamp(2.4rem, 1.4rem + 3.6vw, 4.6rem)/.98 var(--sc-font-display); letter-spacing: var(--sc-track-tight); }
+  .hero__in span { display: block; font: 400 var(--sc-t-lg)/1.45 var(--sc-font-text); letter-spacing: 0; margin-top: var(--sc-4); color: var(--sc-ink); }
+  .hero__inscrim { position: absolute; inset: auto 0 0 auto; width: 70%; height: 70%; pointer-events: none; background: radial-gradient(ellipse at 85% 85%, rgba(11,18,48,.78), rgba(11,18,48,0) 70%); opacity: clamp(0, calc((var(--hp) - .55) * 4), 1); }
+  @media (max-width: 860px) {
+    .hero__anchor { left: 50%; top: 34%; width: min(62vw, 22rem); transform: none; }
+    .hero__mid { transform: scale(calc(1 + var(--hio) * 2.1)); }
+    .hero__copy h1 { font-size: var(--sc-t-2xl); max-width: none; }
+    .hero__veil { background: linear-gradient(180deg, rgba(11,18,48,.4) 0%, rgba(11,18,48,.2) 40%, rgba(11,18,48,.9) 75%); }
+    .hero__inscrim { width: 100%; height: 60%; background: linear-gradient(0deg, rgba(11,18,48,.85), rgba(11,18,48,0)); }
+  }
+  @media (max-height: 560px) { .motes { display: none; } }
+
+  /* ── 2 · PRAISE ── */
+  .praise .sc-copy h2 { max-width: 12ch; }
+  .praise .sc-body { color: var(--sc-ink); margin-top: var(--sc-5); max-width: 30ch; font-size: var(--sc-t-lg); }
+
+  /* ── 3 · THE WORD: paper, one verse, nothing else moving ── */
+  .word { padding-block: clamp(6rem, 16vh, 11rem) clamp(5rem, 12vh, 9rem); }
+  .word__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 18rem); gap: clamp(2rem, 6vw, 6rem); align-items: end; }
+  .word__verse { margin: 0; }
+  .word__verse p { font: 700 clamp(2.3rem, 1.4rem + 3.6vw, 5rem)/1.04 var(--sc-font-display); letter-spacing: var(--sc-track-tight); text-wrap: balance; max-width: 18ch; }
+  .word__verse p em { font-style: normal; color: var(--sc-accent); }
+  .word__verse footer { margin-top: var(--sc-5); font-size: var(--sc-t-base); color: var(--sc-ink-soft); }
+  .word__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 20rem); }
+  .word__pulpit { margin: 0 0 var(--sc-5); aspect-ratio: 4 / 5; overflow: hidden; border-radius: var(--sc-r-md); box-shadow: 0 2px 4px rgba(20,33,74,.12), 0 20px 40px -18px rgba(20,33,74,.45); }
+  .word__pulpit img { width: 100%; height: 100%; object-fit: cover; transform: scale(1.14) translate3d(0, calc((var(--m-io, .5) - .5) * -7%), 0); will-change: transform; }
+  .word__note { color: var(--sc-ink-soft); font-size: var(--sc-t-base); max-width: 30ch; border-top: 2px solid #14214A; padding-top: var(--sc-4); }
+  @media (max-width: 860px) { .word__pulpit { max-width: 18rem; } }
+  .word [data-sc-reveal] { padding-bottom: .2em; }
+  @media (max-width: 860px) { .word__grid { grid-template-columns: 1fr; } }
+
+  /* ── 4 · FELLOWSHIP (the peak): the page answers you by name ── */
+  .fell .sc-stage { background: #101A3D; overflow: hidden; }
+  .fell__grid { position: absolute; inset: 0; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: clamp(1.5rem, 4vw, 4rem); padding-block: 5rem 3rem; }
+  .fell__ask h2 { font: 800 var(--sc-t-3xl)/1 var(--sc-font-display); letter-spacing: var(--sc-track-tight); max-width: 10ch; }
+  .fell__ask p { color: var(--sc-ink-soft); margin-top: var(--sc-4); max-width: 34ch; font-size: var(--sc-t-base); }
+  .days { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: var(--sc-6); max-width: 30rem; }
+  .day { min-height: 2.9rem; padding: .7rem 1rem; border-radius: var(--sc-r-md); border: 0; cursor: pointer; font: 700 .98rem/1 var(--sc-font-text); background: var(--sc-surface); color: var(--sc-ink); box-shadow: var(--sc-edge), var(--sc-e1); transition: transform var(--sc-d-fast) var(--sc-ease-out), background-color var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast) var(--sc-ease-out); }
+  .day:active { transform: translateY(1px) scale(.97); }
+  @media (hover: hover) and (pointer: fine) { .day:hover { background: #22306A; } }
+  .day[aria-pressed="true"] { background: #C8DA2B; color: #101A3D; }
+  .fell__opts { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: var(--sc-5); color: var(--sc-ink-soft); font-size: .95rem; }
+  .fell__opts input { font: 400 1rem var(--sc-font-text); color: var(--sc-ink); background: var(--sc-surface); border: 0; border-radius: var(--sc-r-md); padding: .65rem .75rem; box-shadow: var(--sc-edge); color-scheme: dark; min-height: 2.9rem; }
+  .seg { display: inline-flex; background: var(--sc-surface); border-radius: var(--sc-r-md); padding: .25rem; box-shadow: var(--sc-edge); }
+  .seg button { min-height: 2.5rem; padding: .5rem .8rem; border: 0; border-radius: 9px; cursor: pointer; background: transparent; color: var(--sc-ink-soft); font: 700 .92rem/1 var(--sc-font-text); transition: background-color var(--sc-d-fast) var(--sc-ease-out), color var(--sc-d-fast) var(--sc-ease-out); }
+  .seg button[aria-pressed="true"] { background: #F4F6FB; color: #101A3D; }
+
+  .portrait { position: relative; justify-self: center; width: min(26rem, 80%); aspect-ratio: 4 / 5; --k: var(--m-fb, 0); }
+  .portrait .yframe { z-index: 3; }
+  .portrait .yframe__top, .portrait .yframe__foot { z-index: 4; }
+  .portrait__in { position: absolute; inset: clamp(2.2rem, 5.2vw, 4.4rem) clamp(1.7rem, 3.6vw, 3rem) clamp(2.6rem, 6vw, 5rem); z-index: 2; display: flex; flex-direction: column; justify-content: center; padding: clamp(.8rem, 2vw, 1.6rem); background: radial-gradient(ellipse at 30% 20%, rgba(200,218,43,.16), rgba(200,218,43,0) 60%), #0B1230; }
+  .portrait__hello { font: 700 .82rem/1.2 var(--sc-font-text); letter-spacing: .08em; text-transform: uppercase; color: #C8DA2B; }
+  .portrait__name { font: 800 clamp(2.6rem, 1.6rem + 3.4vw, 5rem)/.95 var(--sc-font-display); letter-spacing: var(--sc-track-tight); margin: .5rem 0 .7rem; overflow-wrap: anywhere; }
+  .portrait__name .ch { display: inline-block; animation: chIn 520ms var(--sc-ease-out) both; animation-delay: calc(var(--i) * 45ms); }
+  @keyframes chIn { from { opacity: 0; transform: translateY(.35em); } to { opacity: 1; transform: none; } }
+  .portrait__text { color: var(--sc-ink-soft); font-size: .98rem; }
+  /* The congregation gathers round the frame as you scroll: scattered to ordered. */
+  /* The congregation orbits the frame as you scroll: an oval path round "You?",
+     passing in front of the frame (larger) and behind it (smaller), placed each
+     frame by the motion loop. */
+  .faces img { position: absolute; z-index: 1; left: 50%; top: 50%; width: var(--w); height: auto; aspect-ratio: 3 / 4; object-fit: cover; max-width: none; border-radius: 6px; box-shadow: 0 14px 30px -12px rgba(0,0,0,.7); opacity: 0; transform: translate(-50%, -50%); will-change: transform, opacity; }
+  @media (max-width: 860px) {
+    .fell__grid { grid-template-columns: 1fr; align-content: center; gap: 1.25rem; padding-block: 4.75rem 1.5rem; }
+    .fell__ask h2 { font-size: var(--sc-t-2xl); }
+    .fell__ask p { display: none; }
+    .days { margin-top: var(--sc-4); gap: .4rem; }
+    .day { padding: .6rem .75rem; min-height: 2.75rem; font-size: .92rem; }
+    .portrait { width: min(15rem, 62vw); }
+    .faces img:nth-child(n+5) { display: none; }
+  }
+
+  /* ── 5 · MINISTRIES: a lateral rail on lime ── */
+  .mins .sc-stage { display: flex; align-items: center; background: #C8DA2B; }
+  .rail { gap: clamp(1rem, 2vw, 1.75rem); padding-inline: var(--sc-gutter); align-items: stretch; }
+  .rail > * { flex: none; }
+  .rail__lead { width: min(26rem, 78vw); display: flex; flex-direction: column; justify-content: center; }
+  .rail__lead h2 { font: 800 var(--sc-t-3xl)/1 var(--sc-font-display); letter-spacing: var(--sc-track-tight); max-width: 9ch; }
+  .rail__lead p { margin-top: var(--sc-5); color: var(--sc-ink-soft); max-width: 28ch; font-size: var(--sc-t-base); }
+  .min { width: min(23rem, 74vw); display: flex; flex-direction: column; }
+  .min figure { margin: 0; aspect-ratio: 4 / 3; overflow: hidden; border-radius: var(--sc-r-md); box-shadow: 0 2px 4px rgba(20,33,74,.18), 0 14px 30px -10px rgba(20,33,74,.45); }
+  .min img { width: 100%; height: 100%; object-fit: cover; }
+  .min h3 { font: 800 var(--sc-t-2xl)/1 var(--sc-font-display); letter-spacing: var(--sc-track-snug); margin-top: var(--sc-5); }
+  .min p { margin-top: var(--sc-3); color: var(--sc-ink-soft); max-width: 30ch; }
+  .rail__note { width: min(20rem, 70vw); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid rgba(20,33,74,.3); padding-left: clamp(1.25rem, 2vw, 2rem); }
+  .rail__note p { font: 700 var(--sc-t-xl)/1.15 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
+  @media (prefers-reduced-motion: no-preference) {
+    .rail > :not(:first-child) { --ri: 0; --t: clamp(0, calc(var(--m, 0) * 7 - var(--ri) + .6), 1); opacity: calc(.35 + var(--t) * .65); transform: translate3d(calc((1 - var(--t)) * 14vw), calc((1 - var(--t)) * 3rem), 0) rotate(calc((1 - var(--t)) * 5deg)); transform-origin: left bottom; }
+    .rail > :not(:first-child) figure { transform: skewX(calc(var(--vel, 0) * -5deg)) scale(calc(1 - var(--speed, 0) * .03)); }
+    /* Each photo travels inside its frame against the rail's direction: depth. */
+    .min img { transform: translate3d(calc((var(--m, 0) * 7 - var(--ri) - .5) * -5%), 0, 0) scale(calc(1.18 + var(--speed, 0) * .04)); }
+    .rail__lead { opacity: calc(1 - clamp(0, calc(var(--m, 0) * 4 - .4), .55)); transform: translate3d(calc(var(--m, 0) * -3vw), 0, 0); }
+  }
+
+  /* ── 6 · NOTICES: plain facts, set like a church notice sheet ── */
+  .notices { padding-block: clamp(5rem, 12vh, 9rem) clamp(4rem, 10vh, 7rem); }
+  .notices__head { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
+  .notices h2 { font: 800 var(--sc-t-3xl)/1 var(--sc-font-display); letter-spacing: var(--sc-track-tight); max-width: 12ch; text-wrap: balance; }
+  .when { font: 800 clamp(4rem, 2.4rem + 6vw, 8rem)/.9 var(--sc-font-display); letter-spacing: -.04em; margin-top: var(--sc-7); }
+  .when small { display: block; font: 700 var(--sc-t-xl)/1.1 var(--sc-font-display); letter-spacing: var(--sc-track-snug); color: var(--sc-ink-soft); margin-top: var(--sc-3); }
+  .where { margin-top: var(--sc-6); font-size: var(--sc-t-lg); }
+  .where span { display: block; color: var(--sc-ink-soft); font-size: var(--sc-t-base); }
+  .notices .row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: var(--sc-6); }
+  .saved { margin-top: var(--sc-3); min-height: 1.5em; color: var(--sc-ink-soft); font-size: .95rem; }
+  .hall { margin: 0; position: relative; border-radius: var(--sc-r-md); overflow: hidden; aspect-ratio: 4 / 3; box-shadow: 0 2px 4px rgba(20,33,74,.12), 0 24px 50px -20px rgba(20,33,74,.45); }
+  .hall img { width: 100%; height: 100%; object-fit: cover; transform: scale(calc(1.2 - var(--m-out, 1) * .2)); will-change: transform; }
+  .hall figcaption { position: absolute; left: .9rem; bottom: .9rem; padding: .45rem .7rem; border-radius: 9px; background: rgba(11,18,48,.78); color: #fff; font-size: .85rem; }
+  .sheet { margin-top: clamp(4rem, 10vh, 7rem); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.25fr); gap: clamp(2rem, 6vw, 6rem); border-top: 2px solid #14214A; padding-top: var(--sc-7); }
+  .sheet h3 { font: 800 var(--sc-t-2xl)/1.02 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
+  .sheet .sc-body { margin-top: var(--sc-4); }
+  .app-list { list-style: none; padding: 0; margin: var(--sc-5) 0 0; }
+  .app-list li { padding: .8rem 0; border-bottom: 1px solid var(--sc-hairline); }
+  .app-list b { display: block; font: 700 1.08rem/1.3 var(--sc-font-display); }
+  .app-list span { color: var(--sc-ink-soft); }
+  .soon { display: inline-flex; flex-direction: column; margin-top: var(--sc-5); padding: .8rem 1.1rem; border-radius: var(--sc-r-md); background: #14214A; color: #fff; }
+  .stores { display: flex; flex-wrap: wrap; gap: .6rem; }
+  .soon small { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: #C8DA2B; }
+  .soon b { font: 700 1.1rem/1.2 var(--sc-font-display); }
+  details { border-bottom: 1px solid var(--sc-hairline); }
+  summary { cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; padding: 1.1rem 0; font: 700 var(--sc-t-lg)/1.25 var(--sc-font-display); }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: "+"; font-weight: 500; transition: transform var(--sc-d-base) var(--sc-ease-out); }
+  details[open] summary::after { transform: rotate(45deg); }
+  details p { padding-bottom: 1.1rem; color: var(--sc-ink-soft); max-width: 56ch; margin: 0; }
+  @media (hover: hover) and (pointer: fine) { summary:hover { color: #2A3A7A; } }
+  @media (max-width: 860px) { .notices__head, .sheet { grid-template-columns: 1fr; } .hall { order: -1; } }
+
+  /* ── 7 · BENEDICTION: the close resolves and holds ── */
+  .bless .sc-stage { background: #0B1230; display: grid; place-items: center; overflow: hidden; }
+  /* The congregation stands behind the blessing, masked away from the words. */
+  .bless__people { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 40%; opacity: .55; -webkit-mask-image: linear-gradient(90deg, transparent 52%, #000 92%); mask-image: linear-gradient(90deg, transparent 52%, #000 92%); }
+  @media (max-width: 860px) { .bless__people { -webkit-mask-image: linear-gradient(0deg, transparent 45%, #000 100%); mask-image: linear-gradient(0deg, transparent 45%, #000 100%); opacity: .4; } }
+  .bless__inner { position: relative; width: min(54rem, 100%); padding: 4.5rem var(--sc-gutter) 2rem; }
+  .bless__inner::before { content: ""; position: absolute; left: calc(var(--sc-gutter) - 1.6rem); top: 3rem; bottom: 6.5rem; width: 6px; border-radius: 3px; background: #C8DA2B; transform-origin: top; transform: scaleY(clamp(.05, calc(.2 + var(--m-out, 1) * .8), 1)); }
+  .bless__people { transform: scale(calc(1.12 - var(--m-out, 1) * .12)); }
+  .bless blockquote { margin: 0; }
+  .bless blockquote p { font: 800 clamp(2.4rem, 1.4rem + 3.9vw, 5.2rem)/1 var(--sc-font-display); letter-spacing: var(--sc-track-tight); text-wrap: balance; }
+  .bless blockquote footer { margin-top: var(--sc-4); color: var(--sc-ink-soft); }
+  .bless__see { margin-top: var(--sc-7); font-size: var(--sc-t-lg); max-width: 36ch; }
+  .bless .row { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: var(--sc-5); }
+  .bless .saved { color: var(--sc-ink-soft); }
+  .foot { position: absolute; left: 0; right: 0; bottom: 0; display: flex; flex-wrap: wrap; gap: .5rem 2rem; justify-content: space-between; padding: 1.1rem var(--sc-gutter); font-size: .85rem; color: var(--sc-ink-soft); border-top: 1px solid var(--sc-hairline); }
+
+  /* Photo treatment on section images: a soft gradient from the foot and a
+     faint navy multiply, so every photograph sits in the same church light. */
+  .min figure, .hall, .word__pulpit { position: relative; isolation: isolate; }
+  .min figure::after, .hall::after, .word__pulpit::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(11,18,48,.38), rgba(11,18,48,0) 45%), rgba(27,45,107,.12); mix-blend-mode: multiply; }
+  .hall figcaption { z-index: 1; }
+
+  /* ── Reduced motion: complete and still, no pinned travel for the hero ── */
+  @media (prefers-reduced-motion: reduce) {
+    .hero { height: auto !important; }
+    .hero .sc-stage { position: relative !important; height: 100svh; }
+    .hero { --hp: 0; --hio: 0; --hin: 0; --hout: 0; }
+    .hero__far, .hero__mid, .hero__frame, .motes { translate: none; }
+    .word__pulpit img, .hall img, .bless__people { transform: none; }
+    .bless__inner::before { transform: none; }
+    .hero__in, .hero__inscrim { display: none; }
+    .portrait { --k: 1; }
+    .motes i { animation: none; }
+    .portrait__name .ch { animation: none; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Skip to the page</a>
+<span data-sc-progress></span>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<!-- The order of service: the page's only navigation -->
+<nav class="prog" aria-label="Order of service">
+  <a class="prog__brand" href="#welcome">
+    <img src="assets/cop-logo.png" alt="" width="36" height="36">
+    <span><b>Royal Assembly</b><small class="prog__for" data-for>Order of Service · Sunday 9:00 AM</small></span>
+  </a>
+  <h2 class="sr-only" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Order of Service</h2>
+  <ol>
+    <li><a href="#welcome" data-moment="welcome">Welcome</a></li>
+    <li><a href="#praise" data-moment="praise">Praise</a></li>
+    <li><a href="#word" data-moment="word">The Word</a></li>
+    <li><a href="#fellowship" data-moment="fellowship">Fellowship</a></li>
+    <li><a href="#ministries" data-moment="ministries">Ministries</a></li>
+    <li><a href="#notices" data-moment="notices">Notices</a></li>
+    <li><a href="#benediction" data-moment="benediction">Benediction</a></li>
+  </ol>
+  <div class="prog__acts">
+    <a class="prog__signin" href="members.html">Members sign in</a>
+    <a class="btn btn--lime" href="#notices">Plan your visit</a>
+  </div>
+</nav>
+<div class="strip" aria-hidden="false">
+  <img src="assets/cop-logo.png" alt="" width="32" height="32">
+  <p class="strip__now"><b>Royal Assembly</b><span data-strip-now>Order of Service · Welcome</span></p>
+  <a class="strip__in" href="members.html">Sign in</a>
+  <a class="btn btn--lime" href="#notices">Plan your visit</a>
+</div>
+
+<main id="main" tabindex="-1">
+
+  <!-- 1 · WELCOME -->
+  <section id="welcome" class="hero" data-sc-act="pin" data-sc-span="2.3" data-moment-act="welcome" data-motion aria-label="Welcome">
+    <div data-sc-stage>
+      <img class="hero__far" src="assets/hero-far.webp" alt="" fetchpriority="high">
+      <div class="hero__veil" aria-hidden="true"></div>
+      <div class="motes" aria-hidden="true">
+        <i style="--x:12%;--y:22%;--s:9rem;--d:-3s"></i><i style="--x:44%;--y:12%;--s:6rem;--d:-8s"></i>
+        <i style="--x:86%;--y:18%;--s:7rem;--d:-5s"></i><i style="--x:30%;--y:70%;--s:5rem;--d:-11s"></i>
+        <i style="--x:92%;--y:76%;--s:8rem;--d:-1s"></i>
+      </div>
+      <div class="hero__anchor" aria-hidden="true">
+        <div class="hero__mid"><img src="assets/hero-mid.webp" alt="" width="1200" height="1500"></div>
+        <div class="hero__frame">
+          <div class="yframe"></div>
+          <p class="yframe__top"><img src="assets/cop-logo.png" alt="">Royal Assembly · Ayigya</p>
+          <p class="yframe__foot">Akwaaba</p>
+        </div>
+      </div>
+      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--lead hero__copy" data-sc-cue="0 0.52 0 0.22">
+        <h1 class="sc-display">Akwaaba. You are welcome here.</h1>
+        <p class="sc-lede">Sunday Divine Service, 9:00 AM, at Royal Assembly in Ayigya, Kumasi.</p>
+        <div class="row">
+          <a class="btn btn--lime" href="#notices">Plan your visit</a>
+          <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=6.689213,-1.570109" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </div>
+      <div class="hero__inscrim" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--trail hero__in" data-sc-cue="0.62 1 0.12 0.1">
+        <p>Come in.</p>
+        <span>There is always a seat for one more, and someone at the door to show you to it.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 · PRAISE -->
+  <section id="praise" class="praise g-navy" data-sc-act="scrub" data-sc-span="2.6" data-sc-dwell="0.32" data-moment-act="praise" aria-label="Praise">
+    <div data-sc-stage>
+      <img class="sc-stage__poster" src="assets/praise-poster.webp" alt="">
+      <video data-sc-scrub data-sc-src="assets/praise.mp4" data-sc-src-mobile="assets/praise-m.mp4" muted playsinline aria-hidden="true" tabindex="-1"></video>
+      <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
+      <div class="sc-copy sc-copy--lead" data-sc-cue="0.08 0.9 0.2 0.12">
+        <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Praise that fills the whole room.</h2>
+        <p class="sc-body">Voices, hands raised, dancing in the aisles. Come ready to sing.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 · THE WORD (authored stillness before the peak) -->
+  <section id="word" class="word g-paper" data-sc-act="flow" data-moment-act="word" data-motion aria-labelledby="word-h">
+    <h2 id="word-h" class="sc-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">The Word</h2>
+    <div class="lane word__grid">
+      <div data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+        <blockquote class="word__verse">
+          <p>I was glad when they said unto me, Let us go into <em>the house of the LORD.</em></p>
+          <footer>Psalm 122:1</footer>
+        </blockquote>
+      </div>
+      <div class="word__side" data-sc-in>
+        <figure class="word__pulpit">
+          <img src="assets/word-pulpit.webp" alt="A preacher at the clear pulpit of Royal Assembly, microphone in hand, the Ghana flag beside him" width="1000" height="1250" loading="lazy">
+        </figure>
+        <p class="word__note">Every Sunday we open the Bible together, in English and Twi. Then we study it in small classes, grouped by the day you were born.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 · FELLOWSHIP (the peak) -->
+  <section id="fellowship" class="fell" data-sc-act="pin" data-sc-span="3.4" data-moment-act="fellowship" data-motion aria-labelledby="fell-h">
+    <div data-sc-stage>
+      <div class="fell__grid lane">
+        <div class="fell__ask" data-sc-cue="0 1 0 0">
+          <h2 id="fell-h">What day were you born?</h2>
+          <p>In Ghana the day you were born gives you a name. Here it also gives you a Bible study class and a group of people who will know you by it.</p>
+          <div class="days" role="group" aria-label="Day of birth">
+            <button class="day" type="button" data-day="0" aria-pressed="false">Sunday</button>
+            <button class="day" type="button" data-day="1" aria-pressed="false">Monday</button>
+            <button class="day" type="button" data-day="2" aria-pressed="false">Tuesday</button>
+            <button class="day" type="button" data-day="3" aria-pressed="false">Wednesday</button>
+            <button class="day" type="button" data-day="4" aria-pressed="false">Thursday</button>
+            <button class="day" type="button" data-day="5" aria-pressed="false">Friday</button>
+            <button class="day" type="button" data-day="6" aria-pressed="false">Saturday</button>
+          </div>
+          <div class="fell__opts">
+            <span class="seg" role="group" aria-label="Name for">
+              <button type="button" data-g="m" aria-pressed="true">Boy's name</button>
+              <button type="button" data-g="f" aria-pressed="false">Girl's name</button>
+            </span>
+            <label>or your birthday <input id="dob" type="date" min="1920-01-01"></label>
+          </div>
+        </div>
+        <div class="portrait">
+          <div class="faces" aria-hidden="true">
+            <img src="assets/face-1.webp" alt="" style="--w:28%">
+            <img src="assets/face-2.webp" alt="" style="--w:30%">
+            <img src="assets/face-3.webp" alt="" style="--w:26%">
+            <img src="assets/face-4.webp" alt="" style="--w:30%">
+            <img src="assets/face-5.webp" alt="" style="--w:22%">
+            <img src="assets/face-6.webp" alt="" style="--w:22%">
+            <img src="assets/face-7.webp" alt="" style="--w:22%">
+            <img src="assets/face-8.webp" alt="" style="--w:26%">
+          </div>
+          <div class="yframe" aria-hidden="true"></div>
+          <p class="yframe__top" aria-hidden="true"><img src="assets/cop-logo.png" alt="">Royal Assembly · Ayigya</p>
+          <div class="portrait__in" aria-live="polite">
+            <p class="portrait__hello" data-hello>Akwaaba</p>
+            <p class="portrait__name" data-name>You?</p>
+            <p class="portrait__text" data-text>Choose your day to see your Akan name and your Sunday class.</p>
+          </div>
+          <p class="yframe__foot" aria-hidden="true">You belong here</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · MINISTRIES -->
+  <section id="ministries" class="mins g-lime" data-sc-act="pan" data-sc-span="5.2" data-moment-act="ministries" data-motion aria-labelledby="min-h">
+    <div data-sc-stage>
+      <div class="rail" data-sc-pan="0.04">
+        <div class="rail__lead">
+          <h2 id="min-h">A place for every season of life.</h2>
+          <p>Five ministries, one family. Find where you fit.</p>
+        </div>
+        <article class="min" style="--ri:1"><figure><img src="assets/min-youth.webp" alt="Two members of the Youth Ministry smiling inside a lime photo frame" loading="lazy"></figure><h3>Youth</h3><p>Young people growing in faith together, full of energy and purpose.</p></article>
+        <article class="min" style="--ri:2"><figure><img src="assets/min-children.webp" alt="Children of the assembly sitting together in church" loading="lazy"></figure><h3>Children</h3><p>Bible lessons made for young hearts, every Sunday.</p></article>
+        <article class="min" style="--ri:3"><figure><img src="assets/min-womens.webp" alt="Two members of the Women's Ministry in matching church cloth" loading="lazy"></figure><h3>Women</h3><p>Prayer, friendship and strength for every woman of the church.</p></article>
+        <article class="min" style="--ri:4"><figure><img src="assets/min-mens.webp" alt="A member of the Men's Ministry in the church cloth" loading="lazy"></figure><h3>Men</h3><p>Men standing together in faith, at home and in the church.</p></article>
+        <article class="min" style="--ri:5"><figure><img src="assets/min-evangelism.webp" alt="Members of the assembly smiling and waving in church cloth" loading="lazy"></figure><h3>Evangelism</h3><p>Every member belongs to it. We carry the good news of Jesus to Ayigya and beyond.</p></article>
+        <div class="rail__note" style="--ri:6"><p>Not sure where you fit? Ask an usher on Sunday.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · NOTICES -->
+  <section id="notices" class="notices g-paper" data-sc-act="flow" data-moment-act="notices" data-motion aria-labelledby="notices-h">
+    <div class="lane">
+      <div class="notices__head">
+        <div class="sc-stack" data-sc-in data-sc-stagger="70">
+          <h2 id="notices-h"><span data-name-lead></span>Here is how to join us.</h2>
+          <p class="when">9:00 AM<small>Every Sunday · Divine Service</small></p>
+          <p class="where">Royal Assembly, Ayigya, Kumasi<span>On Google Maps: MCQH+MXJ Kumasi</span></p>
+          <div class="row">
+            <a class="btn btn--ink" href="https://www.google.com/maps/search/?api=1&amp;query=6.689213,-1.570109" target="_blank" rel="noopener">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l18-8-8 18-2-8-8-2z"/></svg>Get directions</a>
+            <button class="btn btn--line" type="button" data-cal>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Add Sunday to my calendar</button>
+          </div>
+          <p class="saved" data-saved aria-live="polite"></p>
+        </div>
+        <figure class="hall" data-sc-reveal="left" data-sc-reveal-at="0.1 0.4">
+          <img src="assets/hall.webp" alt="Inside the Royal Assembly auditorium, with The Church of Pentecost Royal Assembly sign on the stone wall" width="1080" height="810" loading="lazy">
+          <figcaption>The Royal Assembly auditorium</figcaption>
+        </figure>
+      </div>
+
+      <div class="sheet">
+        <div data-sc-in>
+          <h3>The Royal Assembly app</h3>
+          <p class="sc-body">Church life in your pocket, on iPhone and Android, made for our members.</p>
+          <ul class="app-list">
+            <li><b>Sign attendance when you arrive</b><span>Your phone confirms you are at church, and you mark your presence in one tap.</span></li>
+            <li><b>Bible study in English and Twi</b><span>This week's study, ready before Sunday.</span></li>
+            <li><b>Church news and a daily verse</b><span>Services, events and notices the moment they are published.</span></li>
+            <li><b>Birthday wishes from your church family</b><span>The whole assembly celebrates with you.</span></li>
+          </ul>
+          <div class="stores">
+            <p class="soon"><small>Coming soon</small><b>App Store</b></p>
+            <p class="soon"><small>Coming soon</small><b>Google Play</b></p>
+          </div>
+          <p class="sc-body" style="margin-top:var(--sc-4)">Already a member? <a href="members.html">Sign in to the website</a> with the app to see the church leaders, the photo collection, the benedictions and everything the app does.</p>
+        </div>
+        <div data-sc-in>
+          <h3>Before your first visit</h3>
+          <details><summary>I do not know anyone. Is that okay?</summary><p>Yes. Everyone was new once. Tell an usher at the door that it is your first time, and they will help you find a seat.</p></details>
+          <details><summary>What time should I arrive?</summary><p>Service starts at 9:00 AM every Sunday. Come ten minutes early so you can settle in before we begin.</p></details>
+          <details><summary>Can I bring my children?</summary><p>Please do. Children are part of our church family, and the Children's Ministry teaches them at their level.</p></details>
+          <details><summary>How do I find the church?</summary><p>Royal Assembly is in Ayigya, Kumasi. Tap Get directions, or search MCQH+MXJ Kumasi in Google Maps.</p></details>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 · BENEDICTION (the close: resolves and holds) -->
+  <section id="benediction" class="bless g-deep" data-sc-act="pin" data-sc-span="1.3" data-moment-act="benediction" data-motion aria-labelledby="bless-h">
+    <div data-sc-stage>
+      <img class="bless__people" src="assets/bless-congregation.webp" alt="" loading="lazy">
+      <div class="bless__inner">
+        <h2 id="bless-h" class="sc-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Benediction</h2>
+        <blockquote data-sc-cue="0 1 0 0">
+          <p><span data-name-bless></span><span data-bless-the>The</span> LORD bless thee, and keep thee.</p>
+          <footer>Numbers 6:24</footer>
+        </blockquote>
+        <div data-sc-cue="0.02">
+          <p class="bless__see">See you on Sunday at 9:00 AM. Come as you are.</p>
+          <div class="row">
+            <button class="btn btn--lime" type="button" data-cal>Add Sunday to my calendar</button>
+            <a class="btn btn--line" href="https://www.google.com/maps/search/?api=1&amp;query=6.689213,-1.570109" target="_blank" rel="noopener">Get directions</a>
+          </div>
+          <p class="saved" data-saved aria-live="polite"></p>
+        </div>
+      </div>
+      <footer class="foot">
+        <span>The Church of Pentecost · Royal Assembly · Ayigya District, Kumasi, Ghana</span>
+        <span>Every photo on this page is of our own congregation. © <span data-year>2026</span></span>
+      </footer>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
+<script src="scrollcraft.js"></script>
+<script>ScrollCraft.mount(document.body);</script>
+<script>
+(() => {
+  'use strict';
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  $('[data-year]').textContent = new Date().getFullYear();
+
+  /* ── Premium motion ──────────────────────────────────────────────────────
+     1. Smooth scrolling on desktop (Lenis): the wheel glides and settles.
+     2. Each driven act gets a smoothed progress with eased variants, so
+        layers accelerate and land instead of tracking the wheel linearly.
+     3. Scroll speed (--vel, --speed) and the pointer (--px, --py) feed a few
+        layers, a touch, so the page feels driven rather than played back.
+     All of it is off under reduced motion. */
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
+  const clamp01 = v => Math.min(1, Math.max(0, v));
+  const ease = {
+    io: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+    out: t => 1 - Math.pow(1 - t, 4),
+    in3: t => t * t * t,
+    back: t => { const c1 = 1.25, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); }
+  };
+  let lenis = null;
+  if (!reduce.matches && finePointer.matches && window.Lenis) {
+    lenis = new Lenis({ lerp: 0.085, wheelMultiplier: 0.95, smoothWheel: true });
+    document.addEventListener('click', e => {
+      const a = e.target.closest('a[href^="#"]');
+      if (!a) return;
+      const target = document.querySelector(a.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      lenis.scrollTo(target, { duration: 1.6, easing: t => t < .5 ? 16 * Math.pow(t, 5) : 1 - Math.pow(-2 * t + 2, 5) / 2 });
+      history.replaceState(null, '', a.getAttribute('href'));
+    });
+  }
+  const driven = $$('[data-motion]').map(el => ({ el, pinned: ['pin', 'scrub', 'pan'].includes(el.dataset.scAct), s: -1, last: {} }));
+  const heroEl = $('#welcome');
+  const docRoot = document.documentElement;
+  let lastY = scrollY, lastT = 0, vel = 0, lastVel = 99, px = 0, py = 0, tx = 0, ty = 0, lastPx = 99, running = false;
+  function rawProgress(d) {
+    const r = d.el.getBoundingClientRect(), vh = innerHeight;
+    if (r.bottom < -vh * .5 || r.top > vh * 1.5) return null;          // far off screen: leave it be
+    if (d.pinned) { const range = r.height - vh; return range > 0 ? clamp01(-r.top / range) : clamp01(-r.top / vh); }
+    return clamp01((vh - r.top) / (r.height + vh));
+  }
+  function put(d, name, v) { if (Math.abs((d.last[name] ?? -9) - v) > 0.0006) { d.last[name] = v; d.el.style.setProperty(name, v.toFixed(4)); } }
+  function frame(now) {
+    if (lenis) lenis.raf(now);
+    const dt = Math.min(64, now - (lastT || now)); lastT = now;
+    const k = 1 - Math.pow(1 - (lenis ? 0.22 : 0.14), dt / 16.667);
+    driven.forEach(d => {
+      const t = rawProgress(d); if (t === null) return;
+      d.s = d.s < 0 ? t : d.s + (t - d.s) * k;
+      put(d, '--m', d.s);
+      put(d, '--m-io', ease.io(d.s));
+      put(d, '--m-out', ease.out(d.s));
+      put(d, '--m-in3', ease.in3(d.s));
+      put(d, '--m-fb', ease.back(clamp01(d.s * 1.8)));
+    });
+    if (orbitAct) orbit();
+    // Scroll speed: a signed, smoothed lean and an unsigned intensity.
+    const y = scrollY, v = dt > 0 ? (y - lastY) / dt : 0; lastY = y;
+    vel += (Math.max(-1, Math.min(1, v / 2.2)) - vel) * (1 - Math.pow(0.88, dt / 16.667));
+    if (Math.abs(vel - lastVel) > 0.004) { lastVel = vel; docRoot.style.setProperty('--vel', vel.toFixed(3)); docRoot.style.setProperty('--speed', Math.abs(vel).toFixed(3)); }
+    // Pointer depth on the hero planes: interpolated, never tracked directly.
+    const pk = 1 - Math.pow(0.9, dt / 16.667);
+    px += (tx - px) * pk; py += (ty - py) * pk;
+    if (Math.abs(px - lastPx) > 0.002) { lastPx = px; heroEl.style.setProperty('--px', px.toFixed(3)); heroEl.style.setProperty('--py', py.toFixed(3)); }
+    if (!document.hidden && !reduce.matches) requestAnimationFrame(frame); else running = false;
+  }
+  /* ── The Fellowship orbit: faces circle the frame as you scroll ── */
+  const orbitAct = driven.find(d => d.el.id === 'fellowship');
+  const orbitBox = $('.portrait'), orbitFaces = $$('.faces img');
+  let orbitLast = '';
+  function orbit(still) {
+    const d = orbitAct;
+    if (!still && d.s < 0) return;
+    const visible = orbitFaces.filter(f => f.offsetParent !== null);
+    const W = orbitBox.offsetWidth, H = orbitBox.offsetHeight; if (!W) return;
+    const s = still ? 0.55 : d.s;
+    const k = still ? 1 : ease.out(clamp01(s * 1.7));                 // gather in
+    const spin = still ? 0 : s * Math.PI * 1.25;                       // then keep circling
+    const spread = 1 + (1 - k) * 1.3;
+    const narrow = innerWidth < 860;
+    const rx = W * (narrow ? 0.98 : 0.92) * spread, ry = H * (narrow ? 0.66 : 0.6) * spread;
+    const key = `${s.toFixed(4)}|${W}|${visible.length}`;
+    if (key === orbitLast) return; orbitLast = key;
+    visible.forEach((f, i) => {
+      const a = (i / visible.length) * Math.PI * 2 - Math.PI / 2 + spin;
+      const x = Math.cos(a) * rx, y = Math.sin(a) * ry;
+      const depth = Math.sin(a);                                       // +1 nearest, -1 farthest
+      const scale = 0.74 + 0.34 * (depth + 1) / 2;
+      f.style.zIndex = depth > 0.15 ? 5 : 1;
+      f.style.opacity = ((0.45 + 0.55 * (depth + 1) / 2) * k).toFixed(3);
+      f.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${(Math.cos(a) * 7).toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+    });
+  }
+  // Motion off, or before the first frame: a still ring, already gathered.
+  orbit(true);
+  addEventListener('resize', () => { orbitLast = ''; orbit(reduce.matches); });
+
+  function startMotion() { if (running || reduce.matches) return; running = true; lastT = 0; requestAnimationFrame(frame); }
+  if (finePointer.matches) heroEl.addEventListener('pointermove', e => { tx = (e.clientX / innerWidth - .5) * 2; ty = (e.clientY / innerHeight - .5) * 2; }, { passive: true });
+  heroEl.addEventListener('pointerleave', () => { tx = 0; ty = 0; });
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) startMotion(); });
+  reduce.addEventListener('change', e => { if (e.matches) { lenis && lenis.stop(); } else { lenis && lenis.start(); startMotion(); } });
+  startMotion();
+
+  /* ── The order of service follows the reader ── */
+  const acts = $$('[data-moment-act]');
+  const links = $$('.prog [data-moment]');
+  const stripNow = $('[data-strip-now]');
+  const LABEL = { welcome: 'Welcome', praise: 'Praise', word: 'The Word', fellowship: 'Fellowship', ministries: 'Ministries', notices: 'Notices', benediction: 'Benediction' };
+  let current = '';
+  function placeReader() {
+    const line = innerHeight * 0.45;
+    let idx = 0;
+    acts.forEach((a, i) => { if (a.getBoundingClientRect().top <= line) idx = i; });
+    const id = acts[idx].dataset.momentAct;
+    if (id === current) return;
+    current = id;
+    links.forEach((l, i) => {
+      l.classList.toggle('is-now', i === idx);
+      l.classList.toggle('is-past', i < idx);
+      if (i === idx) l.setAttribute('aria-current', 'step'); else l.removeAttribute('aria-current');
+    });
+    stripNow.textContent = 'Order of Service · ' + LABEL[id];
+  }
+  let queued = false;
+  addEventListener('scroll', () => { if (!queued) { queued = true; requestAnimationFrame(() => { queued = false; placeReader(); }); } }, { passive: true });
+  addEventListener('resize', placeReader);
+  placeReader();
+
+  /* ── The signature: your Akan day name, carried down the page ── */
+  const DAYS = [
+    { day: 'Sunday', m: 'Kwasi', f: 'Akosua', cls: 'Kwasiada' },
+    { day: 'Monday', m: 'Kwadwo', f: 'Adwoa', cls: 'Dwoada' },
+    { day: 'Tuesday', m: 'Kwabena', f: 'Abena', cls: 'Benada' },
+    { day: 'Wednesday', m: 'Kwaku', f: 'Akua', cls: 'Wukuada' },
+    { day: 'Thursday', m: 'Yaw', f: 'Yaa', cls: 'Yawoada' },
+    { day: 'Friday', m: 'Kofi', f: 'Afua', cls: 'Fiada' },
+    { day: 'Saturday', m: 'Kwame', f: 'Ama', cls: 'Memeneda' }
+  ];
+  const state = { day: null, g: 'm' };
+  try { Object.assign(state, JSON.parse(localStorage.getItem('ra-dayname') || '{}')); } catch {}
+  const nameOf = () => state.day === null ? null : DAYS[state.day][state.g === 'f' ? 'f' : 'm'];
+
+  function spell(el, text) {
+    el.textContent = '';
+    [...text].forEach((ch, i) => { const s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--i', i); s.textContent = ch; el.appendChild(s); });
+    el.setAttribute('aria-label', text);
+  }
+  function render(animate) {
+    const name = nameOf();
+    $$('.day').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.day === state.day)));
+    $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === state.g)));
+    if (!name) return;
+    const d = DAYS[state.day];
+    $('[data-hello]').textContent = `Akwaaba, ${d.day}-born`;
+    if (animate) spell($('[data-name]'), name + '.'); else $('[data-name]').textContent = name + '.';
+    $('[data-text]').textContent = `On Sunday you join the ${d.cls} class for Bible study, with everyone born on a ${d.day}.`;
+    // Carried everywhere after this: the programme, the notices, the blessing.
+    $('[data-for]').innerHTML = `Prepared for <b>${name}</b> · Sunday 9:00 AM`;
+    $('[data-name-lead]').textContent = `${name}, `;
+    $('[data-name-bless]').textContent = `${name}, `;
+    $('[data-bless-the]').textContent = 'the';
+  }
+  function choose(patch) {
+    Object.assign(state, patch);
+    try { localStorage.setItem('ra-dayname', JSON.stringify(state)); } catch {}
+    render(true);
+  }
+  $$('.day').forEach(b => b.addEventListener('click', () => choose({ day: +b.dataset.day })));
+  $$('.seg button').forEach(b => b.addEventListener('click', () => choose({ g: b.dataset.g })));
+  $('#dob').addEventListener('change', e => {
+    const v = e.target.value; if (!v) return;
+    const [y, m, d] = v.split('-').map(Number);
+    choose({ day: new Date(Date.UTC(y, m - 1, d)).getUTCDay() });
+  });
+  render(false);
+  // "Here is how to join us" reads naturally with or without a name in front.
+  const lead = $('[data-name-lead]');
+  const fixCase = () => { const h = $('#notices-h'); const t = h.lastChild; if (t && t.nodeType === 3) t.textContent = lead.textContent ? 'here is how to join us.' : 'Here is how to join us.'; };
+  new MutationObserver(fixCase).observe(lead, { childList: true, characterData: true, subtree: true }); fixCase();
+
+  /* ── Add Sunday to my calendar: a weekly event, named for the visitor ── */
+  function nextSunday() {
+    const now = new Date();
+    const d = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+    const add = (7 - d.getUTCDay()) % 7 || (now.getUTCHours() >= 9 ? 7 : 0);
+    d.setUTCDate(d.getUTCDate() + add);
+    return d;
+  }
+  const stamp = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+  $$('[data-cal]').forEach(btn => btn.addEventListener('click', () => {
+    const name = nameOf();
+    const day = nextSunday();
+    const start = new Date(day); start.setUTCHours(9, 0, 0, 0);      // Ghana keeps UTC all year
+    const end = new Date(day); end.setUTCHours(12, 0, 0, 0);
+    const ics = [
+      'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Royal Assembly//Sunday//EN', 'CALSCALE:GREGORIAN',
+      'BEGIN:VEVENT', 'UID:sunday-divine-service@royal-assembly', 'DTSTAMP:' + stamp(new Date()),
+      'DTSTART:' + stamp(start), 'DTEND:' + stamp(end), 'RRULE:FREQ=WEEKLY;BYDAY=SU',
+      'SUMMARY:Sunday Divine Service · Royal Assembly',
+      'LOCATION:Royal Assembly\\, The Church of Pentecost\\, Ayigya\\, Kumasi (MCQH+MXJ)',
+      'GEO:6.689213;-1.570109',
+      'DESCRIPTION:' + (name ? `Akwaaba\\, ${name}. ` : 'Akwaaba. ') + 'Come as you are.',
+      'END:VEVENT', 'END:VCALENDAR'
+    ].join('\r\n');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([ics], { type: 'text/calendar' }));
+    a.download = 'royal-assembly-sunday.ics';
+    document.body.appendChild(a); a.click(); a.remove();
+    $$('[data-saved]').forEach(n => n.textContent = 'Saved. Open the file to add every Sunday at 9:00 AM to your calendar.');
+  }));
+})();
+</script>
+</body>
+</html>
