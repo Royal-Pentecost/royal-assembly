@@ -213,10 +213,9 @@
   .rail__note { width: min(20rem, 70vw); display: flex; flex-direction: column; justify-content: center; border-left: 1px solid rgba(20,33,74,.3); padding-left: clamp(1.25rem, 2vw, 2rem); }
   .rail__note p { font: 700 var(--sc-t-xl)/1.15 var(--sc-font-display); letter-spacing: var(--sc-track-snug); }
   @media (prefers-reduced-motion: no-preference) {
-    .rail > :not(:first-child) { --ri: 0; --t: clamp(0, calc(var(--m, 0) * 7 - var(--ri) + .6), 1); opacity: calc(.35 + var(--t) * .65); transform: translate3d(calc((1 - var(--t)) * 14vw), calc((1 - var(--t)) * 3rem), 0) rotate(calc((1 - var(--t)) * 5deg)); transform-origin: left bottom; }
-    .rail > :not(:first-child) figure { transform: skewX(calc(var(--vel, 0) * -5deg)) scale(calc(1 - var(--speed, 0) * .03)); }
+    .rail > :not(:first-child) { --ri: 0; --t: clamp(0, calc(var(--m, 0) * 7 - var(--ri) + .6), 1); opacity: calc(.35 + var(--t) * .65); transform: translate3d(calc((1 - var(--t)) * 14vw), calc((1 - var(--t)) * 3rem), 0) rotate(calc((1 - var(--t)) * 5deg)); transform-origin: left bottom; will-change: transform, opacity; }
     /* Each photo travels inside its frame against the rail's direction: depth. */
-    .min img { transform: translate3d(calc((var(--m, 0) * 7 - var(--ri) - .5) * -5%), 0, 0) scale(calc(1.18 + var(--speed, 0) * .04)); }
+    .min img { transform: translate3d(calc((var(--m, 0) * 7 - var(--ri) - .5) * -5%), 0, 0) scale(1.18); will-change: transform; }
     .rail__lead { opacity: calc(1 - clamp(0, calc(var(--m, 0) * 4 - .4), .55)); transform: translate3d(calc(var(--m, 0) * -3vw), 0, 0); }
   }
 
@@ -272,7 +271,7 @@
   /* Photo treatment on section images: a soft gradient from the foot and a
      faint navy multiply, so every photograph sits in the same church light. */
   .min figure, .hall, .word__pulpit { position: relative; isolation: isolate; }
-  .min figure::after, .hall::after, .word__pulpit::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(11,18,48,.38), rgba(11,18,48,0) 45%), rgba(27,45,107,.12); mix-blend-mode: multiply; }
+  .min figure::after, .hall::after, .word__pulpit::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(0deg, rgba(11,18,48,.38), rgba(11,18,48,0) 45%), rgba(27,45,107,.12); }
   .hall figcaption { z-index: 1; }
 
   /* ── Reduced motion: complete and still, no pinned travel for the hero ── */
@@ -293,7 +292,6 @@
 <body>
 <a class="skip" href="#main">Skip to the page</a>
 <span data-sc-progress></span>
-<div class="sc-grain" aria-hidden="true"></div>
 
 <!-- The order of service: the page's only navigation -->
 <nav class="prog" aria-label="Order of service">
@@ -377,7 +375,7 @@
   <section id="word" class="word g-paper" data-sc-act="flow" data-moment-act="word" data-motion aria-labelledby="word-h">
     <h2 id="word-h" class="sc-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">The Word</h2>
     <div class="lane word__grid">
-      <div data-sc-reveal="up" data-sc-reveal-at="0.12 0.42">
+      <div data-sc-in>
         <blockquote class="word__verse">
           <p>I was glad when they said unto me, Let us go into <em>the house of the LORD.</em></p>
           <footer>Psalm 122:1</footer>
@@ -385,7 +383,7 @@
       </div>
       <div class="word__side" data-sc-in>
         <figure class="word__pulpit">
-          <img src="assets/word-pulpit.webp" alt="A preacher at the clear pulpit of Royal Assembly, microphone in hand, the Ghana flag beside him" width="1000" height="1250" loading="lazy">
+          <img src="assets/word-pulpit.webp" alt="A preacher at the clear pulpit of Royal Assembly, microphone in hand, the Ghana flag beside him" width="1000" height="1250" loading="lazy" decoding="async">
         </figure>
         <p class="word__note">Every Sunday we open the Bible together, in English and Twi. Then we study it in small classes, grouped by the day you were born.</p>
       </div>
@@ -448,11 +446,11 @@
           <h2 id="min-h">A place for every season of life.</h2>
           <p>Five ministries, one family. Find where you fit.</p>
         </div>
-        <article class="min" style="--ri:1"><figure><img src="assets/min-youth.webp" alt="Two members of the Youth Ministry smiling inside a lime photo frame" loading="lazy"></figure><h3>Youth</h3><p>Young people growing in faith together, full of energy and purpose.</p></article>
-        <article class="min" style="--ri:2"><figure><img src="assets/min-children.webp" alt="Children of the assembly sitting together in church" loading="lazy"></figure><h3>Children</h3><p>Bible lessons made for young hearts, every Sunday.</p></article>
-        <article class="min" style="--ri:3"><figure><img src="assets/min-womens.webp" alt="Two members of the Women's Ministry in matching church cloth" loading="lazy"></figure><h3>Women</h3><p>Prayer, friendship and strength for every woman of the church.</p></article>
-        <article class="min" style="--ri:4"><figure><img src="assets/min-mens.webp" alt="A member of the Men's Ministry in the church cloth" loading="lazy"></figure><h3>Men</h3><p>Men standing together in faith, at home and in the church.</p></article>
-        <article class="min" style="--ri:5"><figure><img src="assets/min-evangelism.webp" alt="Members of the assembly smiling and waving in church cloth" loading="lazy"></figure><h3>Evangelism</h3><p>Every member belongs to it. We carry the good news of Jesus to Ayigya and beyond.</p></article>
+        <article class="min" style="--ri:1"><figure><img src="assets/min-youth.webp" alt="Two members of the Youth Ministry smiling inside a lime photo frame" loading="lazy" decoding="async"></figure><h3>Youth</h3><p>Young people growing in faith together, full of energy and purpose.</p></article>
+        <article class="min" style="--ri:2"><figure><img src="assets/min-children.webp" alt="Children of the assembly sitting together in church" loading="lazy" decoding="async"></figure><h3>Children</h3><p>Bible lessons made for young hearts, every Sunday.</p></article>
+        <article class="min" style="--ri:3"><figure><img src="assets/min-womens.webp" alt="Two members of the Women's Ministry in matching church cloth" loading="lazy" decoding="async"></figure><h3>Women</h3><p>Prayer, friendship and strength for every woman of the church.</p></article>
+        <article class="min" style="--ri:4"><figure><img src="assets/min-mens.webp" alt="A member of the Men's Ministry in the church cloth" loading="lazy" decoding="async"></figure><h3>Men</h3><p>Men standing together in faith, at home and in the church.</p></article>
+        <article class="min" style="--ri:5"><figure><img src="assets/min-evangelism.webp" alt="Members of the assembly smiling and waving in church cloth" loading="lazy" decoding="async"></figure><h3>Evangelism</h3><p>Every member belongs to it. We carry the good news of Jesus to Ayigya and beyond.</p></article>
         <div class="rail__note" style="--ri:6"><p>Not sure where you fit? Ask an usher on Sunday.</p></div>
       </div>
     </div>
@@ -474,8 +472,8 @@
           </div>
           <p class="saved" data-saved aria-live="polite"></p>
         </div>
-        <figure class="hall" data-sc-reveal="left" data-sc-reveal-at="0.1 0.4">
-          <img src="assets/hall.webp" alt="Inside the Royal Assembly auditorium, with The Church of Pentecost Royal Assembly sign on the stone wall" width="1080" height="810" loading="lazy">
+        <figure class="hall" data-sc-in>
+          <img src="assets/hall.webp" alt="Inside the Royal Assembly auditorium, with The Church of Pentecost Royal Assembly sign on the stone wall" width="1080" height="810" loading="lazy" decoding="async">
           <figcaption>The Royal Assembly auditorium</figcaption>
         </figure>
       </div>
@@ -510,7 +508,7 @@
   <!-- 7 · BENEDICTION (the close: resolves and holds) -->
   <section id="benediction" class="bless g-deep" data-sc-act="pin" data-sc-span="1.3" data-moment-act="benediction" data-motion aria-labelledby="bless-h">
     <div data-sc-stage>
-      <img class="bless__people" src="assets/bless-congregation.webp" alt="" loading="lazy">
+      <img class="bless__people" src="assets/bless-congregation.webp" alt="" loading="lazy" decoding="async">
       <div class="bless__inner">
         <h2 id="bless-h" class="sc-label" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">Benediction</h2>
         <blockquote data-sc-cue="0 1 0 0">
@@ -547,8 +545,8 @@
      1. Smooth scrolling on desktop (Lenis): the wheel glides and settles.
      2. Each driven act gets a smoothed progress with eased variants, so
         layers accelerate and land instead of tracking the wheel linearly.
-     3. Scroll speed (--vel, --speed) and the pointer (--px, --py) feed a few
-        layers, a touch, so the page feels driven rather than played back.
+     3. The pointer (--px, --py) feeds the hero planes, a touch, so the page
+        feels driven rather than played back.
      All of it is off under reduced motion. */
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const finePointer = matchMedia('(hover: hover) and (pointer: fine)');
@@ -574,8 +572,7 @@
   }
   const driven = $$('[data-motion]').map(el => ({ el, pinned: ['pin', 'scrub', 'pan'].includes(el.dataset.scAct), s: -1, last: {} }));
   const heroEl = $('#welcome');
-  const docRoot = document.documentElement;
-  let lastY = scrollY, lastT = 0, vel = 0, lastVel = 99, px = 0, py = 0, tx = 0, ty = 0, lastPx = 99, running = false;
+  let lastT = 0, px = 0, py = 0, tx = 0, ty = 0, lastPx = 99, running = false;
   function rawProgress(d) {
     const r = d.el.getBoundingClientRect(), vh = innerHeight;
     if (r.bottom < -vh * .5 || r.top > vh * 1.5) return null;          // far off screen: leave it be
@@ -598,10 +595,6 @@
       put(d, '--m-fb', ease.back(clamp01(d.s * 1.8)));
     });
     if (orbitAct) orbit();
-    // Scroll speed: a signed, smoothed lean and an unsigned intensity.
-    const y = scrollY, v = dt > 0 ? (y - lastY) / dt : 0; lastY = y;
-    vel += (Math.max(-1, Math.min(1, v / 2.2)) - vel) * (1 - Math.pow(0.88, dt / 16.667));
-    if (Math.abs(vel - lastVel) > 0.004) { lastVel = vel; docRoot.style.setProperty('--vel', vel.toFixed(3)); docRoot.style.setProperty('--speed', Math.abs(vel).toFixed(3)); }
     // Pointer depth on the hero planes: interpolated, never tracked directly.
     const pk = 1 - Math.pow(0.9, dt / 16.667);
     px += (tx - px) * pk; py += (ty - py) * pk;

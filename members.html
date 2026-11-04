@@ -171,7 +171,7 @@
   .door:nth-child(3) { grid-column: span 5; }
   .door:nth-child(4) { grid-column: span 7; }
   .door img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; transform: scale(1.04); transition: transform 1200ms var(--glide); }
-  .door::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(7,12,34,.94) 0%, rgba(7,12,34,.35) 55%, rgba(7,12,34,.05) 100%), rgba(27,45,107,.18); mix-blend-mode: multiply; }
+  .door::before { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(0deg, rgba(7,12,34,.94) 0%, rgba(7,12,34,.35) 55%, rgba(7,12,34,.05) 100%), rgba(27,45,107,.18); }
   .door::after { content: ""; position: absolute; inset: 14px; border-radius: 12px; box-shadow: inset 0 0 0 4px var(--lime); opacity: 0; transform: scale(1.03); transition: opacity 400ms var(--glide), transform 600ms var(--spring); pointer-events: none; }
   .door__body { position: absolute; left: 1.6rem; right: 1.6rem; bottom: 1.4rem; display: block; }
   .door__kick { display: block; font: 700 .76rem/1 var(--sc-font-text); letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
@@ -202,7 +202,7 @@
   .lcard.rv.done { transition: box-shadow 400ms var(--glide); }
   .lcard__media { position: relative; aspect-ratio: 4 / 4.6; overflow: hidden; isolation: isolate; background: radial-gradient(circle at 30% 20%, #2A3B7E, #101A3D 70%); }
   .lcard__media img { width: 100%; height: 100%; object-fit: cover; transition: transform 1000ms var(--glide); }
-  .lcard__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(11,18,48,.96) 0%, rgba(11,18,48,.3) 48%, rgba(11,18,48,0) 70%), rgba(27,45,107,.12); mix-blend-mode: multiply; }
+  .lcard__media::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(11,18,48,.96) 0%, rgba(11,18,48,.3) 48%, rgba(11,18,48,0) 70%), rgba(27,45,107,.12); }
   .lcard__initials { position: absolute; inset: 14% 22% 38%; display: grid; place-items: center; border: 6px solid var(--lime); border-radius: 6px; font: 800 clamp(2.2rem, 4vw, 3.2rem)/1 var(--sc-font-display); letter-spacing: -.03em; color: var(--sc-ink); }
   .lcard__body { position: absolute; left: 0; right: 0; bottom: 0; padding: 1.2rem 1.3rem 1.25rem; z-index: 1; }
   .lcard__title { display: inline-block; font: 700 .72rem/1 var(--sc-font-text); letter-spacing: .12em; text-transform: uppercase; color: #0B1230; background: var(--lime); padding: .38rem .55rem; border-radius: 6px; }
@@ -230,7 +230,7 @@
   .gallery { columns: 3 17rem; column-gap: 1.1rem; }
   .ph { position: relative; display: block; width: 100%; margin: 0 0 1.1rem; padding: 0; border: 0; border-radius: 16px; overflow: hidden; cursor: zoom-in; background: var(--raise); break-inside: avoid; isolation: isolate; box-shadow: 0 20px 40px -26px rgba(0,0,0,.8); font: inherit; }
   .ph img { width: 100%; height: auto; display: block; transform: scale(1.02); transition: transform 1200ms var(--glide); }
-  .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7,12,34,.7), rgba(7,12,34,0) 40%), rgba(27,45,107,.1); mix-blend-mode: multiply; opacity: .7; transition: opacity 400ms var(--glide); pointer-events: none; }
+  .ph::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(7,12,34,.7), rgba(7,12,34,0) 40%), rgba(27,45,107,.1); opacity: .7; transition: opacity 400ms var(--glide); pointer-events: none; }
   .ph span { position: absolute; left: 1rem; right: 1rem; bottom: .8rem; z-index: 1; color: #fff; font-weight: 700; font-size: .92rem; transform: translateY(6px); opacity: .85; transition: transform 400ms var(--glide), opacity 400ms var(--glide); text-align: left; }
   .ph:active { transform: scale(.99); }
   @media (hover: hover) and (pointer: fine) {
@@ -353,7 +353,6 @@
 <body>
 <a class="skip" href="#main">Skip to the page</a>
 <div class="env" aria-hidden="true"></div>
-<div class="sc-grain" aria-hidden="true"></div>
 
 <header class="bar">
   <a class="brand" href="index.html"><img src="assets/cop-logo.png" alt="" width="37" height="37"><span><b>Royal Assembly</b><small>Members</small></span></a>
