@@ -659,8 +659,10 @@
   // changed in the app shows here without signing in again.
   async function freshMe() {
     if (!member || !member.id) return;
+    const was = session;
     try {
       const fresh = await api(`/api/v1/accounts/members/${encodeURIComponent(member.id)}/`);
+      if (!session || session !== was) return;                         // signed out while it was on its way
       member = { ...member, ...fresh };
       try { localStorage.setItem(KEY, JSON.stringify({ session, member })); } catch {}
       showMe(); applyRole();
@@ -674,13 +676,25 @@
   function signOutLocal() {
     session = null; member = null;
     try { localStorage.removeItem(KEY); } catch {}
+    // Drop the #home / #members address too, so nothing here still points into the account.
+    try { history.replaceState(null, '', location.pathname + location.search); } catch {}
     $('.tabs').hidden = true; $('.me').hidden = true;
     roll = [];
     show('signin'); startCode();
   }
   $$('.tabs [data-tab]').forEach(b => b.addEventListener('click', () => show(b.dataset.tab)));
   document.addEventListener('click', e => { const d = e.target.closest('[data-go]'); if (d) show(d.dataset.go); });
-  $('[data-signout]').addEventListener('click', async () => { try { await api('/api/v1/auth/web-logout/', { method: 'POST' }); } catch {} signOutLocal(); });
+  // Forget the session here at once, then tell the server. Waiting for a slow
+  // (waking) server first left this browser signed in if the page was left meanwhile.
+  $('[data-signout]').addEventListener('click', () => {
+    const was = session;
+    signOutLocal();
+    if (was) fetch(API + '/api/v1/auth/web-logout/', { method: 'POST', headers: { Accept: 'application/json', Authorization: `Web ${was}` }, keepalive: true }).catch(() => {});
+  });
+  // Signed out in another tab: this one follows instead of saving the session back.
+  addEventListener('storage', e => { if ((e.key === KEY || e.key === null) && !e.newValue && session) signOutLocal(); });
+  // Brought back by the Back button after signing out: check again rather than trust the old page.
+  addEventListener('pageshow', e => { let saved = null; try { saved = localStorage.getItem(KEY); } catch {} if (e.persisted && session && !saved) signOutLocal(); });
 
   /* ── Sign in by QR, beside a slowly rising wall of the congregation ── */
   const wall = $('[data-wall]');
