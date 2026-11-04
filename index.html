@@ -141,6 +141,11 @@
 
   /* ── 2 · PRAISE ── */
   .praise .sc-copy h2 { max-width: 12ch; }
+  /* One dancer, not a film: settles in as the act scrolls. On a wide screen he
+     stands on the right and the words sit on navy, clear of his face. */
+  .praise__photo { object-position: 50% 16%; transform: scale(calc(1.1 - var(--m-out, 0) * .1)); transform-origin: 50% 30%; will-change: transform; }
+  @media (min-width: 860px) { .praise .sc-stage .praise__photo { left: auto; width: 54%; object-position: 50% 20%; } }
+  @media (prefers-reduced-motion: reduce) { .praise__photo { transform: none; } }
   .praise .sc-body { color: var(--sc-ink); margin-top: var(--sc-5); max-width: 30ch; font-size: var(--sc-t-lg); }
 
   /* ── 3 · THE WORD: paper, one verse, nothing else moving ── */
@@ -359,14 +364,13 @@
   </section>
 
   <!-- 2 · PRAISE -->
-  <section id="praise" class="praise g-navy" data-sc-act="scrub" data-sc-span="2.6" data-sc-dwell="0.32" data-moment-act="praise" aria-label="Praise">
+  <section id="praise" class="praise g-navy" data-sc-act="pin" data-sc-span="1.8" data-moment-act="praise" data-motion aria-label="Praise">
     <div data-sc-stage>
-      <img class="sc-stage__poster" src="assets/praise-poster.webp" alt="">
-      <video data-sc-scrub data-sc-src="assets/praise.mp4" data-sc-src-mobile="assets/praise-m.mp4" muted playsinline aria-hidden="true" tabindex="-1"></video>
+      <img class="sc-stage__poster praise__photo" src="assets/praise-dance.webp" alt="A young man of Royal Assembly dancing in the aisle, smiling, a green handkerchief raised" width="1100" height="1650">
       <div class="sc-scrim sc-scrim--lead" aria-hidden="true"></div>
       <div class="sc-copy sc-copy--lead" data-sc-cue="0.08 0.9 0.2 0.12">
         <h2 class="sc-display sc-display--lg" data-sc-kinetic="lines">Praise that fills the whole room.</h2>
-        <p class="sc-body">Voices, hands raised, dancing in the aisles. Come ready to sing.</p>
+        <p class="sc-body">Voices, hands raised, dancing in the aisles. Come ready to praise.</p>
       </div>
     </div>
   </section>
