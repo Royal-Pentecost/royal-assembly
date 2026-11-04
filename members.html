@@ -38,7 +38,7 @@
 
   /* One environment behind every view: two slow glows, like light in the hall. */
   .env { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; }
-  .env::before, .env::after { content: ""; position: absolute; width: 80vmax; height: 80vmax; border-radius: 50%; filter: blur(80px); animation: drift 80s var(--sc-ease-in-out) infinite alternate; }
+  .env::before, .env::after { content: ""; position: absolute; width: 80vmax; height: 80vmax; border-radius: 50%; }
   .env::before { left: -30vmax; top: -30vmax; background: radial-gradient(circle, rgba(61,90,200,.28), transparent 62%); animation-delay: -20s; }
   .env::after { right: -35vmax; bottom: -40vmax; background: radial-gradient(circle, rgba(200,218,43,.12), transparent 62%); animation-delay: -50s; }
   @keyframes drift { to { transform: translate(14vmax, 10vmax) scale(1.1); } }
@@ -57,7 +57,7 @@
   }
 
   /* ── Top bar with a sliding lime indicator ── */
-  .bar { position: sticky; top: 0; z-index: 60; height: var(--bar-h); display: flex; align-items: center; gap: 1rem; padding: 0 var(--sc-gutter); background: rgba(11,18,48,.72); backdrop-filter: blur(16px) saturate(1.3); box-shadow: 0 1px 0 var(--line); }
+  .bar { position: sticky; top: 0; z-index: 60; height: var(--bar-h); display: flex; align-items: center; gap: 1rem; padding: 0 var(--sc-gutter); background: rgba(11,18,48,.97); box-shadow: 0 1px 0 var(--line); }
   .brand { display: flex; align-items: center; gap: .65rem; text-decoration: none; color: inherit; flex: none; }
   .brand img { width: 2.3rem; height: 2.3rem; border-radius: 50%; background: #fff; padding: 2px; }
   .brand b { display: block; font: 800 1.05rem/1.05 var(--sc-font-display); letter-spacing: -.01em; }
@@ -177,7 +177,7 @@
   .door__kick { display: block; font: 700 .76rem/1 var(--sc-font-text); letter-spacing: .14em; text-transform: uppercase; color: var(--lime); }
   .door__title { display: block; font: 800 clamp(1.8rem, 1.3rem + 1.6vw, 2.8rem)/1 var(--sc-font-display); letter-spacing: -.03em; margin-top: .55rem; }
   .door__text { display: block; color: #D7DDF0; margin-top: .45rem; max-width: 36ch; }
-  .door__go { position: absolute; right: 1.4rem; top: 1.4rem; width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: rgba(255,255,255,.14); backdrop-filter: blur(6px); transition: transform 500ms var(--spring), background-color 300ms var(--glide), color 300ms var(--glide); }
+  .door__go { position: absolute; right: 1.4rem; top: 1.4rem; width: 3rem; height: 3rem; border-radius: 50%; display: grid; place-items: center; background: rgba(11,18,48,.55); transition: transform 500ms var(--spring), background-color 300ms var(--glide), color 300ms var(--glide); }
   .door__go svg { width: 1.2rem; height: 1.2rem; }
   .door:active { transform: scale(.99); }
   @media (hover: hover) and (pointer: fine) {
@@ -547,7 +547,6 @@
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script>
 (() => {
   'use strict';

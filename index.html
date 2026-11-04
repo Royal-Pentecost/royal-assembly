@@ -64,7 +64,7 @@
   /* ── The order of service: the page's only navigation ── */
   /* The order of service, as a slim bar along the top. It used to be a card at the
      left edge, and the page's photos and cards slid underneath it. */
-  .prog { position: fixed; z-index: var(--sc-z-chrome); top: .9rem; left: 50%; translate: -50% 0; width: min(84rem, calc(100% - 1.8rem)); display: flex; align-items: center; gap: 1rem; padding: .45rem .5rem .45rem .7rem; border-radius: 18px; background: rgba(247,248,252,.94); backdrop-filter: blur(14px) saturate(1.2); color: #14214A; box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 12px 30px -14px rgba(10,16,40,.45); }
+  .prog { position: fixed; z-index: var(--sc-z-chrome); top: .9rem; left: 50%; translate: -50% 0; width: min(84rem, calc(100% - 1.8rem)); display: flex; align-items: center; gap: 1rem; padding: .45rem .5rem .45rem .7rem; border-radius: 18px; background: rgba(247,248,252,.97); color: #14214A; box-shadow: 0 1px 0 rgba(255,255,255,.6) inset, 0 12px 30px -14px rgba(10,16,40,.45); }
   .prog__brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: inherit; flex: none; }
   .prog__brand img { width: 2.2rem; height: 2.2rem; }
   .prog__brand b { display: block; font: 800 1rem/1.05 var(--sc-font-display); letter-spacing: -.01em; }
@@ -534,7 +534,6 @@
   </section>
 </main>
 
-<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.13/dist/lenis.min.js"></script>
 <script src="scrollcraft.js"></script>
 <script>ScrollCraft.mount(document.body);</script>
 <script>
@@ -587,7 +586,8 @@
   function frame(now) {
     if (lenis) lenis.raf(now);
     const dt = Math.min(64, now - (lastT || now)); lastT = now;
-    const k = 1 - Math.pow(1 - (lenis ? 0.22 : 0.14), dt / 16.667);
+    // Light smoothing only: the layers follow the scroll almost at once, eased but never trailing.
+    const k = 1 - Math.pow(1 - 0.42, dt / 16.667);
     driven.forEach(d => {
       const t = rawProgress(d); if (t === null) return;
       d.s = d.s < 0 ? t : d.s + (t - d.s) * k;
