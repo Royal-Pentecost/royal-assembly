@@ -186,6 +186,13 @@
     .door:hover .door__go { transform: rotate(-45deg); background: var(--lime); color: #0B1230; }
   }
   .door:focus-visible::after { opacity: 1; transform: none; }
+  /* Your day-born group: its leader first, then its executives. */
+  .group { margin-top: clamp(3rem, 6vw, 5rem); padding: clamp(1.6rem, 4vw, 2.6rem); border-radius: 22px; background: linear-gradient(160deg, var(--raise-2), var(--raise)); }
+  .group__people { display: grid; grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr)); gap: .9rem; margin-top: 1.4rem; }
+  .gperson { display: flex; align-items: center; gap: .9rem; padding: .8rem; border-radius: 16px; background: rgba(244,246,251,.05); box-shadow: inset 0 0 0 1px var(--line); }
+  .gperson b { display: block; font-weight: 700; }
+  .gperson small { display: block; color: var(--lime); font-size: .8rem; font-weight: 700; letter-spacing: .04em; margin-top: .15rem; }
+  .gperson--lead { background: rgba(200,218,43,.08); box-shadow: inset 0 0 0 1px rgba(200,218,43,.35); }
   .latest { margin-top: clamp(3rem, 6vw, 5rem); display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 2rem; align-items: center; padding: clamp(1.6rem, 4vw, 2.6rem); border-radius: 22px; background: linear-gradient(160deg, var(--raise-2), var(--raise)); }
   .latest blockquote { margin: 0; font: 700 clamp(1.5rem, 1.1rem + 1.4vw, 2.4rem)/1.18 var(--sc-font-display); letter-spacing: -.02em; white-space: pre-line; }
   .latest cite { display: block; margin-top: .8rem; font: 400 1rem var(--sc-font-text); color: var(--sc-ink-soft); font-style: normal; }
@@ -439,6 +446,11 @@
         <button class="door rv" type="button" data-go="benedictions" style="--i:3"><img src="assets/bless-congregation.webp" alt="" loading="lazy"><span class="door__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="door__body"><span class="door__kick">Spoken over us</span><span class="door__title">Benedictions</span><span class="door__text">The blessings of our services.</span></span></button>
         <button class="door rv" type="button" data-go="app" style="--i:4"><img src="assets/collection/p022.webp" alt="" loading="lazy"><span class="door__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span><span class="door__body"><span class="door__kick">iPhone and Android</span><span class="door__title">The App</span><span class="door__text">Everything the Royal Assembly app does for you.</span></span></button>
       </div>
+      <section class="group rv" data-group hidden aria-labelledby="group-h">
+        <p class="kick">Your day-born group</p>
+        <p class="h2" id="group-h" style="margin-top:.8rem;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.4rem)" data-group-name></p>
+        <div class="group__people" data-group-people></div>
+      </section>
       <div class="latest rv" data-latest hidden>
         <div><p class="kick">The latest benediction</p><p class="h2" style="margin-top:.8rem;font-size:clamp(1.6rem,1.2rem + 1.4vw,2.4rem)">Carry it into your week.</p></div>
         <div><blockquote data-latest-text></blockquote><cite data-latest-ref></cite></div>
@@ -530,6 +542,7 @@
         <label class="field"><span>Marital status</span><select name="marital_status"><option value="">Not recorded</option><option value="single">Single</option><option value="married">Married</option><option value="widowed">Widowed</option><option value="divorced">Divorced</option></select></label>
         <label class="field"><span>Residence</span><input name="residence" placeholder="e.g. Ayigya Zongo" autocomplete="off"></label>
       </div>
+      <label class="field"><span>Day-born group office</span><select name="dayborn_office"><option value="">None</option><option value="leader">Leader</option><option value="executive">Executive</option></select><small>Leaders and executives come first in their day-born group, and can open it in the app.</small></label>
       <label class="field"><span>Ministries and departments</span><input name="church_roles" placeholder="e.g. Youth Ministry, Royal Choir" autocomplete="off"><small>Separate with commas. Everyone is in the Evangelism Ministry already.</small></label>
       <p class="formmsg" data-formmsg aria-live="polite"></p>
     </div>
@@ -809,8 +822,27 @@
     mail: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/></svg>'
   };
   const skeletons = (n, h) => Array.from({ length: n }, () => `<div class="skel" style="height:${h}"></div>`).join('');
+  async function drawGroup() {
+    const card = $('[data-group]');
+    const mine = member && member.day_born_group;
+    if (!mine) { card.hidden = true; return; }
+    try {
+      const [people] = await Promise.all([listAll('/api/v1/accounts/members/'), readGroupLeaders()]);
+      const rank = m => officeOf(m) === 'leader' ? 0 : officeOf(m) === 'executive' ? 1 : 2;
+      const runners = people
+        .filter(m => m.day_born_group && String(m.day_born_group.id) === String(mine.id) && rank(m) < 2)
+        .sort((a, b) => rank(a) - rank(b) || (a.full_name || '').localeCompare(b.full_name || ''));
+      $('[data-group-name]').textContent = groupLabel(mine);
+      $('[data-group-people]').innerHTML = runners.length
+        ? runners.map(m => `<div class="gperson${rank(m) === 0 ? ' gperson--lead' : ''}"><span class="row__av" aria-hidden="true">${m.profile_photo ? `<img src="${esc(m.profile_photo)}" alt="" loading="lazy">` : esc(initialsOf(m.full_name))}</span><span><b>${esc(m.full_name)}${String(m.id) === String(member.id) ? ' (you)' : ''}</b><small>${rank(m) === 0 ? 'Leader' : 'Executive'}</small></span></div>`).join('')
+        : '<p class="msg" style="margin:0">No leader or executives are named for this group yet. An admin sets them in Member Data.</p>';
+      card.hidden = false;
+    } catch { /* the card just stays hidden */ }
+  }
+
   const loaders = {
     async home() {
+      void drawGroup();
       try {
         const rows = await listAll('/api/v1/content/benedictions/');
         $('[data-latest]').hidden = !rows.length;
@@ -879,6 +911,20 @@
     }
   };
 
+  /* ── Day-born offices: church roles on the record, the same ones the app sets ── */
+  const DB_LEADER = 'Day-Born Leader', DB_EXEC = 'Day-Born Executive';
+  const WEEKDAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+  // A group's leader may also be named on the group itself, on the server.
+  let groupLeaders = new Set();
+  const officeOf = m => (m.church_roles || []).includes(DB_LEADER) || groupLeaders.has(String(m.id)) ? 'leader' : (m.church_roles || []).includes(DB_EXEC) ? 'executive' : '';
+  /** The roles exactly as saved, without counting the group's own leader: the form edits only these. */
+  const roleOffice = m => (m.church_roles || []).includes(DB_LEADER) ? 'leader' : (m.church_roles || []).includes(DB_EXEC) ? 'executive' : '';
+  async function readGroupLeaders() {
+    try { groupLeaders = new Set((await listAll('/api/v1/accounts/day-born-groups/')).filter(g => g.leader).map(g => String(g.leader.id))); } catch {}
+  }
+  const OFFICE_LABEL = { leader: 'Day-Born Leader', executive: 'Day-Born Executive' };
+  const groupLabel = g => g ? `${g.name}${g.weekday != null && WEEKDAYS[g.weekday] ? ` (${WEEKDAYS[g.weekday]}-born)` : ''}` : '';
+
   /* ── The roll: admins add members and correct records ── */
   let roll = [], shown = 60, editing = null;
   const rollBox = $('[data-roll]'), rollSearch = $('[data-roll-search]'), rollCount = $('[data-roll-count]'), rollMore = $('[data-roll-more]');
@@ -887,11 +933,11 @@
   function drawRoll() {
     const q = rollSearch.value.trim().toLowerCase();
     const digits = q.replace(/\D/g, '');
-    const hits = !q ? roll : roll.filter(m => (m.full_name || '').toLowerCase().includes(q) || (m.member_id || '').toLowerCase().includes(q) || (digits.length >= 3 && (m.phone_number || '').replace(/\D/g, '').includes(digits.replace(/^0/, ''))));
+    const hits = !q ? roll : roll.filter(m => (m.full_name || '').toLowerCase().includes(q) || (m.member_id || '').toLowerCase().includes(q) || (OFFICE_LABEL[officeOf(m)] || '').toLowerCase().includes(q) || (m.day_born_group?.name || '').toLowerCase().includes(q) || (digits.length >= 3 && (m.phone_number || '').replace(/\D/g, '').includes(digits.replace(/^0/, ''))));
     rollCount.textContent = q ? `${hits.length} of ${roll.length} members` : `${roll.length} members`;
     rollBox.innerHTML = hits.slice(0, shown).map(m => `<button type="button" class="row" data-member="${esc(m.id)}">
         <span class="row__av" aria-hidden="true">${m.profile_photo ? `<img src="${esc(m.profile_photo)}" alt="" loading="lazy">` : esc(initialsOf(m.full_name))}</span>
-        <span><b>${esc(m.full_name)}</b><small>${esc(m.member_id || '')}${m.role === 'super_admin' ? ' · Super admin' : m.role === 'assembly_admin' ? ' · Admin' : ''}</small></span>
+        <span><b>${esc(m.full_name)}</b><small>${esc(m.member_id || '')}${m.role === 'super_admin' ? ' · Super admin' : m.role === 'assembly_admin' ? ' · Admin' : ''}${m.day_born_group ? ` · ${esc(m.day_born_group.name)}` : ''}</small>${officeOf(m) ? `<span class="pill" style="margin-top:.3rem">${OFFICE_LABEL[officeOf(m)]}</span>` : ''}</span>
         <span class="row__meta">${m.phone_number ? esc(m.phone_number) : '<span class="pill pill--warn">No phone</span>'}</span>
         <span class="row__meta">${esc([SEX[m.sex], m.residence].filter(Boolean).join(' · ') || '')}</span>
         <span class="row__go" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg></span>
@@ -903,7 +949,7 @@
   loaders.members = async function () {
     if (!isAdmin()) return;
     if (!roll.length) rollBox.innerHTML = skeletons(1, '20rem');
-    try { roll = await listAll('/api/v1/accounts/members/'); roll.sort((a, b) => (a.full_name || '').localeCompare(b.full_name || '')); drawRoll(); }
+    try { [roll] = await Promise.all([listAll('/api/v1/accounts/members/'), readGroupLeaders()]); roll.sort((a, b) => (a.full_name || '').localeCompare(b.full_name || '')); drawRoll(); }
     catch (e) { if (e.message !== 'signed-out' && !roll.length) rollBox.innerHTML = `<p class="msg" style="margin:1rem">${esc(e.message)}</p>`; }
   };
 
@@ -920,7 +966,8 @@
       form.full_name.value = m.full_name || ''; form.phone_number.value = m.phone_number || '';
       form.sex.value = m.sex || ''; form.date_of_birth.value = m.date_of_birth || '';
       form.marital_status.value = m.marital_status || ''; form.residence.value = m.residence || '';
-      form.church_roles.value = (m.church_roles || []).filter(r => !/evangelism/i.test(r)).join(', ');
+      form.dayborn_office.value = roleOffice(m);
+      form.church_roles.value = (m.church_roles || []).filter(r => !/evangelism/i.test(r) && r !== DB_LEADER && r !== DB_EXEC).join(', ');
     }
     drawer.hidden = false; drawerScrim.hidden = false; lenis && lenis.stop(); document.body.style.overflow = 'hidden';
     setTimeout(() => form.full_name.focus(), 50);
@@ -945,7 +992,10 @@
       date_of_birth: form.date_of_birth.value || null,
       marital_status: form.marital_status.value,
       residence: form.residence.value.trim(),
-      church_roles: form.church_roles.value.split(',').map(r => r.trim()).filter(Boolean),
+      church_roles: [
+        ...({ leader: [DB_LEADER], executive: [DB_EXEC] }[form.dayborn_office.value] || []),
+        ...form.church_roles.value.split(',').map(r => r.trim()).filter(r => r && r !== DB_LEADER && r !== DB_EXEC),
+      ],
     };
     const save = $('[data-save]'); save.disabled = true; formMsg.className = 'formmsg'; formMsg.textContent = 'Saving…';
     try {
