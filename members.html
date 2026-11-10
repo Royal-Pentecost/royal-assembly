@@ -517,7 +517,7 @@
     <div class="wrap vhead"><p class="kick rv">Admins only</p><h1 id="mb-h" class="display rv" style="--i:1;margin-top:.9rem">The <em>Roll</em></h1><p class="lede rv" style="--i:2">Add a member, or open anyone to correct their record. Changes save to the church database straight away, and the app sees them too.</p></div>
     <div class="wrap">
       <div class="tools">
-        <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search by name, phone or member ID" aria-label="Search members" data-roll-search></label>
+        <label class="search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search by name, phone or member ID (RA-SUN-001)" aria-label="Search members" data-roll-search></label>
         <button class="btn btn--lime" type="button" data-add-member><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Add member</button>
       </div>
       <p class="count" data-roll-count aria-live="polite"></p>
@@ -542,6 +542,7 @@
         <label class="field"><span>Marital status</span><select name="marital_status"><option value="">Not recorded</option><option value="single">Single</option><option value="married">Married</option><option value="widowed">Widowed</option><option value="divorced">Divorced</option></select></label>
         <label class="field"><span>Residence</span><input name="residence" placeholder="e.g. Ayigya Zongo" autocomplete="off"></label>
       </div>
+      <details class="field" style="display:block"><summary style="cursor:pointer;font-weight:700;color:var(--lime);margin:.4rem 0">Membership form details (title, next of kin, baptism, work, disability)</summary><div data-form-details></div></details>
       <label class="field"><span>Day-born group office</span><select name="dayborn_office"><option value="">None</option><option value="leader">Leader</option><option value="executive">Executive</option></select><small>Leaders and executives come first in their day-born group, and can open it in the app.</small></label>
       <label class="field"><span>Ministries and departments</span><input name="church_roles" placeholder="e.g. Youth Ministry, Royal Choir" autocomplete="off"><small>Separate with commas. Everyone is in the Evangelism Ministry already.</small></label>
       <p class="formmsg" data-formmsg aria-live="polite"></p>
@@ -925,6 +926,36 @@
   const OFFICE_LABEL = { leader: 'Day-Born Leader', executive: 'Day-Born Executive' };
   const groupLabel = g => g ? `${g.name}${g.weekday != null && WEEKDAYS[g.weekday] ? ` (${WEEKDAYS[g.weekday]}-born)` : ''}` : '';
 
+  /* ── Member IDs run RA-SUN-001 … RA-SAT-0NN, Sunday-born first; list them that way ── */
+  const DAY_RANK = { SUN: 0, MON: 1, TUE: 2, WED: 3, THU: 4, FRI: 5, SAT: 6, XXX: 7 };
+  function byMemberId(a, b) {
+    const parse = m => { const x = /^[A-Z]+-([A-Z]{3})-(\d+)$/.exec(m.member_id || ''); return x ? [DAY_RANK[x[1]] ?? 8, +x[2]] : [9, 0]; };
+    const [da, na] = parse(a), [db, nb] = parse(b);
+    return da - db || na - nb || (a.full_name || '').localeCompare(b.full_name || '');
+  }
+
+  /* ── The membership form's own fields: the same list the app shows (src/memberForm.ts) ── */
+  const FORM_SECTIONS = [
+    ['Personal', [['church_title', 'Title (Elder, Deacon, Deaconess, Member)'], ['place_of_birth', 'Place of birth'], ['hometown', 'Hometown'], ['gps_address', 'GPS address'], ['email', 'Email'], ['other_phones', 'Other phone numbers']]],
+    ['Next of kin', [['next_of_kin_name', 'Name'], ['next_of_kin_relationship', 'Relationship'], ['next_of_kin_phone', 'Telephone']]],
+    ['Baptism', [['water_baptised', 'Water baptism', 'yesno'], ['water_baptism_date', 'Date of water baptism', 'date'], ['water_baptism_place', 'Place of baptism'], ['baptism_minister', 'Officiating minister'], ['baptism_minister_district', "Minister's district / church"], ['holy_spirit_baptised', 'Holy Spirit baptism', 'yesno'], ['holy_spirit_baptism_date', 'Date of Holy Spirit baptism', 'date']]],
+    ['Work and education', [['occupation', 'Occupation'], ['education_level', 'Level of education'], ['school_or_workplace', 'School / organisation'], ['workplace_location', 'Location of school / work']]],
+    ['Disability', [['has_disability', 'Any disability?', 'yesno'], ['disability_nature', 'Nature of the disability']]],
+  ];
+  const FORM_FIELDS = FORM_SECTIONS.flatMap(([, fields]) => fields);
+  (function drawFormFields() {
+    const box = document.querySelector('[data-form-details]');
+    box.innerHTML = FORM_SECTIONS.map(([title, fields]) => `<p class="kick" style="margin:1.2rem 0 .2rem">${title}</p>` + fields.map(([key, label, kind]) =>
+      kind === 'yesno'
+        ? `<label class="field"><span>${label}</span><select name="${key}"><option value="">Not recorded</option><option value="yes">Yes</option><option value="no">No</option></select></label>`
+        : `<label class="field"><span>${label}</span><input name="${key}" ${kind === 'date' ? 'type="date" min="1900-01-01"' : 'autocomplete="off"'}></label>`).join('')).join('');
+  })();
+  const formFieldsFrom = m => { for (const [key, , kind] of FORM_FIELDS) { const v = m ? m[key] : null; form[key].value = kind === 'yesno' ? (v === true ? 'yes' : v === false ? 'no' : '') : (v ?? ''); } };
+  const formFieldsBody = () => Object.fromEntries(FORM_FIELDS.map(([key, , kind]) => {
+    const v = form[key].value.trim();
+    return [key, kind === 'yesno' ? (v === 'yes' ? true : v === 'no' ? false : null) : kind === 'date' ? (v || null) : v];
+  }));
+
   /* ── The roll: admins add members and correct records ── */
   let roll = [], shown = 60, editing = null;
   const rollBox = $('[data-roll]'), rollSearch = $('[data-roll-search]'), rollCount = $('[data-roll-count]'), rollMore = $('[data-roll-more]');
@@ -949,7 +980,7 @@
   loaders.members = async function () {
     if (!isAdmin()) return;
     if (!roll.length) rollBox.innerHTML = skeletons(1, '20rem');
-    try { [roll] = await Promise.all([listAll('/api/v1/accounts/members/'), readGroupLeaders()]); roll.sort((a, b) => (a.full_name || '').localeCompare(b.full_name || '')); drawRoll(); }
+    try { [roll] = await Promise.all([listAll('/api/v1/accounts/members/'), readGroupLeaders()]); roll.sort(byMemberId); drawRoll(); }
     catch (e) { if (e.message !== 'signed-out' && !roll.length) rollBox.innerHTML = `<p class="msg" style="margin:1rem">${esc(e.message)}</p>`; }
   };
 
@@ -967,6 +998,7 @@
       form.sex.value = m.sex || ''; form.date_of_birth.value = m.date_of_birth || '';
       form.marital_status.value = m.marital_status || ''; form.residence.value = m.residence || '';
       form.dayborn_office.value = roleOffice(m);
+      formFieldsFrom(m);
       form.church_roles.value = (m.church_roles || []).filter(r => !/evangelism/i.test(r) && r !== DB_LEADER && r !== DB_EXEC).join(', ');
     }
     drawer.hidden = false; drawerScrim.hidden = false; lenis && lenis.stop(); document.body.style.overflow = 'hidden';
@@ -992,6 +1024,7 @@
       date_of_birth: form.date_of_birth.value || null,
       marital_status: form.marital_status.value,
       residence: form.residence.value.trim(),
+      ...formFieldsBody(),
       church_roles: [
         ...({ leader: [DB_LEADER], executive: [DB_EXEC] }[form.dayborn_office.value] || []),
         ...form.church_roles.value.split(',').map(r => r.trim()).filter(r => r && r !== DB_LEADER && r !== DB_EXEC),
