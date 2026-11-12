@@ -72,6 +72,38 @@
   .me__avatar img { width: 100%; height: 100%; object-fit: cover; }
   .greet__me { width: clamp(4.5rem, 8vw, 6.5rem); aspect-ratio: 1; border-radius: 50%; overflow: hidden; display: grid; place-items: center; margin-bottom: 1.4rem; background: var(--raise-2); box-shadow: 0 0 0 4px var(--lime), 0 20px 40px -18px rgba(0,0,0,.8); font: 800 1.8rem/1 var(--sc-font-display); }
   .greet__me img { width: 100%; height: 100%; object-fit: cover; }
+  /* Your face opens your profile. */
+  button.me__avatar, button.greet__me { border: 0; padding: 0; cursor: pointer; transition: transform 380ms var(--spring), box-shadow 260ms var(--glide); }
+  button.greet__me { color: var(--sc-ink); }
+  @media (hover: hover) and (pointer: fine) {
+    button.me__avatar:hover { transform: scale(1.07); box-shadow: 0 0 0 2px var(--lime), 0 0 0 6px rgba(200,218,43,.22); }
+    button.greet__me:hover { transform: scale(1.04); box-shadow: 0 0 0 4px var(--lime), 0 0 0 10px rgba(200,218,43,.18), 0 20px 40px -18px rgba(0,0,0,.8); }
+  }
+  button.me__avatar:active, button.greet__me:active { transform: scale(.95); }
+  button.me__avatar:focus-visible, button.greet__me:focus-visible { outline: 2px solid #fff; outline-offset: 4px; }
+  button.me__avatar[aria-current="page"] { box-shadow: 0 0 0 2px var(--lime), 0 0 0 5px rgba(200,218,43,.35); }
+
+  /* ── MY PROFILE ── */
+  .prof { display: grid; grid-template-columns: minmax(17rem, 22rem) 1fr; gap: clamp(1rem, 2.6vw, 2rem); align-items: start; }
+  .prof__card { position: sticky; top: calc(var(--bar-h) + 1.5rem); padding: 2rem 1.6rem 1.6rem; border-radius: 24px; text-align: center; background: radial-gradient(120% 70% at 50% 0%, rgba(200,218,43,.14), transparent 60%), linear-gradient(165deg, var(--raise-2), var(--raise)); box-shadow: inset 0 1px 0 rgba(255,255,255,.08), 0 30px 60px -34px rgba(0,0,0,.9), 0 12px 24px -18px rgba(200,218,43,.25); }
+  .prof__photo { width: 8.5rem; aspect-ratio: 1; margin: 0 auto 1.2rem; border-radius: 50%; overflow: hidden; display: grid; place-items: center; background: var(--raise); box-shadow: 0 0 0 4px var(--lime), 0 22px 40px -18px rgba(0,0,0,.9); font: 800 2.6rem/1 var(--sc-font-display); }
+  .prof__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .prof__name { font: 800 clamp(1.5rem, 1.2rem + 1vw, 1.9rem)/1.08 var(--sc-font-display); letter-spacing: -.03em; text-wrap: balance; }
+  .prof__id { margin-top: .55rem; font: 800 .95rem/1 var(--sc-font-display); letter-spacing: .12em; color: var(--lime); }
+  .prof__pills { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem; margin-top: .9rem; }
+  .prof__facts { display: grid; margin-top: 1.4rem; text-align: left; }
+  .prof__facts div { display: flex; justify-content: space-between; gap: 1rem; padding: .7rem 0; border-top: 1px solid var(--line); font-size: .95rem; }
+  .prof__facts span { color: var(--sc-ink-soft); }
+  .prof__facts b { text-align: right; }
+  .prof__sec { padding: clamp(1.2rem, 3vw, 1.6rem) clamp(1.2rem, 3vw, 1.8rem); border-radius: 22px; background: var(--raise); box-shadow: inset 0 1px 0 rgba(255,255,255,.05), 0 20px 40px -30px rgba(0,0,0,.8); }
+  .prof__sec + .prof__sec { margin-top: 1rem; }
+  .prof__sec h2 { font: 800 1.2rem/1.1 var(--sc-font-display); letter-spacing: -.02em; }
+  .prof__sec dl { display: grid; grid-template-columns: repeat(auto-fill, minmax(13.5rem, 1fr)); gap: 1.05rem 1.8rem; margin: 1.1rem 0 0; }
+  .prof__sec dt { font-size: .8rem; letter-spacing: .02em; color: var(--sc-ink-soft); }
+  .prof__sec dd { margin: .25rem 0 0; font-weight: 600; line-height: 1.5; overflow-wrap: anywhere; }
+  .prof__sec dd.none { font-weight: 400; color: var(--sc-ink-soft); opacity: .65; }
+  .prof__note { margin-top: 1rem; padding: 1.1rem 1.3rem; border-radius: 16px; color: var(--sc-ink-soft); box-shadow: inset 0 0 0 1px var(--line); font-size: .95rem; line-height: 1.7; }
+  @media (max-width: 860px) { .prof { grid-template-columns: 1fr; } .prof__card { position: static; } }
   @media (max-width: 980px) {
     .bar { height: auto; flex-wrap: wrap; padding-top: .6rem; padding-bottom: .6rem; row-gap: .55rem; }
     .tabs { order: 3; width: 100%; overflow-x: auto; scrollbar-width: none; margin: 0; }
@@ -373,7 +405,7 @@
     <button role="tab" type="button" data-tab="members" aria-selected="false" data-admin hidden>Members</button>
   </nav>
   <div class="me" hidden>
-    <span class="me__avatar" data-initials aria-hidden="true"></span>
+    <button class="me__avatar" type="button" data-go="profile" data-initials aria-label="My profile" title="My profile"></button>
     <button class="btn btn--ghost" type="button" data-signout>Sign out</button>
   </div>
 </header>
@@ -426,7 +458,7 @@
     <div class="wrap greet">
       <div class="greet__grid">
         <div>
-          <div class="greet__me rv" data-me-photo aria-hidden="true"></div>
+          <button class="greet__me rv" type="button" data-me-photo data-go="profile" aria-label="Open my profile"></button>
           <p class="kick rv" data-today></p>
           <h1 id="home-h" class="display rv" style="--i:1;margin-top:1rem">Akwaaba, <em data-firstname>friend</em>.</h1>
           <p class="lede rv" style="--i:2">Your church, in one place: the people who lead us, the moments we share, and the blessings spoken over us.</p>
@@ -512,6 +544,12 @@
       </div>
     </div>
   </section>
+  <!-- ── MY PROFILE ── -->
+  <section class="view" data-view="profile" hidden aria-labelledby="pf-h">
+    <div class="wrap vhead"><p class="kick rv">Your record</p><h1 id="pf-h" class="display rv" style="--i:1;margin-top:.9rem">My <em>Profile</em></h1><p class="lede rv" style="--i:2">What the church holds for you: the same record the app shows, kept by the assembly's administrators.</p></div>
+    <div class="wrap"><div class="prof" data-profile></div></div>
+  </section>
+
   <!-- ── MEMBERS (admins and super admins) ── -->
   <section class="view" data-view="members" hidden aria-labelledby="mb-h">
     <div class="wrap vhead"><p class="kick rv">Admins only</p><h1 id="mb-h" class="display rv" style="--i:1;margin-top:.9rem">The <em>Roll</em></h1><p class="lede rv" style="--i:2">Add a member, or open anyone to correct their record. Changes save to the church database straight away, and the app sees them too.</p></div>
@@ -618,18 +656,21 @@
   /* ── Views and the sliding tab indicator ── */
   const ink = $('.tabs__ink');
   function moveInk() {
-    const on = $('.tabs [aria-selected="true"]'); if (!on || $('.tabs').hidden) return;
+    if ($('.tabs').hidden) return;
+    const on = $('.tabs [aria-selected="true"]');
+    if (!on) { ink.style.width = '0px'; return; }
     ink.style.width = on.offsetWidth + 'px';
     ink.style.transform = `translateX(${on.offsetLeft}px)`;
   }
   addEventListener('resize', moveInk);
   document.fonts && document.fonts.ready.then(moveInk);
-  const VIEWS = ['home', 'leaders', 'collection', 'benedictions', 'app', 'members'];
+  const VIEWS = ['home', 'leaders', 'collection', 'benedictions', 'app', 'members', 'profile'];
   const isAdmin = () => member && (member.role === 'assembly_admin' || member.role === 'super_admin');
   let current = null;
   function show(view) {
     $$('[data-view]').forEach(v => { const on = v.dataset.view === view; v.hidden = !on; v.classList.toggle('is-in', on); });
     $$('.tabs [data-tab]').forEach(b => b.setAttribute('aria-selected', String(b.dataset.tab === view)));
+    const av = $('.me__avatar'); if (view === 'profile') av.setAttribute('aria-current', 'page'); else av.removeAttribute('aria-current');
     moveInk();
     if (view !== 'signin') { try { history.replaceState(null, '', '#' + view); } catch {} }
     toTop();
@@ -680,6 +721,7 @@
       member = { ...member, ...fresh };
       try { localStorage.setItem(KEY, JSON.stringify({ session, member })); } catch {}
       showMe(); applyRole();
+      if (current === 'profile') drawProfile();
     } catch {}
   }
   function applyRole() {
@@ -842,6 +884,7 @@
   }
 
   const loaders = {
+    profile() { drawProfile(); },
     async home() {
       void drawGroup();
       try {
@@ -955,6 +998,60 @@
     const v = form[key].value.trim();
     return [key, kind === 'yesno' ? (v === 'yes' ? true : v === 'no' ? false : null) : kind === 'date' ? (v || null) : v];
   }));
+
+  /* ── My profile: the member's own record, read only ── */
+  const longDate = iso => { if (!iso) return ''; const [y, m, d] = String(iso).slice(0, 10).split('-').map(Number); return y && m && d ? new Date(y, m - 1, d).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' }) : ''; };
+  const bornOn = iso => { if (!iso) return ''; const [y, m, d] = String(iso).slice(0, 10).split('-').map(Number); return y && m && d ? new Date(y, m - 1, d).toLocaleDateString('en-GB', { weekday: 'long' }) : ''; };
+  const capWord = s => s ? String(s)[0].toUpperCase() + String(s).slice(1) : '';
+  const PROFILE_SECTIONS = [
+    ['Contact', [['phone_number', 'Phone (your sign-in)'], ['other_phones', 'Other phone numbers'], ['email', 'Email'], ['residence', 'Residence'], ['gps_address', 'GPS address']]],
+    ['Personal', [['date_of_birth', 'Date of birth', 'date'], ['sex', 'Sex', 'sex'], ['marital_status', 'Marital status', 'cap'], ['place_of_birth', 'Place of birth'], ['hometown', 'Hometown']]],
+    ...FORM_SECTIONS.slice(1),
+  ];
+  function profileValue(m, key, kind) {
+    const v = m[key];
+    if (kind === 'yesno') return v === true ? 'Yes' : v === false ? 'No' : '';
+    if (kind === 'date') return longDate(v);
+    if (kind === 'sex') return v === 'M' ? 'Male' : v === 'F' ? 'Female' : '';
+    if (kind === 'cap') return capWord(v);
+    return v == null ? '' : String(v).trim();
+  }
+  function drawProfile() {
+    const box = $('[data-profile]'); if (!box || !member) return;
+    const m = member;
+    const initials = (m.full_name || '').split(/\s+/).filter(Boolean).slice(0, 2).map(w => w[0]).join('').toUpperCase() || '·';
+    const office = officeOf(m);
+    const title = (m.church_title || '').trim();
+    const pills = [
+      office ? OFFICE_LABEL[office] : '',
+      title && title.toLowerCase() !== 'member' ? title : '',
+      m.role === 'super_admin' ? 'Super admin' : m.role === 'assembly_admin' ? 'Admin' : '',
+    ].filter(Boolean);
+    const ministries = (m.church_roles || []).filter(r => r !== DB_LEADER && r !== DB_EXEC);
+    const fact = (k, v) => `<div><span>${k}</span><b>${v ? esc(v) : '<span style="opacity:.6;font-weight:400">Not recorded</span>'}</b></div>`;
+    box.innerHTML = `
+      <aside class="prof__card rv">
+        <div class="prof__photo" aria-hidden="true">${m.profile_photo ? `<img src="${esc(m.profile_photo)}" alt="">` : esc(initials)}</div>
+        <p class="prof__name">${esc(m.full_name || '')}</p>
+        <p class="prof__id">${esc(m.member_id || '')}</p>
+        ${pills.length ? `<div class="prof__pills">${pills.map(p => `<span class="pill">${esc(p)}</span>`).join('')}</div>` : ''}
+        <div class="prof__facts">
+          ${fact('Day-born group', m.day_born_group ? groupLabel(m.day_born_group) : '')}
+          ${fact('Day of birth', bornOn(m.date_of_birth))}
+          ${fact('Assembly', m.assembly && m.assembly.name)}
+        </div>
+      </aside>
+      <div>
+        ${PROFILE_SECTIONS.map(([heading, fields], i) => `
+          <section class="prof__sec rv" style="--i:${i + 1}"><h2>${esc(heading)}</h2><dl>${fields.map(([key, label, kind]) => {
+            const v = profileValue(m, key, kind);
+            return `<div><dt>${esc(label.replace(/ \(Elder.*\)$/, ''))}</dt><dd${v ? '' : ' class="none"'}>${v ? esc(v) : 'Not recorded'}</dd></div>`;
+          }).join('')}</dl></section>`).join('')}
+        <section class="prof__sec rv" style="--i:${PROFILE_SECTIONS.length + 1}"><h2>Ministries &amp; roles</h2>${ministries.length ? `<div class="prof__pills" style="justify-content:flex-start;margin-top:1rem">${ministries.map(r => `<span class="pill">${esc(r)}</span>`).join('')}</div>` : '<p style="margin-top:.8rem;color:var(--sc-ink-soft)">Not recorded</p>'}</section>
+        <p class="prof__note rv">Something here not right? Speak to an admin or the assembly office on Sunday and they will correct it. You can change your photo in the app, under Settings.</p>
+      </div>`;
+    watch(box);
+  }
 
   /* ── The roll: admins add members and correct records ── */
   let roll = [], shown = 60, editing = null;
