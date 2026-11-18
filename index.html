@@ -184,6 +184,53 @@
   .says__track { flex: 1; height: 2px; background: var(--line); overflow: hidden; }
   .says__fill { height: 100%; background: var(--ink); transform-origin: left; transform: scaleX(.2); }
 
+  /* ── 3b · YOUR DAY NAME ── */
+  .born { position: relative; background: var(--navy); color: #fff; overflow: hidden; isolation: isolate; }
+  .born::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(45% 55% at 78% 45%, rgba(39,69,214,.55), transparent 70%), radial-gradient(35% 40% at 5% 95%, rgba(200,218,43,.14), transparent 70%); }
+  .born__stage { min-height: 100svh; display: grid; align-items: center; padding-block: var(--s6); }
+  .born__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--s5); align-items: center; }
+  .born__ask { position: relative; z-index: 6; }
+  .born h2 { font: 800 clamp(2.8rem, 1.3rem + 4.8vw, 6.4rem)/.9 var(--f-soft); letter-spacing: -.05em; max-width: 9ch; }
+  .born__lede { margin-top: var(--s4); max-width: 40ch; color: rgba(255,255,255,.78); }
+  .days { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: var(--s5); max-width: 32rem; }
+  .day { min-height: 3rem; padding: .75rem 1.05rem; border: 0; border-radius: 10px; cursor: pointer; font: 700 1rem/1 var(--f-text); color: #fff; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12), 0 8px 18px -12px rgba(0,0,0,.6);
+    transition: transform .45s var(--spring), background-color .2s, color .2s; }
+  @media (hover: hover) and (pointer: fine) { .day:hover { transform: translateY(-2px); background: rgba(39,69,214,.55); } }
+  .day:active { transform: translateY(1px) scale(.96); transition-duration: .12s; }
+  .day[aria-pressed="true"] { background: var(--lime); color: var(--navy); box-shadow: 0 10px 24px -12px rgba(200,218,43,.8); }
+  .born__opts { display: flex; flex-wrap: wrap; align-items: center; gap: .75rem 1.25rem; margin-top: var(--s4); color: rgba(255,255,255,.75); font-size: .95rem; }
+  .seg { display: inline-flex; padding: .25rem; border-radius: 12px; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+  .seg button { min-height: 2.6rem; padding: .5rem .85rem; border: 0; border-radius: 9px; cursor: pointer; background: transparent; color: rgba(255,255,255,.75); font: 700 .92rem/1 var(--f-text); transition: background-color .2s, color .2s, transform .3s var(--spring); }
+  @media (hover: hover) and (pointer: fine) { .seg button:not([aria-pressed="true"]):hover { color: #fff; } }
+  .seg button:active { transform: scale(.95); }
+  .seg button[aria-pressed="true"] { background: #fff; color: var(--navy); }
+  .dob { display: inline-flex; align-items: center; gap: .6rem; }
+  .dob input { min-height: 2.9rem; padding: .6rem .75rem; border: 0; border-radius: 10px; font: 400 1rem var(--f-text); color: #fff; background: rgba(255,255,255,.07); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); color-scheme: dark; }
+  .dob input:focus-visible { outline: 3px solid var(--lime); outline-offset: 2px; }
+
+  /* the youth frame with your name inside, the congregation circling it */
+  .portrait { position: relative; justify-self: center; width: min(26rem, 80%); aspect-ratio: 4 / 5; }
+  .yframe { position: absolute; inset: 0; z-index: 3; border: solid var(--lime); border-width: clamp(2.2rem, 5.2vw, 4.4rem) clamp(1.7rem, 3.6vw, 3rem) clamp(2.6rem, 6vw, 5rem); border-radius: 6px; box-shadow: 0 30px 60px -20px rgba(4,8,24,.7), inset 0 0 0 1px rgba(16,26,61,.25); pointer-events: none; }
+  .yframe__top, .yframe__foot { position: absolute; z-index: 4; left: 0; right: 0; display: flex; align-items: center; justify-content: center; gap: .5rem; color: var(--navy); white-space: nowrap; pointer-events: none; }
+  .yframe__top { top: 0; height: clamp(2.2rem, 5.2vw, 4.4rem); font: 900 clamp(.85rem, 1.4vw, 1.25rem)/1 var(--f-caps); letter-spacing: .03em; text-transform: uppercase; }
+  .yframe__top img { width: 1.5em; height: 1.5em; border-radius: 50%; background: #fff; }
+  .yframe__foot { bottom: 0; height: clamp(2.6rem, 6vw, 5rem); font: 800 clamp(1.05rem, 2vw, 1.7rem)/1 var(--f-soft); letter-spacing: -.035em; }
+  .portrait__in { position: absolute; z-index: 2; inset: clamp(2.2rem, 5.2vw, 4.4rem) clamp(1.7rem, 3.6vw, 3rem) clamp(2.6rem, 6vw, 5rem); display: flex; flex-direction: column; justify-content: center; padding: clamp(.8rem, 2vw, 1.6rem);
+    background: radial-gradient(ellipse at 30% 20%, rgba(200,218,43,.18), rgba(200,218,43,0) 60%), radial-gradient(ellipse at 90% 100%, rgba(39,69,214,.45), transparent 60%), var(--navy-deep); }
+  .portrait__hello { font: 900 clamp(1rem, .9rem + .3vw, 1.2rem)/1.1 var(--f-caps); letter-spacing: .04em; text-transform: uppercase; color: var(--lime); }
+  .portrait__name { margin: .45rem 0 .7rem; font: 800 clamp(2.6rem, 1.6rem + 3.4vw, 5rem)/.95 var(--f-soft); letter-spacing: -.05em; overflow-wrap: anywhere; }
+  .portrait__name .ch { display: inline-block; animation: chIn 520ms var(--out) both; animation-delay: calc(var(--i) * 45ms); }
+  @keyframes chIn { from { opacity: 0; transform: translateY(.35em); } to { opacity: 1; transform: none; } }
+  .portrait__text { color: rgba(255,255,255,.78); font-size: .98rem; line-height: 1.55; }
+  .faces img { position: absolute; z-index: 1; left: 50%; top: 50%; width: var(--w); height: auto; aspect-ratio: 3 / 4; object-fit: cover; max-width: none; border-radius: 8px; box-shadow: 0 14px 30px -12px rgba(0,0,0,.7); opacity: 0; transform: translate(-50%, -50%); will-change: transform, opacity; pointer-events: none; }
+  @media (max-width: 860px) {
+    .born__grid { grid-template-columns: 1fr; gap: var(--s6); }
+    .born__stage { padding-block: var(--s7); }
+    .portrait { width: min(16rem, 64vw); }
+    .faces img:nth-child(n+6) { display: none; }
+  }
+
   /* ── 4 · ROYAL BAND: ministries ── */
   .band { position: relative; background: var(--royal); color: #fff; padding-block: var(--s7); overflow: hidden; isolation: isolate; }
   .band::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
@@ -395,7 +442,7 @@
           <p>Songs in English and Twi, and a seat kept for you.</p>
           <div class="card__img"><img src="assets/collection/p002.webp" alt="Women of the assembly singing in the pews" loading="lazy" style="object-position:50% 35%"></div>
         </a>
-        <a class="card" href="#says" data-card>
+        <a class="card" href="#dayborn" data-card>
           <span class="card__pill">After service</span>
           <span class="card__tag">Bible<br>Study</span>
           <h3>A class for the day you were born</h3>
@@ -435,6 +482,54 @@
       </div>
       <div class="says__bar" aria-hidden="true">
         <div class="wrap"><span><b data-count>01</b> / 05</span><div class="says__track"><div class="says__fill"></div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3b · YOUR DAY NAME: pick your day, the congregation gathers round the frame -->
+  <section class="born" id="dayborn" aria-labelledby="born-h">
+    <div class="born__stage">
+      <div class="wrap born__grid">
+        <div class="born__ask">
+          <h2 id="born-h">What day were you born<span class="dot">?</span></h2>
+          <p class="born__lede">In Ghana the day you were born gives you a name. Here it also gives you a Bible study class and a group of people who will know you by it.</p>
+          <div class="days" role="group" aria-label="Day of birth">
+            <button class="day" type="button" data-day="0" aria-pressed="false">Sunday</button>
+            <button class="day" type="button" data-day="1" aria-pressed="false">Monday</button>
+            <button class="day" type="button" data-day="2" aria-pressed="false">Tuesday</button>
+            <button class="day" type="button" data-day="3" aria-pressed="false">Wednesday</button>
+            <button class="day" type="button" data-day="4" aria-pressed="false">Thursday</button>
+            <button class="day" type="button" data-day="5" aria-pressed="false">Friday</button>
+            <button class="day" type="button" data-day="6" aria-pressed="false">Saturday</button>
+          </div>
+          <div class="born__opts">
+            <span class="seg" role="group" aria-label="Name for">
+              <button type="button" data-g="m" aria-pressed="true">Boy's name</button>
+              <button type="button" data-g="f" aria-pressed="false">Girl's name</button>
+            </span>
+            <label class="dob">or your birthday <input id="dob" type="date" min="1920-01-01"></label>
+          </div>
+        </div>
+        <div class="portrait">
+          <div class="faces" aria-hidden="true">
+            <img src="assets/face-1.webp" alt="" style="--w:28%">
+            <img src="assets/face-2.webp" alt="" style="--w:30%">
+            <img src="assets/face-3.webp" alt="" style="--w:26%">
+            <img src="assets/face-4.webp" alt="" style="--w:30%">
+            <img src="assets/face-5.webp" alt="" style="--w:22%">
+            <img src="assets/face-6.webp" alt="" style="--w:22%">
+            <img src="assets/face-7.webp" alt="" style="--w:22%">
+            <img src="assets/face-8.webp" alt="" style="--w:26%">
+          </div>
+          <div class="yframe" aria-hidden="true"></div>
+          <p class="yframe__top" aria-hidden="true"><img src="assets/cop-logo.png" alt="">Royal Assembly · Ayigya</p>
+          <div class="portrait__in" aria-live="polite">
+            <p class="portrait__hello" data-hello>Akwaaba</p>
+            <p class="portrait__name" data-name>You?</p>
+            <p class="portrait__text" data-text>Choose your day to see your Akan name and your Sunday class.</p>
+          </div>
+          <p class="yframe__foot" aria-hidden="true">You belong here</p>
+        </div>
       </div>
     </div>
   </section>
@@ -552,7 +647,7 @@
     <div class="wrap">
       <h2 class="sr" id="bless-h">Benediction</h2>
       <blockquote data-reveal>
-        <p>The LORD bless thee, and keep thee<span class="dot">.</span></p>
+        <p><span data-name-bless></span><span data-bless-the>The</span> LORD bless thee, and keep thee<span class="dot">.</span></p>
         <footer class="ref">Numbers 6:24</footer>
       </blockquote>
       <div class="row" data-reveal>
@@ -604,6 +699,74 @@
     a.click(); URL.revokeObjectURL(a.href);
     $$('[data-saved]').forEach(n => n.textContent = 'Saved. Your calendar will remind you every Sunday.');
   }));
+
+  /* ── Your Akan day name: chosen once, remembered, carried to the blessing ── */
+  const DAYS = [
+    { day: 'Sunday', m: 'Kwasi', f: 'Akosua', cls: 'Kwasiada' },
+    { day: 'Monday', m: 'Kwadwo', f: 'Adwoa', cls: 'Dwoada' },
+    { day: 'Tuesday', m: 'Kwabena', f: 'Abena', cls: 'Benada' },
+    { day: 'Wednesday', m: 'Kwaku', f: 'Akua', cls: 'Wukuada' },
+    { day: 'Thursday', m: 'Yaw', f: 'Yaa', cls: 'Yawoada' },
+    { day: 'Friday', m: 'Kofi', f: 'Afua', cls: 'Fiada' },
+    { day: 'Saturday', m: 'Kwame', f: 'Ama', cls: 'Memeneda' }
+  ];
+  const dn = { day: null, g: 'm' };
+  try { Object.assign(dn, JSON.parse(localStorage.getItem('ra-dayname') || '{}')); } catch {}
+  const nameOf = () => dn.day === null ? null : DAYS[dn.day][dn.g === 'f' ? 'f' : 'm'];
+  const spell = (el, text) => {
+    el.textContent = '';
+    [...text].forEach((ch, i) => { const s = document.createElement('span'); s.className = 'ch'; s.style.setProperty('--i', i); s.textContent = ch; el.appendChild(s); });
+    el.setAttribute('aria-label', text);
+  };
+  const renderName = animate => {
+    const name = nameOf();
+    $$('.day').forEach(b => b.setAttribute('aria-pressed', String(+b.dataset.day === dn.day)));
+    $$('.seg button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.g === dn.g)));
+    if (!name) return;
+    const d = DAYS[dn.day];
+    $('[data-hello]').textContent = `Akwaaba, ${d.day}-born`;
+    if (animate && !reduce) spell($('[data-name]'), name + '.'); else $('[data-name]').textContent = name + '.';
+    $('[data-text]').textContent = `On Sunday you join the ${d.cls} class for Bible study, with everyone born on a ${d.day}.`;
+    $('[data-name-bless]').textContent = `${name}, `;
+    $('[data-bless-the]').textContent = 'the';
+  };
+  const chooseDay = patch => { Object.assign(dn, patch); try { localStorage.setItem('ra-dayname', JSON.stringify(dn)); } catch {} renderName(true); };
+  $$('.day').forEach(b => b.addEventListener('click', () => chooseDay({ day: +b.dataset.day })));
+  $$('.seg button').forEach(b => b.addEventListener('click', () => chooseDay({ g: b.dataset.g })));
+  $('#dob').addEventListener('change', e => {
+    const v = e.target.value; if (!v) return;
+    const [y, m, d] = v.split('-').map(Number);
+    chooseDay({ day: new Date(Date.UTC(y, m - 1, d)).getUTCDay() });
+  });
+  renderName(false);
+
+  /* ── The orbit: the congregation gathers round the frame, then keeps circling ── */
+  const orbitBox = $('.portrait'), orbitFaces = $$('.faces img');
+  const easeOut = t => 1 - Math.pow(1 - t, 4), clamp01 = v => Math.min(1, Math.max(0, v));
+  let orbitLast = '', orbitS = 0;
+  function orbit(s, still) {
+    const visible = orbitFaces.filter(f => f.offsetParent !== null);
+    const W = orbitBox.offsetWidth, H = orbitBox.offsetHeight; if (!W) return;
+    if (still) s = .55;
+    const k = still ? 1 : easeOut(clamp01(s * 1.7));                    // gather in
+    const spin = still ? 0 : s * Math.PI * 1.25;                        // then keep circling
+    const spread = 1 + (1 - k) * 1.3;
+    const narrow = innerWidth < 860;
+    const rx = W * (narrow ? .98 : .92) * spread, ry = H * (narrow ? .66 : .6) * spread;
+    const key = `${s.toFixed(4)}|${W}|${visible.length}`;
+    if (key === orbitLast) return; orbitLast = key;
+    visible.forEach((f, i) => {
+      const a = (i / visible.length) * Math.PI * 2 - Math.PI / 2 + spin;
+      const x = Math.cos(a) * rx, y = Math.sin(a) * ry;
+      const depth = Math.sin(a);                                        // +1 nearest, -1 farthest
+      const scale = .74 + .34 * (depth + 1) / 2;
+      f.style.zIndex = depth > .15 ? 5 : 1;
+      f.style.opacity = ((.45 + .55 * (depth + 1) / 2) * k).toFixed(3);
+      f.style.transform = `translate(-50%, -50%) translate3d(${x.toFixed(1)}px, ${y.toFixed(1)}px, 0) rotate(${(Math.cos(a) * 7).toFixed(2)}deg) scale(${scale.toFixed(3)})`;
+    });
+  }
+  orbit(0, true);                                                       // still ring until the scroll takes over
+  addEventListener('resize', () => { orbitLast = ''; orbit(orbitS, reduce || !window.gsap); });
 
   /* ── Ministry mottos: tuck each one below the card's edge until hover ── */
   const setDrops = () => $$('.min').forEach(m => {
@@ -722,6 +885,15 @@
        .to(pics[i], { clipPath: 'inset(0% 0 0 0)', duration: .5, ease: 'power3.inOut' }, at + .15)
        .fromTo(pics[i].querySelector('img'), { scale: 1.25 }, { scale: 1, duration: .7, ease: 'power3.out' }, at + .15);
   });
+
+  /* ── Day name: pinned on wide screens while the faces gather and circle ── */
+  const wide = innerWidth >= 860 && $('.born__grid').offsetHeight < innerHeight * .95;
+  if (wide) ScrollTrigger.create({ trigger: '.born', start: 'top top', end: () => '+=' + innerHeight * 1.8, pin: '.born__stage' });
+  ScrollTrigger.create({
+    trigger: '.born', start: 'top 85%', end: wide ? () => '+=' + innerHeight * 2.65 : 'bottom top', scrub: true,
+    onUpdate: self => { orbitS = self.progress; orbit(self.progress); }
+  });
+  gsap.from('.born h2, .born__lede, .days, .born__opts', { y: 40, opacity: 0, duration: 1, ease: 'expo.out', stagger: .08, scrollTrigger: { trigger: '.born', start: 'top 70%', once: true } });
 
   /* ── Band: arrow draws, ministries rise ── */
   gsap.from('.band__arrow', { scaleX: 0, transformOrigin: '0% 50%', duration: 1.4, ease: 'expo.inOut', delay: .3, scrollTrigger: { trigger: '.band__big', start: 'top 75%', once: true } });
