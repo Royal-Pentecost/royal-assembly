@@ -10,7 +10,7 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23101A3D'/%3E%3Crect x='14' y='12' width='36' height='40' rx='3' fill='none' stroke='%23C8DA2B' stroke-width='6'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Big+Shoulders+Display:wght@800;900&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="scrollcraft.css">
 <style>
   /* The members' room: night navy, the lime of the youth frame, the same two faces
@@ -388,6 +388,71 @@
   }
   body.paused *, body.paused *::before, body.paused *::after { animation-play-state: paused !important; }
 </style>
+<style>
+  /* ── New look (2026): the landing page's faces, colours, buttons and roofline ──
+     Soft lowercase headlines, condensed caps for labels, royal blue light,
+     buttons standing on a stepped bar, and a light sign-in panel. */
+  :root {
+    --royal: #2745D6; --paper: #FFFFFF; --ink: #0E1430; --muted: #556084; --navy: #101A3D;
+    --f-caps: "Big Shoulders Display", "Arial Narrow", sans-serif;
+    --bounce: cubic-bezier(.34, 1.56, .64, 1);
+  }
+  .env::before { background: radial-gradient(circle, rgba(39,69,214,.42), transparent 62%); }
+  .env::after { background: radial-gradient(circle, rgba(200,218,43,.14), transparent 62%); }
+
+  /* Type */
+  .display { letter-spacing: -.055em; line-height: .9; }
+  .kick, .door__kick, .lcard__title, .prof__id, .pill { font-family: var(--f-caps); font-weight: 900; letter-spacing: .03em; }
+  .kick { font-size: 1.15rem; }
+  .door__kick { font-size: 1.05rem; }
+  .lcard__title { font-size: .95rem; padding: .32rem .55rem .26rem; }
+  .door__title, .lcard h2, .prof__name, .sunday__when, .h2 { letter-spacing: -.045em; }
+  .lb__count { font: 900 1.4rem/1 var(--f-caps); }
+
+  /* Buttons stand on a stepped bar, lift and press */
+  .btn { position: relative; border-radius: 4px; padding-bottom: 1.05rem; transition: transform .45s var(--bounce), background-color .2s, color .2s, box-shadow .2s; }
+  .btn--lime::after, .btn--glass::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 7px; background: currentColor; opacity: .9;
+    clip-path: polygon(0 100%, 0 40%, 14% 40%, 14% 0, 30% 0, 30% 40%, 52% 40%, 52% 0, 64% 0, 64% 40%, 100% 40%, 100% 100%); transform-origin: bottom; transition: transform .45s var(--bounce); }
+  .btn--lime { box-shadow: 0 1px 2px rgba(11,18,48,.2), 0 10px 24px -12px rgba(200,218,43,.7); }
+  @media (hover: hover) and (pointer: fine) {
+    .btn--lime:hover, .btn--glass:hover { transform: translateY(-2px); }
+    .btn--lime:hover::after, .btn--glass:hover::after { transform: scaleY(1.5); }
+  }
+  .btn:active { transform: translateY(1px) scale(.97); transition-duration: .12s; }
+  .lb__nav.btn { padding: 0; border-radius: 50%; }
+  .lb__nav.btn::after, .tabs .btn::after { display: none; }
+
+  /* Royal light on the raised cards and the day-born group */
+  .sunday, .group, .latest, .howto > div, .phonecard { background: radial-gradient(90% 80% at 100% 0%, rgba(39,69,214,.35), transparent 60%), linear-gradient(160deg, var(--raise-2), var(--raise)); }
+  .door::before { background: linear-gradient(0deg, rgba(7,12,34,.94) 0%, rgba(7,12,34,.3) 55%, rgba(7,12,34,0) 100%), rgba(39,69,214,.2); }
+
+  /* ── SIGN IN: photo wall with a moving roofline, light panel beside it ── */
+  .signin { background: var(--paper); }
+  .wall::after { background: linear-gradient(0deg, rgba(11,18,48,.92) 0%, rgba(11,18,48,.35) 50%, rgba(11,18,48,.1) 100%), rgba(39,69,214,.28); }
+  .wall__copy .display { font-size: clamp(3rem, 1.4rem + 5vw, 6.4rem); max-width: 9ch; }
+  .wall__roof { position: absolute; z-index: 3; top: 0; bottom: 0; right: -1px; width: clamp(2.5rem, 5vw, 4.5rem); display: flex; flex-direction: column; align-items: flex-end; pointer-events: none; }
+  .wall__roof i { flex: 0 0 var(--w); width: var(--h); margin-bottom: -1px; background: var(--paper); transform-origin: 100% 50%; will-change: transform; animation: roofX var(--t, 3.6s) cubic-bezier(.45, 0, .25, 1) var(--d, 0s) infinite alternate; }
+  .wall__roof i.gable { clip-path: polygon(100% 0, 100% 100%, 60% 100%, 60% 70%, 0 50%, 60% 30%, 60% 0); }
+  @keyframes roofX { from { transform: scaleX(var(--lo, .7)); } to { transform: scaleX(var(--hi, 1.25)); } }
+  @keyframes roofY { from { transform: scaleY(var(--lo, .7)); } to { transform: scaleY(var(--hi, 1.25)); } }
+  .signpanel { background: var(--paper); color: var(--ink); }
+  .signpanel :focus-visible { outline-color: var(--royal); }
+  .signin .signpanel .h2 { color: var(--ink); font-size: clamp(2.8rem, 1.6rem + 3.4vw, 4.6rem); line-height: .9; letter-spacing: -.055em; }
+  .signin .signpanel .h2 .dot { color: var(--royal); }
+  .signin .signpanel .lede { color: var(--muted); }
+  .qrcard { box-shadow: 0 2px 4px rgba(16,26,61,.08), 0 30px 60px -24px rgba(16,26,61,.4); }
+  .qrcard [data-newcode] { margin-bottom: .9rem; }
+  .signsteps li { color: var(--muted); }
+  .signsteps b { color: var(--ink); }
+  .signsteps li::before { background: var(--navy); color: var(--lime); font-family: var(--f-caps); font-weight: 900; font-size: .95rem; }
+  @media (max-width: 900px) {
+    .wall { min-height: 46vh; }
+    .wall__roof { top: auto; left: 0; right: 0; bottom: -1px; width: auto; height: clamp(2.5rem, 9vw, 4rem); flex-direction: row; align-items: flex-end; }
+    .wall__roof i { flex-basis: var(--w); width: auto; height: var(--h); margin: 0 -1px 0 0; transform-origin: 50% 100%; animation-name: roofY; }
+    .wall__roof i.gable { clip-path: polygon(0 100%, 0 40%, 30% 40%, 50% 0, 70% 40%, 100% 40%, 100% 100%); }
+    .wall__copy { bottom: clamp(3rem, 10vw, 4.5rem); }
+  }
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the page</a>
@@ -420,11 +485,20 @@
         <p class="kick">Royal Assembly · Members</p>
         <p class="display" style="margin-top:.8rem">Welcome home, <em>family.</em></p>
       </div>
+      <div class="wall__roof">
+        <i style="--w:18%;--h:38%;--t:3.4s;--d:-.4s"></i>
+        <i style="--w:16%;--h:78%;--t:4.2s;--d:-2.1s;--lo:.8;--hi:1.1"></i>
+        <i style="--w:12%;--h:30%;--t:3s;--d:-1.2s;--lo:.6;--hi:1.5"></i>
+        <i class="gable" style="--w:20%;--h:100%;--t:4.6s;--d:-3s;--lo:.85;--hi:1.05"></i>
+        <i style="--w:14%;--h:22%;--t:3.2s;--d:-.9s;--lo:.6;--hi:1.7"></i>
+        <i style="--w:12%;--h:66%;--t:3.8s;--d:-2.6s;--lo:.75;--hi:1.15"></i>
+        <i style="--w:9%;--h:42%;--t:3.5s;--d:-1.7s"></i>
+      </div>
     </div>
     <div class="signpanel">
       <div class="signpanel__in">
-        <h1 id="si-h" class="h2">Sign in with your phone</h1>
-        <p class="lede" style="margin-top:.7rem">No SMS code, no password. Scan the code with the Royal Assembly app.</p>
+        <h1 id="si-h" class="h2">Good to see you<span class="dot">.</span></h1>
+        <p class="lede" style="margin-top:.9rem">Sign in with your phone: no SMS code, no password. Scan the code with the Royal Assembly app.</p>
         <div class="qrcard">
           <p class="qrcard__top" aria-hidden="true"><img src="assets/cop-logo.png" alt="" width="14" height="14">Royal Assembly · Ayigya</p>
           <div class="qr is-dim" data-qr role="img" aria-label="Sign-in code to scan with the Royal Assembly app"></div>
