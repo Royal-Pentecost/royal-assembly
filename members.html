@@ -453,6 +453,135 @@
     .wall__copy { bottom: clamp(3rem, 10vw, 4.5rem); }
   }
 </style>
+<style>
+  /* ── Members' area, light (2026): the landing page's ground and depth ──
+     Light mist ground, white cards with navy-tinted layered shadows, navy ink,
+     royal blue accents; every view opens on a royal band with the moving roofline. */
+  :root {
+    --sc-canvas: #F3F5FA; --sc-surface: #FFFFFF; --sc-ink: #0E1430; --sc-ink-soft: #556084;
+    --raise: #FFFFFF; --raise-2: #F3F5FA; --line: rgba(14,20,48,.10);
+    --e1: 0 1px 2px rgba(16,26,61,.06), 0 4px 12px -4px rgba(16,26,61,.10);
+    --e2: 0 2px 4px rgba(16,26,61,.06), 0 16px 34px -14px rgba(16,26,61,.22);
+    --e3: 0 4px 8px rgba(16,26,61,.08), 0 30px 60px -22px rgba(16,26,61,.35);
+  }
+  html, body { background: var(--sc-canvas); color: var(--sc-ink); }
+  ::selection { background: var(--lime); color: var(--navy); }
+  :focus-visible { outline-color: var(--royal); }
+  .env::before { background: radial-gradient(circle, rgba(39,69,214,.10), transparent 62%); }
+  .env::after { background: radial-gradient(circle, rgba(200,218,43,.10), transparent 62%); }
+
+  /* Header: a white bar, the tabs as a pill with a navy indicator */
+  .bar { background: rgba(255,255,255,.96); box-shadow: 0 1px 0 var(--line), 0 10px 30px -22px rgba(16,26,61,.35); }
+  .brand b { color: var(--ink); }
+  .brand small { color: var(--muted); }
+  .brand img { box-shadow: 0 0 0 1px var(--line); }
+  .tabs { background: var(--raise-2); box-shadow: inset 0 0 0 1px var(--line); }
+  .tabs__ink { background: var(--navy); }
+  .tabs button { color: var(--muted); }
+  .tabs button[aria-selected="true"] { color: #fff; }
+  @media (hover: hover) and (pointer: fine) { .tabs button:not([aria-selected="true"]):hover { color: var(--ink); } }
+  .tabs button:active { transform: scale(.96); }
+  .btn--ghost { color: var(--muted); }
+  @media (hover: hover) and (pointer: fine) { .btn--ghost:hover { color: var(--ink); } }
+  .btn--glass { background: #fff; color: var(--ink); box-shadow: inset 0 0 0 1.5px var(--ink); }
+  @media (hover: hover) and (pointer: fine) { .btn--glass:hover { background: var(--raise-2); } }
+
+  /* Every view opens on a royal band: white words, lime highlight, the roofline at its foot */
+  .vhead, .greet, .apphero { position: relative; isolation: isolate; overflow: hidden; margin-top: clamp(1rem, 3vw, 2rem); margin-bottom: clamp(2rem, 4vw, 3rem);
+    padding: clamp(2.6rem, 6vw, 5rem) clamp(1.5rem, 5vw, 4rem) clamp(4.5rem, 9vw, 7rem); border-radius: 28px; background: var(--royal); color: #fff; box-shadow: var(--e3); }
+  .vhead::before, .greet::before, .apphero::before { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(55% 70% at 100% 0%, rgba(200,218,43,.22), transparent 70%), radial-gradient(60% 80% at 0% 100%, rgba(11,18,48,.5), transparent 70%); }
+  .vhead::after, .greet::after, .apphero::after { content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none; opacity: .14; mix-blend-mode: soft-light;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"); }
+  .vhead .display, .greet .display, .apphero .display { color: #fff; }
+  .vhead .display em, .greet .display em, .apphero .display em { color: var(--lime); }
+  .vhead .kick, .greet > .greet__grid > div > .kick, .apphero .kick { color: var(--lime); }
+  .vhead .lede, .greet .lede, .apphero .lede { color: rgba(255,255,255,.84); }
+  .vhead .count { color: rgba(255,255,255,.75); }
+  .band-roof { position: absolute; left: 0; right: 0; bottom: -1px; height: clamp(2.2rem, 5vw, 3.8rem); display: flex; align-items: flex-end; pointer-events: none; z-index: 1; }
+  .band-roof i { flex: 0 0 var(--w); height: var(--h); margin-right: -1px; background: var(--sc-canvas); transform-origin: 50% 100%; will-change: transform;
+    animation: roofY var(--t, 3.6s) cubic-bezier(.45, 0, .25, 1) var(--d, 0s) infinite alternate; }
+  .band-roof i.gable { clip-path: polygon(0 100%, 0 40%, 30% 40%, 50% 0, 70% 40%, 100% 40%, 100% 100%); }
+  .greet .sunday, .apphero .store { position: relative; z-index: 2; }
+  .greet__me, button.greet__me { box-shadow: 0 0 0 4px var(--lime), 0 20px 40px -18px rgba(4,8,24,.6); background: var(--navy); color: #fff; }
+
+  /* The Sunday card sits white on the band */
+  .sunday { background: #fff; color: var(--ink); box-shadow: var(--e3); }
+  .sunday .kick { color: var(--royal); }
+  .sunday__in { color: var(--muted); }
+  .sunday__in b { color: var(--royal); }
+
+  /* Kicks and small labels on light ground */
+  .kick { color: var(--royal); }
+  .pill { background: rgba(200,218,43,.35); color: var(--navy); }
+  .pill--warn { background: rgba(245,158,11,.18); color: #8A4B00; }
+  .formmsg.ok { color: #127A3A; }
+  .formmsg.bad { color: #C62828; }
+  .prof__id { color: var(--royal); }
+
+  /* Cards: white, layered navy-tinted shadows, lift on hover */
+  .group, .latest, .howto > div, .msg, .bitem, .feat, .prof__sec, .roll { background: #fff; box-shadow: var(--e2); }
+  .group, .latest, .howto > div { background: radial-gradient(70% 90% at 100% 0%, rgba(39,69,214,.08), transparent 60%), #fff; }
+  .gperson { background: var(--raise-2); box-shadow: inset 0 0 0 1px var(--line); }
+  .gperson small { color: var(--royal); }
+  .gperson--lead { background: rgba(200,218,43,.22); box-shadow: inset 0 0 0 1px rgba(120,135,0,.35); }
+  .latest blockquote { color: var(--ink); }
+  .door { box-shadow: var(--e3); }
+  .door__title { text-wrap: balance; }
+
+  /* Leaders: photo cards keep white words over the photograph */
+  .lcard { background: #fff; box-shadow: var(--e2); }
+  .lcard:not(.lcard--feature) .lcard__body { color: #fff; }
+  .lcard__initials { color: #fff; }
+  .lcard:not(.lcard--feature) .lcard__acts a { color: #fff; background: rgba(255,255,255,.14); box-shadow: inset 0 0 0 1px rgba(255,255,255,.22); }
+  .lcard--feature { background: #fff; }
+  .lcard--feature .lcard__media::after { background: linear-gradient(90deg, rgba(255,255,255,0) 55%, #fff 100%); }
+  .lcard--feature .lcard__acts a { color: var(--ink); background: var(--raise-2); box-shadow: inset 0 0 0 1px var(--line); }
+  @media (hover: hover) and (pointer: fine) {
+    .lcard:hover { box-shadow: var(--e3); }
+    .lcard__acts a:hover { background: var(--lime) !important; color: var(--navy) !important; }
+    .feat.done:hover { background: #fff; box-shadow: var(--e3); }
+  }
+  @media (max-width: 760px) { .lcard--feature .lcard__media::after { background: linear-gradient(0deg, #fff, rgba(255,255,255,0) 50%); } }
+
+  /* Collection: white frames; the viewer stays dark */
+  .ph { background: #fff; box-shadow: var(--e2); }
+  .lightbox { color: #fff; }
+
+  /* Benedictions on light; the featured one keeps white words over its photo */
+  .bfeature { color: #fff; box-shadow: var(--e3); }
+  .bfeature cite { color: rgba(255,255,255,.75); }
+  .bitem::before { background: var(--royal); }
+  .bitem cite { color: var(--muted); }
+
+  /* The app */
+  .feat__ico { background: rgba(39,69,214,.10); color: var(--royal); }
+  .store { box-shadow: var(--e2); }
+  .howto li::marker { color: var(--royal); }
+  .stack figure { box-shadow: var(--e3); }
+  .stack figure:nth-child(3) { border-color: var(--lime); }
+
+  /* Profile */
+  .prof__card { background: radial-gradient(120% 70% at 50% 0%, rgba(39,69,214,.12), transparent 60%), #fff; box-shadow: var(--e3); }
+  .prof__photo { background: var(--navy); color: #fff; box-shadow: 0 0 0 4px var(--lime), var(--e3); }
+
+  /* The roll */
+  .search { background: #fff; box-shadow: inset 0 0 0 1px var(--line), var(--e1); }
+  .search:focus-within { box-shadow: inset 0 0 0 2px var(--royal), var(--e1); }
+  .row:active { background: var(--raise-2); }
+  @media (hover: hover) and (pointer: fine) { .row:hover { background: rgba(39,69,214,.05); } .row:hover .row__go { color: var(--royal); } }
+  .row__av { background: var(--navy); color: #fff; }
+
+  /* Drawer, dialogs and fields on white */
+  .drawer { background: #fff; color: var(--ink); box-shadow: -30px 0 80px -20px rgba(16,26,61,.45); }
+  .scrim2, .ask { background: rgba(11,18,48,.45); }
+  .ask__card { background: #fff; color: var(--ink); box-shadow: var(--e3); }
+  .field input, .field select { background: #fff; color: var(--ink); color-scheme: light; box-shadow: inset 0 0 0 1px rgba(14,20,48,.18); }
+  .field input:focus, .field select:focus { box-shadow: inset 0 0 0 2px var(--royal); }
+  .skel { background: linear-gradient(100deg, #E9EDF6 30%, #F6F8FC 50%, #E9EDF6 70%); background-size: 200% 100%; }
+
+  @media (max-width: 760px) { .vhead, .greet, .apphero { border-radius: 20px; } }
+</style>
 </head>
 <body>
 <a class="skip" href="#main">Skip to the page</a>
@@ -1266,6 +1395,21 @@
 
   if (session) signedIn(); else { show('signin'); startCode(); }
 })();
+</script>
+<script>
+  /* The moving roofline at the foot of every view's royal band */
+  (() => {
+    const blocks = [['18%','38%','3.4s','-.4s'],['16%','78%','4.2s','-2.1s','.8','1.1'],['12%','30%','3s','-1.2s','.6','1.5'],['20%','100%','4.6s','-3s','.85','1.05','gable'],['14%','22%','3.2s','-.9s','.6','1.7'],['12%','66%','3.8s','-2.6s','.75','1.15'],['9%','42%','3.5s','-1.7s']];
+    document.querySelectorAll('.vhead, .greet, .apphero').forEach(band => {
+      const roof = document.createElement('div'); roof.className = 'band-roof'; roof.setAttribute('aria-hidden', 'true');
+      blocks.forEach(([w, h, t, d, lo, hi, cls]) => {
+        const i = document.createElement('i'); if (cls) i.className = cls;
+        i.style.cssText = `--w:${w};--h:${h};--t:${t};--d:${d}` + (lo ? `;--lo:${lo};--hi:${hi}` : '');
+        roof.appendChild(i);
+      });
+      band.appendChild(roof);
+    });
+  })();
 </script>
 </body>
 </html>

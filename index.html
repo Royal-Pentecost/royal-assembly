@@ -94,8 +94,11 @@
   .brand b { font: 800 1.35rem/1 var(--f-soft); letter-spacing: -.04em; }
   @media (hover: hover) and (pointer: fine) { .brand:hover { transform: translateY(-1px); } }
   .brand:active { transform: scale(.97); }
-  .nav::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(255,255,255,.94); box-shadow: 0 1px 0 var(--line), 0 10px 30px -18px rgba(16,26,61,.35); opacity: 0; transform: translateY(-100%); transition: transform .5s var(--out), opacity .3s; }
-  .nav.is-light::before { opacity: 1; transform: none; }
+  .nav::before { content: ""; position: absolute; inset: 0; z-index: -1; background: var(--nav-bg, #fff); box-shadow: 0 1px 0 rgba(255,255,255,.08), 0 10px 30px -18px rgba(4,8,24,.6); opacity: 0; transform: translateY(-100%);
+    transition: transform .5s var(--out), opacity .3s, background-color .45s var(--out), box-shadow .45s; }
+  .nav.is-on::before { opacity: 1; transform: none; }
+  .nav.is-light::before { box-shadow: 0 1px 0 var(--line), 0 10px 30px -18px rgba(16,26,61,.35); }
+  .nav .brand, .nav .menu { transition: color .35s var(--out), transform .45s var(--spring); }
   .nav.is-light .brand { color: var(--ink); }
   .nav .btn { min-height: 2.75rem; padding: .7rem 1.1rem .95rem; font-size: .95rem; }
   .menu { width: 2.75rem; height: 2.75rem; display: grid; place-content: center; gap: 6px; border: 0; border-radius: 10px; background: transparent; cursor: pointer; color: #fff; transition: transform .45s var(--spring), color .3s; }
@@ -808,12 +811,21 @@
 
   /* ── Nav turns dark on light sections ── */
   const nav = $('#nav');
-  const hero = $('.hero'), bless = $('.bless');
+  // The bar takes the colour of the section beneath it: none over the hero photo,
+  // then white, navy, royal blue or mist, with ink or white text to match.
+  const NAV_TONE = { week: ['#FFFFFF', 1], says: ['#FFFFFF', 1], dayborn: ['#101A3D', 0], ministries: ['#2745D6', 0], pictures: ['#101A3D', 0], visit: ['#F3F5FA', 1], bless: ['#101A3D', 0] };
+  const navSections = $$('main > section');
+  let navKey = '';
   const checkNav = () => {
-    // solid light bar once past the hero; transparent again over the dark benediction
-    const pastHero = hero.getBoundingClientRect().bottom < 80;
-    const overBless = bless.getBoundingClientRect().top < 40;
-    nav.classList.toggle('is-light', pastHero && !overBless);
+    const y = nav.offsetHeight / 2;
+    const under = navSections.find(s => { const r = s.getBoundingClientRect(); return r.top <= y && r.bottom > y; });
+    const id = under ? (under.id || (under.classList.contains('bless') ? 'bless' : '')) : '';
+    const tone = NAV_TONE[id];
+    const key = tone ? id : 'none';
+    if (key === navKey) return; navKey = key;
+    nav.classList.toggle('is-on', !!tone);
+    nav.classList.toggle('is-light', !!tone && tone[1] === 1);
+    if (tone) nav.style.setProperty('--nav-bg', tone[0]);
   };
   addEventListener('scroll', checkNav, { passive: true }); checkNav();
 
